@@ -2,3 +2,5 @@
 /shelf/
 /workspace.xml
 target/
+target/classes/.idea/workspace.xml
+*.xml
