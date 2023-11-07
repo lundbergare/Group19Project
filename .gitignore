@@ -4,3 +4,6 @@
 target/
 target/classes/.idea/workspace.xml
 *.xml
+.classpath
+.project
+.settings/
