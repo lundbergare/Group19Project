@@ -11,7 +11,7 @@ public class ProjectView {
     private JButton button1;
     private JButton button2;
     private JButton button3;
-    private JPanel currentScreen; // To keep track of the current content
+    private JPanel currentScreen; // The current screen
 
     public ProjectView() {
         frame = new JFrame("Super Mario Game");
@@ -38,7 +38,7 @@ public class ProjectView {
         constraints.gridy = 2;
         mainPanel.add(button3, constraints);
 
-        // Add an ActionListener to Button 1 to switch to the new screen
+        // Does currently not adhere to MVC. Must move over this method into the controller. 
         button1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -52,7 +52,7 @@ public class ProjectView {
         frame.setVisible(true);
     }
 
-    // Method to switch to the new screen
+    // Change the screen
     private void showNewScreen() {
         NewScreenPanel newScreen = new NewScreenPanel();
         frame.getContentPane().remove(currentScreen);
