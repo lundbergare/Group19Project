@@ -9,3 +9,5 @@ target/classes/.idea/workspace.xml
 .settings/
 .classes
 .class
+*.class
+
