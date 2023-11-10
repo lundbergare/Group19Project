@@ -22,9 +22,9 @@ public class ProjectView {
         mainPanel = new JPanel(new GridBagLayout());
         frame.add(mainPanel);
 
-        button1 = new JButton("Button 1");
-        button2 = new JButton("Button 2");
-        button3 = new JButton("Button 3");
+        button1 = new JButton("Start Game");
+        button2 = new JButton("How to Play");
+        button3 = new JButton("Quit");
 
         GridBagConstraints constraints = new GridBagConstraints();
         constraints.insets = new Insets(10, 10, 10, 10);
@@ -43,6 +43,13 @@ public class ProjectView {
             @Override
             public void actionPerformed(ActionEvent e) {
                 showNewScreen();
+            }
+        });
+
+        button3.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.exit(0);
             }
         });
 
