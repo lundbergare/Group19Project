@@ -7,3 +7,5 @@ target/classes/.idea/workspace.xml
 .classpath
 .project
 .settings/
+.classes
+.class
