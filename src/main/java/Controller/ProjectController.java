@@ -6,6 +6,9 @@ import View.ProjectView;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+//I am thinking, now we have ONE controller for both the "Main screen" and "LevelSelector" Screen, should I create
+//a separate Controller for each screen?
+
 public class ProjectController {
     private ProjectView view;
 

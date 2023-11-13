@@ -11,7 +11,7 @@ public class LevelSelectorView extends JPanel {
 
         setLayout(new FlowLayout(FlowLayout.LEFT, 20, 650));
 
-        backButton = new JButton("Back");
+        backButton = new JButton("<- Back");
         backButton.addActionListener(backButtonListener);
         add(backButton);
     }
