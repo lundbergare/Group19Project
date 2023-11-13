@@ -16,8 +16,9 @@ public class ProjectView {
     public ProjectView() {
         frame = new JFrame("Super Smurf Game");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(800, 600);
+        frame.setSize(1000, 750);
         frame.setLocationRelativeTo(null);
+        frame.setResizable(false); // Set frame to be non-resizable
 
         mainPanel = new JPanel(new GridBagLayout());
         frame.add(mainPanel);
@@ -25,6 +26,11 @@ public class ProjectView {
         button1 = new JButton("Start Game");
         button2 = new JButton("How to Play");
         button3 = new JButton("Quit");
+
+        // Set the preferred size for each button
+        button1.setPreferredSize(new Dimension(150, 50));
+        button2.setPreferredSize(new Dimension(150, 50));
+        button3.setPreferredSize(new Dimension(150, 50));
 
         GridBagConstraints constraints = new GridBagConstraints();
         constraints.insets = new Insets(10, 10, 10, 10);
@@ -59,13 +65,29 @@ public class ProjectView {
         frame.setVisible(true);
     }
 
-    // Change the screen
+    // Still no MVC, functionality in here which is "actionPerformed"
     private void showNewScreen() {
-        NewScreenPanel newScreen = new NewScreenPanel();
+        ActionListener backButtonListener = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showPreviousScreen();
+            }
+        };
+
+        LevelSelectorView newScreen = new LevelSelectorView(backButtonListener);
         frame.getContentPane().remove(currentScreen);
         frame.getContentPane().add(newScreen);
         frame.getContentPane().revalidate();
         frame.getContentPane().repaint();
         currentScreen = newScreen;
     }
+
+    private void showPreviousScreen() {
+        frame.getContentPane().remove(currentScreen);
+        frame.getContentPane().add(mainPanel);
+        frame.getContentPane().revalidate();
+        frame.getContentPane().repaint();
+        currentScreen = mainPanel;
+    }
+
 }
