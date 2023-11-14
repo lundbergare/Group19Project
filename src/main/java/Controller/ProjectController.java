@@ -1,13 +1,14 @@
 package Controller;
 
+
 import View.LevelSelectorView;
 import View.ProjectView;
+import View.HowToPlayView;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-//I am thinking, now we have ONE controller for both the "Main screen" and "LevelSelector" Screen, should I create
-//a separate Controller for each screen?
+//This class is probably too big right now, should be separate controllers?
 
 public class ProjectController {
     private ProjectView view;
@@ -17,14 +18,23 @@ public class ProjectController {
 
         // Set up action listeners in the controller
         view.addLevelButtonListener(new LevelButtonListener());
+        view.addHowToPlayButtonListener(new HTPButtonListener());
         view.addQuitButtonListener(new QuitButtonListener());
+
     }
 
-    // ActionListener for "Start Game" button
     class LevelButtonListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            showNewScreen();
+            showLevelSelectorScreen();
+        }
+    }
+
+
+    class HTPButtonListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            showHowToPlayScreen();
         }
     }
 
@@ -36,8 +46,22 @@ public class ProjectController {
         }
     }
 
-    private void showNewScreen() {
-        view.showNewScreen(new LevelSelectorView(new BackButtonListener()));
+    class Lvl1ButtonListener implements ActionListener{
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            System.out.println("Show level 1");
+        }
+    }
+
+    private void showLevelSelectorScreen() {
+        LevelSelectorView levelSelectorView = new LevelSelectorView(new BackButtonListener());
+        view.showNewScreen(levelSelectorView);
+    }
+
+    private void showHowToPlayScreen() {
+        HowToPlayView howToPlayView = new HowToPlayView(new BackButtonListener());
+        view.showNewScreen(howToPlayView);
     }
 
     class BackButtonListener implements ActionListener {

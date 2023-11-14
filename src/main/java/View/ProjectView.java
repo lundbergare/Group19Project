@@ -1,5 +1,7 @@
 package View;
 
+import Controller.ProjectController;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
@@ -54,14 +56,13 @@ public class ProjectView {
     public void addLevelButtonListener(ActionListener listener) {
         levelSelectButton.addActionListener(listener);
     }
-
-
+    public void addHowToPlayButtonListener(ActionListener listener){
+        howToPlayButton.addActionListener(listener);
+    }
     public void addQuitButtonListener(ActionListener listener) {
         quitButton.addActionListener(listener);
     }
-
     // Change the screen
-
     public void showNewScreen(JPanel newScreen) {
         frame.getContentPane().remove(currentScreen);
         frame.getContentPane().add(newScreen);
@@ -69,7 +70,6 @@ public class ProjectView {
         frame.getContentPane().repaint();
         currentScreen = newScreen;
     }
-
     // Change the screen back to the main panel
     //Should this be in model?! I don't think so, but quite a lot of job for the view?
     public void showPreviousScreen() {
@@ -79,4 +79,5 @@ public class ProjectView {
         frame.getContentPane().repaint();
         currentScreen = mainPanel;
     }
+
 }
