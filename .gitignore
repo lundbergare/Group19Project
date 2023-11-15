@@ -9,3 +9,11 @@ target/classes/.idea/workspace.xml
 .settings/
 .classes
 .class
+*.class
+
+target/classes/App$1.class
+target/classes/App$1.class
+target/classes/App$1.class
+target/classes/App$1.class
+target/classes/App.class
+target/classes/FirstSwingExample.class
