@@ -1,30 +1,39 @@
 package View;
 
+import Controller.ProjectController;
+
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class ProjectView {
-    private JFrame frame;
-    private JPanel mainPanel;
-    private JButton button1;
-    private JButton button2;
-    private JButton button3;
+    private final JFrame frame;
+    private final JPanel mainPanel;
+    private final JButton levelSelectButton;
+    private final JButton howToPlayButton;
+    private final JButton quitButton;
     private JPanel currentScreen; // The current screen
 
     public ProjectView() {
         frame = new JFrame("Super Smurf Game");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(800, 600);
+        int height = 750;
+        int width = 1000;
+        frame.setSize(width, height);
         frame.setLocationRelativeTo(null);
+        frame.setResizable(false); // Set frame to be non-resizable
 
         mainPanel = new JPanel(new GridBagLayout());
         frame.add(mainPanel);
 
-        button1 = new JButton("Start Game");
-        button2 = new JButton("How to Play");
-        button3 = new JButton("Quit");
+        levelSelectButton = new JButton("Start Game");
+       howToPlayButton = new JButton("How to Play");
+        quitButton = new JButton("Quit");
+
+        // Set the preferred size for each button
+        levelSelectButton.setPreferredSize(new Dimension(150, 50));
+        howToPlayButton.setPreferredSize(new Dimension(150, 50));
+        quitButton.setPreferredSize(new Dimension(150, 50));
 
         GridBagConstraints constraints = new GridBagConstraints();
         constraints.insets = new Insets(10, 10, 10, 10);
@@ -32,26 +41,11 @@ public class ProjectView {
         constraints.gridy = 0;
         constraints.anchor = GridBagConstraints.CENTER;
 
-        mainPanel.add(button1, constraints);
+        mainPanel.add(levelSelectButton, constraints);
         constraints.gridy = 1;
-        mainPanel.add(button2, constraints);
+        mainPanel.add(howToPlayButton, constraints);
         constraints.gridy = 2;
-        mainPanel.add(button3, constraints);
-
-        // Does currently not adhere to MVC. Must move over this method into the controller. 
-        button1.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                showNewScreen();
-            }
-        });
-
-        button3.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                System.exit(0);
-            }
-        });
+        mainPanel.add(quitButton, constraints);
 
         // Initialize the currentScreen with the main content
         currentScreen = mainPanel;
@@ -59,13 +53,31 @@ public class ProjectView {
         frame.setVisible(true);
     }
 
+    public void addLevelButtonListener(ActionListener listener) {
+        levelSelectButton.addActionListener(listener);
+    }
+    public void addHowToPlayButtonListener(ActionListener listener){
+        howToPlayButton.addActionListener(listener);
+    }
+    public void addQuitButtonListener(ActionListener listener) {
+        quitButton.addActionListener(listener);
+    }
     // Change the screen
-    private void showNewScreen() {
-        NewScreenPanel newScreen = new NewScreenPanel();
+    public void showNewScreen(JPanel newScreen) {
         frame.getContentPane().remove(currentScreen);
         frame.getContentPane().add(newScreen);
         frame.getContentPane().revalidate();
         frame.getContentPane().repaint();
         currentScreen = newScreen;
     }
+    // Change the screen back to the main panel
+    //Should this be in model?! I don't think so, but quite a lot of job for the view?
+    public void showPreviousScreen() {
+        frame.getContentPane().remove(currentScreen);
+        frame.getContentPane().add(mainPanel);
+        frame.getContentPane().revalidate();
+        frame.getContentPane().repaint();
+        currentScreen = mainPanel;
+    }
+
 }

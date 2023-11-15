@@ -35,5 +35,6 @@ public class NewScreenPanel extends JPanel {
         g.setColor(Color.RED);
         g.fillRect(enemy.getRectangleX(), enemy.getRectangleY(), 50, 100);
         g.drawRect(enemy.getRectangleX(), enemy.getRectangleY(), 50, 100);
+
     }
 }
