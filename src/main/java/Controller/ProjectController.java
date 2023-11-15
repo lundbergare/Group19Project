@@ -1,6 +1,7 @@
 package Controller;
 
 
+import Model.Board;
 import View.NewScreenPanel;
 import View.ProjectView;
 import View.HowToPlayView;
@@ -26,7 +27,7 @@ public class ProjectController {
     class LevelButtonListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            view.showNewScreen(new NewScreenPanel());
+            view.showNewScreen(new Board());
         }
     }
 

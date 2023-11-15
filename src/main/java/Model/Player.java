@@ -54,11 +54,11 @@ public class Player implements ActionListener{
             jump();
         }
 
-        if (key == KeyEvent.VK_RIGHT) {
+        if (key == KeyEvent.VK_D) {
             pos.translate(5, 0);
         }
 
-        if (key == KeyEvent.VK_LEFT) {
+        if (key == KeyEvent.VK_A) {
             pos.translate(-5, 0);
         }
     }
