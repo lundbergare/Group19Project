@@ -1,7 +1,7 @@
 package Controller;
 
 
-import View.LevelSelectorView;
+import View.NewScreenPanel;
 import View.ProjectView;
 import View.HowToPlayView;
 
@@ -55,8 +55,8 @@ public class ProjectController {
     }
 
     private void showLevelSelectorScreen() {
-        LevelSelectorView levelSelectorView = new LevelSelectorView(new BackButtonListener());
-        view.showNewScreen(levelSelectorView);
+        NewScreenPanel newScreenPanel = new NewScreenPanel(new BackButtonListener());
+        view.showNewScreen(newScreenPanel);
     }
 
     private void showHowToPlayScreen() {

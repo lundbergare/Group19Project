@@ -1,14 +1,13 @@
 package View;
 
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.ActionListener;
 
-public class LevelSelectorView extends JPanel {
+public class NewScreenPanel extends JPanel {
     private JButton backButton;
     private JButton level1Button;
 
-    public LevelSelectorView(ActionListener backButtonListener) {
+    public NewScreenPanel(ActionListener backButtonListener) {
         setLayout(null);
 
         level1Button = new JButton("Level 1");
