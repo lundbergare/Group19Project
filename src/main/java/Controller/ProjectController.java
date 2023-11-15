@@ -26,7 +26,7 @@ public class ProjectController {
     class LevelButtonListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            showLevelSelectorScreen();
+            view.showNewScreen(new NewScreenPanel());
         }
     }
 
@@ -46,18 +46,18 @@ public class ProjectController {
         }
     }
 
-    class Lvl1ButtonListener implements ActionListener{
+//    class Lvl1ButtonListener implements ActionListener{
+//
+//        @Override
+//        public void actionPerformed(ActionEvent e) {
+//            System.out.println("Show level 1");
+//        }
+//    }
 
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            System.out.println("Show level 1");
-        }
-    }
-
-    private void showLevelSelectorScreen() {
+    /*private void showLevelSelectorScreen() {
         NewScreenPanel newScreenPanel = new NewScreenPanel(new BackButtonListener());
         view.showNewScreen(newScreenPanel);
-    }
+    }*/
 
     private void showHowToPlayScreen() {
         HowToPlayView howToPlayView = new HowToPlayView(new BackButtonListener());

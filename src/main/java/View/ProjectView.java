@@ -73,6 +73,7 @@ public class ProjectView {
     // Change the screen back to the main panel
     //Should this be in model?! I don't think so, but quite a lot of job for the view?
     public void showPreviousScreen() {
+        NewScreenPanel newScreen = new NewScreenPanel();
         frame.getContentPane().remove(currentScreen);
         frame.getContentPane().add(mainPanel);
         frame.getContentPane().revalidate();
