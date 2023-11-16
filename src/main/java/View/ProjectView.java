@@ -1,6 +1,7 @@
 package View;
 
 import Controller.ProjectController;
+import Model.Board;
 
 import javax.swing.*;
 import java.awt.*;
@@ -70,6 +71,10 @@ public class ProjectView {
         frame.getContentPane().repaint();
         currentScreen = newScreen;
     }
+
+
+    // Needed for in game keyboard inputs
+
     // Change the screen back to the main panel
     //Should this be in model?! I don't think so, but quite a lot of job for the view?
     public void showPreviousScreen() {
