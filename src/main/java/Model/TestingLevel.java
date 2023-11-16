@@ -8,7 +8,7 @@ import javax.swing.*;
 
 
 
-public class Board extends JPanel implements ActionListener, KeyListener {
+public class TestingLevel extends JPanel implements ActionListener, KeyListener {
 
     // controls the delay between each tick in ms
     private final int DELAY = 1;
@@ -19,7 +19,7 @@ public class Board extends JPanel implements ActionListener, KeyListener {
     // controls how many coins appear on the board
     public static final int NUM_COINS = 5;
     // suppress serialization warning
-    private static final long serialVersionUID = 490905409104883233L;
+   // private static final long serialVersionUID = 490905409104883233L;
 
     // keep a reference to the timer object that triggers actionPerformed() in
     // case we need access to it in another method
@@ -31,7 +31,7 @@ public class Board extends JPanel implements ActionListener, KeyListener {
     private Platform platform;
     private Enemy enemy;
 
-    public Board() {
+    public TestingLevel() {
         setPreferredSize(new Dimension(YAXIS, XAXIS));
         setBackground(new Color(68, 138, 184));
 
@@ -76,29 +76,20 @@ public class Board extends JPanel implements ActionListener, KeyListener {
 
         player.tick();
         enemy.moveRectangle();
-        ProjectModel.groundCollision(player, platform);
-
-        // give the player points for collecting coins
-        collectCoins();
+        ProjectModel.platformCollision(player, platform);
+        ProjectModel.collectCoins(player, coins);
         // calling repaint() will trigger paintComponent() to run again,
         // which will refresh/redraw the graphics.
         repaint();
     }
-    @Override
-    public void keyTyped(KeyEvent e) {
-        // this is not used but must be defined as part of the KeyListener interface
-    }
 
+    // these are not used but must be defined as part of the KeyListener interface
     @Override
-    public void keyPressed(KeyEvent e) {
-        // react to key down events
-
-    }
-
+    public void keyTyped(KeyEvent e) {}
     @Override
-    public void keyReleased(KeyEvent e) {
-        // react to key up events
-    }
+    public void keyPressed(KeyEvent e) {}
+    @Override
+    public void keyReleased(KeyEvent e) {}
 
 
     private void textAA(Graphics g) {
@@ -130,19 +121,5 @@ public class Board extends JPanel implements ActionListener, KeyListener {
         return coinList;
     }
 
-    private void collectCoins() {
-        // allow player to pickup coins
-        ArrayList collectedCoins = new ArrayList<>();
-        // if the player is on the same tile as a coin, collect it
-        for (Coin coin: coins) {
-            if (player.getPos().equals(coin.getPos())) {
-                // give the player some points for picking this up
-                player.addScore(5);
-                collectedCoins.add(coin);
-            }
-        }
-        // remove collected coins from the board
-        coins.removeAll(collectedCoins);
-    }
 
 }

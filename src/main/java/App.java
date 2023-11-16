@@ -1,4 +1,4 @@
-import Model.Board;
+import Model.TestingLevel;
 
 import javax.swing.*;
 
@@ -6,17 +6,17 @@ class App {
 
     private static void initWindow() {
         // create a window frame and set the title in the toolbar
-        JFrame window = new JFrame("Can't Stop, Won't Stop, GameStop");
+        JFrame window = new JFrame("Super Smurf");
         // when we close the window, stop the app
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         // create the jpanel to draw on.
         // this also initializes the game loop
-        Board board = new Board();
+        TestingLevel testingLevel = new TestingLevel();
         // add the jpanel to the window
-        window.add(board);
+        window.add(testingLevel);
         // pass keyboard inputs to the jpanel
-        window.addKeyListener(board);
+        window.addKeyListener(testingLevel);
 
         // don't allow the user to resize the window
         window.setResizable(false);
