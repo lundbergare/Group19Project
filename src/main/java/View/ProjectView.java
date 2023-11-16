@@ -1,8 +1,5 @@
 package View;
 
-import Controller.ProjectController;
-import Model.Board;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;

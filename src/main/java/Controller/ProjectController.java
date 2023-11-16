@@ -1,14 +1,12 @@
 package Controller;
 
 
-import Model.Board;
-import View.NewScreenPanel;
+import Model.TestingLevel;
 import View.ProjectView;
 import View.HowToPlayView;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyListener;
 
 //This class is probably too big right now, should be separate controllers?
 
@@ -28,7 +26,7 @@ public class ProjectController {
     class LevelButtonListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            view.showNewScreen(new Board());
+            view.showNewScreen(new TestingLevel());
         }
     }
 
