@@ -2,7 +2,6 @@ package Model;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
 import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.*;
@@ -14,7 +13,13 @@ public class Player implements ActionListener{
     private int score;
 
     private Timer timer;
-    public int GRAVITY = 4;
+    public int GRAVITY = 2;
+    private int verticalVelocity;
+
+    private final int JUMP_VELOCITY = -10;
+    private int jumpHeightRemaining;
+
+
 
 
     public Player() {
@@ -22,19 +27,12 @@ public class Player implements ActionListener{
         // initialize the state
         pos = new Point(10, 0);
         score = 0;
-        Timer timer = new Timer(100 ,this);
+        verticalVelocity = 0;
+        jumpHeightRemaining = 0;
+        timer = new Timer(0, e -> tick());
+
 
     }
-
-    ActionListener jumpFunction = new ActionListener() {
-        @Override
-        public void actionPerformed(ActionEvent evt) {
-            jump();
-            timer.setRepeats(false);
-            timer.start();}
-    };
-
-
 
 
     public void drawPlayer(Graphics g){
@@ -43,31 +41,24 @@ public class Player implements ActionListener{
     }
 
     private void jump(){
-        GRAVITY = -5;
-        pos.translate(75, -200);
+        verticalVelocity = JUMP_VELOCITY;
+        jumpHeightRemaining = 100; // Set the maximum jump height
     }
-    public void keyPressed(KeyEvent e) {
 
-        int key = e.getKeyCode();
-
-        if (key == KeyEvent.VK_UP) {
-            jump();
-        }
-
-        if (key == KeyEvent.VK_D) {
-            pos.translate(5, 0);
-        }
-
-        if (key == KeyEvent.VK_A) {
-            pos.translate(-5, 0);
-        }
-    }
 
     public void tick() {
         // this gets called once every tick, before the repainting process happens.
+        if (jumpHeightRemaining > 0) {
+            pos.translate(0, verticalVelocity);
+            jumpHeightRemaining += verticalVelocity;
+        }
+        else {
+            // Apply gravity
+                verticalVelocity = GRAVITY;
+                pos.translate(0, verticalVelocity);
 
-        // Gravitational force
-        gravity();
+            }
+
 
         // prevent the player from moving off the edge of the board sideways
         if (pos.x < 0) {
@@ -104,5 +95,36 @@ public class Player implements ActionListener{
     @Override
     public void actionPerformed(ActionEvent e) {
 
+    }
+
+
+    public void configureKeyBindings(JComponent component) {
+        int condition = JComponent.WHEN_IN_FOCUSED_WINDOW;
+
+        component.getInputMap(condition).put(KeyStroke.getKeyStroke("W"), "jump");
+        component.getActionMap().put("jump", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                jump();
+            }
+        });
+
+
+        component.getInputMap(condition).put(KeyStroke.getKeyStroke("D"), "moveRight");
+        component.getActionMap().put("moveRight", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                pos.translate(5, 0);
+            }
+        });
+
+        // Binding for A key
+        component.getInputMap(condition).put(KeyStroke.getKeyStroke("A"), "moveLeft");
+        component.getActionMap().put("moveLeft", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                pos.translate(-5, 0);
+            }
+        });
     }
 }

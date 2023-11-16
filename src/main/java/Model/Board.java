@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.Random;
 import javax.swing.*;
 
+
+
 public class Board extends JPanel implements ActionListener, KeyListener {
 
     // controls the delay between each tick in ms
@@ -34,8 +36,9 @@ public class Board extends JPanel implements ActionListener, KeyListener {
         setBackground(new Color(68, 138, 184));
 
         player = new Player();
+        player.configureKeyBindings(this);
         coins = populateCoins();
-        platform = new Platform(10, 500);
+        platform = new Platform(5, 500);
         enemy = new Enemy(100, 100, 1, 20);
 
 
@@ -89,7 +92,7 @@ public class Board extends JPanel implements ActionListener, KeyListener {
     @Override
     public void keyPressed(KeyEvent e) {
         // react to key down events
-        player.keyPressed(e);
+
     }
 
     @Override
