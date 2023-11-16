@@ -1,6 +1,7 @@
 package View;
 
-import Model.Player;
+
+import Model.EnemyModel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -8,36 +9,27 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class NewScreenPanel extends JPanel {
-    private Enemy enemy;
-
+    private EnemyModel enemy;
+    private Enemy en;
 
     public NewScreenPanel() {
-        enemy = new Enemy(450, 600, 1);
+        enemy = new EnemyModel(450, 650, 1);
+        en = new Enemy(enemy);
 
         Timer timer = new Timer(3, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                moveEnemy();
+                enemy.move();
                 repaint();
             }
         });
         timer.start();
     }
 
-    private void moveEnemy() {
-        enemy.move();
-        if (enemy.getRectangleX() >= getWidth() - 50 || enemy.getRectangleX() <= 450) {
-            enemy.reverseDirection();
-        }
-    }
-
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-
-        g.setColor(Color.RED);
-        g.fillRect(enemy.getRectangleX(), enemy.getRectangleY(), 50, 50);
-        g.drawRect(enemy.getRectangleX(), enemy.getRectangleY(), 50, 50);
-
+        en.draw(g);
     }
 }
+

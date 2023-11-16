@@ -1,44 +1,19 @@
 package View;
 
-public class Enemy { private int rectangleX;
-    private int rectangleY;
-    private int direction;
+import Model.EnemyModel;
 
-    public Enemy(int initialX, int initialY, int initialDirection) {
-        this.rectangleX = initialX;
-        this.rectangleY = initialY;
-        this.direction = initialDirection;
+import java.awt.*;
+
+public class Enemy {
+    private EnemyModel enemy;
+
+    public Enemy(EnemyModel enemy) {
+        this.enemy = enemy;
     }
 
-    public void move() {
-        rectangleX += direction;
-    }
-
-    public void reverseDirection() {
-        direction *= -1;
-    }
-
-    public int getRectangleX() {
-        return rectangleX;
-    }
-
-    public void setRectangleX(int rectangleX) {
-        this.rectangleX = rectangleX;
-    }
-
-    public int getRectangleY() {
-        return rectangleY;
-    }
-
-    public void setRectangleY(int rectangleY) {
-        this.rectangleY = rectangleY;
-    }
-
-    public int getDirection() {
-        return direction;
-    }
-
-    public void setDirection(int direction) {
-        this.direction = direction;
+    public void draw(Graphics g) {
+        g.setColor(Color.BLACK);
+        g.fillRect(enemy.getRectangleX(), enemy.getRectangleY(), 50, 50);
+        g.drawRect(enemy.getRectangleX(), enemy.getRectangleY(), 50, 50);
     }
 }
