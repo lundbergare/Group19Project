@@ -1,5 +1,7 @@
 package View;
 
+import Model.Player;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -8,10 +10,11 @@ import java.awt.event.ActionListener;
 public class NewScreenPanel extends JPanel {
     private Enemy enemy;
 
-    public NewScreenPanel() {
-        enemy = new Enemy(450, 500, 1);
 
-        Timer timer = new Timer(5, new ActionListener() {
+    public NewScreenPanel() {
+        enemy = new Enemy(450, 600, 1);
+
+        Timer timer = new Timer(3, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 moveEnemy();
@@ -33,8 +36,8 @@ public class NewScreenPanel extends JPanel {
         super.paintComponent(g);
 
         g.setColor(Color.RED);
-        g.fillRect(enemy.getRectangleX(), enemy.getRectangleY(), 50, 100);
-        g.drawRect(enemy.getRectangleX(), enemy.getRectangleY(), 50, 100);
+        g.fillRect(enemy.getRectangleX(), enemy.getRectangleY(), 50, 50);
+        g.drawRect(enemy.getRectangleX(), enemy.getRectangleY(), 50, 50);
 
     }
 }

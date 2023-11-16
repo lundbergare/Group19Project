@@ -61,7 +61,7 @@ public class TestingLevel extends JPanel implements ActionListener, KeyListener 
         }
         player.drawPlayer(g);
         platform.drawPlatform(g);
-        enemy.drawEnemy(g);
+        //enemy.drawEnemy(g);
         // this smooths out animations on some systems
         Toolkit.getDefaultToolkit().sync();
     }
