@@ -15,18 +15,21 @@ public class Enemy extends JPanel {
         this.direction = direction;
         this.width = width;
     }
+
     public void moveRectangle() {
         pos.translate(0, this.direction);
         if (this.rectangleX >= getWidth() - 50 || this.rectangleX <= 450) {
             this.direction *= -1;
         }
     }
+
     public void drawEnemy(Graphics g) {
         super.paintComponent(g);
         g.setColor(Color.RED);
         g.fillRect(getRectangleX(), getRectangleY(), 50, 100);
         g.drawRect(getRectangleX(), getRectangleY(), 50, 100);
     }
+
     public int getRectangleX() {
         return rectangleX;
     }
