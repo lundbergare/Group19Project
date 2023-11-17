@@ -3,6 +3,10 @@ package View;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
+import javax.swing.ImageIcon;
+import java.awt.Font;
+import java.awt.Color;
+import javax.swing.JLabel;
 
 public class ProjectView {
     private final JFrame frame;
@@ -11,6 +15,7 @@ public class ProjectView {
     private final JButton howToPlayButton;
     private final JButton quitButton;
     private JPanel currentScreen; // The current screen
+    private final JLabel titleLabel;
 
     public ProjectView() {
         frame = new JFrame("Super Smurf Game");
@@ -21,11 +26,25 @@ public class ProjectView {
         frame.setLocationRelativeTo(null);
         frame.setResizable(false); // Set frame to be non-resizable
 
-        mainPanel = new JPanel(new GridBagLayout());
+        mainPanel = new BackgroundPanel("/Users/alexanderolsson/Documents/GitHub/Group19Project/src/main/java/View/TheSmurfs.png");
+        mainPanel.setLayout(new GridBagLayout());
+        //mainPanel = new JPanel(new GridBagLayout());
         frame.add(mainPanel);
 
+        titleLabel = new JLabel("Super Smurf Game");
+        titleLabel.setFont(new Font("Arial", Font.BOLD, 60)); // Set the font, style, and size
+        titleLabel.setForeground(Color.BLACK); // Set the text color
+
+        // Add the title label to your panel
+        GridBagConstraints titleConstraints = new GridBagConstraints();
+        titleConstraints.gridx = 0;
+        titleConstraints.gridy = 0; // Adjust grid position as needed
+        titleConstraints.insets = new Insets(0, 10, 200, 10); // Optional: Adjust spacing
+        titleConstraints.anchor = GridBagConstraints.CENTER;
+        mainPanel.add(titleLabel, titleConstraints);
+
         levelSelectButton = new JButton("Start Game");
-       howToPlayButton = new JButton("How to Play");
+        howToPlayButton = new JButton("How to Play");
         quitButton = new JButton("Quit");
 
         // Set the preferred size for each button
@@ -34,7 +53,7 @@ public class ProjectView {
         quitButton.setPreferredSize(new Dimension(150, 50));
 
         GridBagConstraints constraints = new GridBagConstraints();
-        constraints.insets = new Insets(10, 10, 10, 10);
+        constraints.insets = new Insets(20, 10, 20, 10);
         constraints.gridx = 0;
         constraints.gridy = 0;
         constraints.anchor = GridBagConstraints.CENTER;
