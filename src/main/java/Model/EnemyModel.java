@@ -14,13 +14,14 @@ public class EnemyModel {
 
     public void move() {
         rectangleX += direction;
+        rectangleY += direction * -1;
         reverseDirection();
     }
 
 
     //TODO: Quite hardcoded right now, must be fixed, but ohwell
     public void reverseDirection() {
-        if (this.getRectangleX() >= 1000 || this.getRectangleX() <= 450) {
+        if (this.getRectangleX() >= 950 || this.getRectangleX() <= 450) {
             direction *= -1;
         }
     }

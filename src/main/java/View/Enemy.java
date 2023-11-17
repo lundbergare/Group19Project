@@ -9,6 +9,8 @@ public class Enemy {
 
     public Enemy(EnemyModel enemy) {
         this.enemy = enemy;
+        
+
     }
 
     public void draw(Graphics g) {
