@@ -26,7 +26,7 @@ public class ProjectView {
         frame.setLocationRelativeTo(null);
         frame.setResizable(false); // Set frame to be non-resizable
 
-        mainPanel = new BackgroundPanel("/Users/alexanderolsson/Documents/GitHub/Group19Project/src/main/java/View/TheSmurfs.png");
+        mainPanel = new BackgroundPanel("src/main/java/View/TheSmurfs.png");
         mainPanel.setLayout(new GridBagLayout());
         //mainPanel = new JPanel(new GridBagLayout());
         frame.add(mainPanel);
