@@ -1,6 +1,9 @@
 package Model;
 import javax.swing.*;
 import java.awt.*;
+
+
+    //TODO does not work
 public class Enemy extends JPanel {
     private int rectangleX;
     private int rectangleY;

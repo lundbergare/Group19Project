@@ -6,14 +6,17 @@ public class Coin {
 
     private Point pos;
 
+    // This coin type should only have one final size
     private final int WIDTH = 50;
     private final int HEIGHT = 50;
 
+    //Only xy-coordinates necessary when initalizing
     public Coin(int x, int y) {
         pos = new Point(x, y);
     }
 
 
+    // Draws the visual representation of the coin
     public void drawCoin(Graphics g){
         g.setColor(Color.yellow);
         g.fillOval(pos.x, pos.y, WIDTH, HEIGHT);
@@ -30,6 +33,7 @@ public class Coin {
         return this.pos.x+(this.WIDTH/2);
     }
 
+    //returns a list of the coin's corners //TODO refactor
     public int[] getArea(){
         return new int[] {pos.x, pos.y, pos.x+WIDTH, pos.y+HEIGHT};
     }

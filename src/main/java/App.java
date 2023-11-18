@@ -2,6 +2,8 @@ import Model.TestingLevel;
 
 import javax.swing.*;
 
+
+        //Jumps straight to the testing level
 class App {
 
     private static void initWindow() {

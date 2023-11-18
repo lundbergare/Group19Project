@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class ProjectModel{
 
-
+    // Make the player's gravity stop when touching a specific platform (does not work when jumping UP to a platform)
     public static void platformCollision(Player smurf, Platform platform){
         int[] platformArea = platform.getArea();
         int ySmurf = smurf.getPos().y;
@@ -13,10 +13,12 @@ public class ProjectModel{
         int under = platform.pos.y;
         int rightEdge = platformArea[2];
         int leftEdge = platformArea[0];
-        //Make sure the player doesn't fall through platforms
+        //Make sure the player doesn't fall through platforms when on top and within left/right edges
         if ((ySmurf > surface)  && (xSmurf < rightEdge) && (xSmurf > leftEdge)) {smurf.GRAVITY = 0;}
             else {smurf.GRAVITY = 6;}
     }
+
+    // Returns true if player is within reach of collecting coin, otherwise false
     public static boolean coinCollision(Player smurf, Coin coin){
         int[] coinArea = coin.getArea();
         int ySmurf = smurf.getPos().y-25;
@@ -25,21 +27,20 @@ public class ProjectModel{
         int underSide = coin.getPos().y;
         int rightSide = coinArea[2];
         int leftSide = coinArea[0];
-
+        // Player has to be inside the coin (below topside, above underside, inside left and right) to collect
         if ((ySmurf >= topSide+5 && ySmurf <= underSide-5) && (xSmurf > leftSide && xSmurf < rightSide)){
                 return true;
         }
         return false;
     }
-
+    // Collect a coin when it is within reach (coinCollision), add the coin to array of collected coins
     public static void collectCoins(Player player, ArrayList<Coin> coins){
-        // allow player to pickup coins
+        // Array of collected coins
         ArrayList<Coin> collectedCoins = new ArrayList<>();
         // if the player is within coin reach, collect it
         for (Coin coin: coins) {
             if (coinCollision(player, coin)) {
-                // give the player some points for picking this up
-                player.addScore(5);
+                player.addScore(5); //TODO needs new implementation
                 collectedCoins.add(coin);
             }
         }

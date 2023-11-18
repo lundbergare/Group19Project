@@ -11,17 +11,25 @@ import java.awt.event.KeyEvent;
 public class Player implements ActionListener{
 
     private Point pos;
+    //TODO not properly implemented score, needs reworking
     private int score;
-
-    public int GRAVITY = 2;
-    private int verticalVelocity;
-
-    private final int JUMP_VELOCITY = -10;
-    private int jumpHeightRemaining;
-
     private int width = 50;
     private int height = 50;
 
+
+    //Player will fall down at 2 px/tick gravity by default
+    public int GRAVITY = 2;
+
+    //Velocity used when calculating falling/jumping
+    private int verticalVelocity;
+
+    //Velocity when initially jumping
+    private final int JUMP_VELOCITY = -10;
+
+    // The maximum jump height when initially jumping, decreases while in air.
+    private int jumpHeightRemaining;
+
+    //Decides which direction the Player is moving
     private boolean movingRight = false;
     private boolean movingLeft = false;
 
@@ -38,17 +46,20 @@ public class Player implements ActionListener{
 
     }
 
-
+    //Draw the Smurf
     public void drawPlayer(Graphics g){
         g.setColor(Color.cyan);
         g.fillRect(pos.x, pos.y, width, height);
     }
+
 
     private void jump(){
         verticalVelocity = JUMP_VELOCITY;
         jumpHeightRemaining = 120; // Set the maximum jump height
     }
 
+    //While there is remaining jump height, the player will keep going up.
+    // Jump height decreases by adding vertical (downwards) velocity for each tick.
     private void jumpTick(){
         if (jumpHeightRemaining > 0) {
         pos.translate(0, verticalVelocity);
@@ -56,7 +67,7 @@ public class Player implements ActionListener{
          }
 
         else {
-        // Apply gravity
+        // else Apply gravity (player falls down)
         verticalVelocity = GRAVITY;
         pos.translate(0, verticalVelocity);
 
@@ -81,11 +92,13 @@ public class Player implements ActionListener{
         }
     }
 
+    //Moves the player right ways while right direction true
     private void moveRightTick(){
         if (movingRight){
         pos.translate(3, 0);}
     }
 
+    //Moves the player left ways while left direction true
     private void moveLeftTick(){
         if (movingLeft){
             pos.translate(-3, 0);}
@@ -103,7 +116,7 @@ public class Player implements ActionListener{
 
     }
 
-
+    //TODO score not working
     public String getScore() {
         return String.valueOf(score);
     }
@@ -112,10 +125,13 @@ public class Player implements ActionListener{
         score += amount;
     }
 
+
+
     public Point getPos() {
         return pos;
     }
 
+    //Used for collisions
     public int getCenterX(){
         return this.pos.x+(this.width/2);
     }
@@ -125,7 +141,8 @@ public class Player implements ActionListener{
 
     }
 
-
+    //The player controls. W key activates the jump() method,
+    // and A and D turn their respective booleans true until the keys are released, where they are returned to false.
     public void configureKeyBindings(JComponent component) {
         int condition = JComponent.WHEN_IN_FOCUSED_WINDOW;
 
@@ -155,8 +172,6 @@ public class Player implements ActionListener{
             }
         });
 
-
-        // Binding for A key
         component.getInputMap(condition).put(KeyStroke.getKeyStroke(KeyEvent.VK_A, 0, false), "pressedMoveLeft");
         component.getActionMap().put("pressedMoveLeft", new AbstractAction() {
             @Override

@@ -12,18 +12,18 @@ public class TestingLevel extends JPanel implements ActionListener, KeyListener 
 
     // controls the delay between each tick in ms
     private final int DELAY = 1;
-    // controls the size of the board
-    public static final int TILE_SIZE = 50;
+    // controls the size of the board (wrong module?)
     public static final int YAXIS = 800;
     public static final int XAXIS = 600;
-    // controls how many coins appear on the board
+    // controls how many coins appear on the board, probably unnecessary since each coin will be uniquely placed
     public static final int NUM_COINS = 5;
-    // suppress serialization warning
+    // suppress serialization warning, not really sure what it's supposed to do so commented out
    // private static final long serialVersionUID = 490905409104883233L;
 
     // keep a reference to the timer object that triggers actionPerformed() in
     // case we need access to it in another method
     private Timer timer;
+
     // objects that appear on the game board
     private Player player;
     private ArrayList<Coin> coins;
@@ -32,6 +32,7 @@ public class TestingLevel extends JPanel implements ActionListener, KeyListener 
     private Enemy enemy;
 
     public TestingLevel() {
+        //initiate window background and objects
         setPreferredSize(new Dimension(YAXIS, XAXIS));
         setBackground(new Color(68, 138, 184));
 
@@ -69,15 +70,18 @@ public class TestingLevel extends JPanel implements ActionListener, KeyListener 
     @Override
     public void actionPerformed(ActionEvent e) {
         // this method is called by the timer every DELAY ms.
-        // use this space to update the state of your game or animation
+        // use this space to update the state of the game or animation
         // before the graphics are redrawn.
 
-        // prevent the player from disappearing off the board
-
+        // allow for player control and prevent the player from disappearing off the board
         player.tick();
-        enemy.moveRectangle();
+
+        enemy.moveRectangle(); //TODO enemy does not move
+
+        //Activates collisions when necessary
         ProjectModel.platformCollision(player, platform);
         ProjectModel.collectCoins(player, coins);
+
         // calling repaint() will trigger paintComponent() to run again,
         // which will refresh/redraw the graphics.
         repaint();
@@ -91,7 +95,7 @@ public class TestingLevel extends JPanel implements ActionListener, KeyListener 
     @Override
     public void keyReleased(KeyEvent e) {}
 
-
+    //Supposed to make text and certain edges look smoother, does not always work. Also adds font to Coin "5"
     private void textAA(Graphics g) {
         Graphics2D g2d = (Graphics2D) g;
         g2d.setRenderingHint(
@@ -108,9 +112,10 @@ public class TestingLevel extends JPanel implements ActionListener, KeyListener 
         g2d.setFont(new Font("Lato", Font.BOLD, 25));
     }
 
+    //Populate the level with the coins and add to list of coins in level, returns list.
+    // Currently only adapted for testing level
     private ArrayList populateCoins() {
         ArrayList coinList = new ArrayList<>();
-        Random rand = new Random();
 
         for (int i = 0; i < NUM_COINS; i++) {
             int coinX = (i + 1) * 60;
