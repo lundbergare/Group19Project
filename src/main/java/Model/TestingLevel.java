@@ -1,5 +1,6 @@
 package Model;
 
+import View.CoinView;
 import View.PlayerView;
 
 import java.awt.*;
@@ -33,6 +34,8 @@ public class TestingLevel extends JPanel implements ActionListener, KeyListener 
     private Enemy enemy;
     private PlayerView playerView; // Declare it as a class-level field
 
+    private CoinView coinView; // Add this field
+
 
     public TestingLevel() {
         //initiate window background and objects
@@ -41,14 +44,15 @@ public class TestingLevel extends JPanel implements ActionListener, KeyListener 
 
         player = new Player();
         playerView = new PlayerView(player);
+        coinView = new CoinView();
 
-        coins = populateCoins();
         platform = new Platform(10, 500);
         addKeyListener(this);
         setFocusable(true);
         setFocusTraversalKeysEnabled(false);
         //enemy = new Enemy(100, 100, 1, 20);
 
+        coins = Coin.populateCoins();
 
         // this timer will call the actionPerformed() method every DELAY ms
         timer = new Timer(DELAY, this);
@@ -63,9 +67,11 @@ public class TestingLevel extends JPanel implements ActionListener, KeyListener 
         // draw our graphics.
         //drawBackground(g);
         textAA(g);
+
         for (Coin coin : coins) {
-            coin.drawCoin(g);
+            coinView.drawCoin(g, coin); // Draw each coin
         }
+
         playerView.draw(g);
 
         platform.drawPlatform(g);
@@ -85,7 +91,7 @@ public class TestingLevel extends JPanel implements ActionListener, KeyListener 
         //enemy.moveRectangle(); //TODO enemy does not move
         //Activates collisions when necessary
         ProjectModel.platformCollision(player, platform);
-        ProjectModel.collectCoins(player, coins);
+        Coin.collectCoins(player, coins);
 
         // calling repaint() will trigger paintComponent() to run again,
         // which will refresh/redraw the graphics.
@@ -107,17 +113,6 @@ public class TestingLevel extends JPanel implements ActionListener, KeyListener 
 
     //Populate the level with the coins and add to list of coins in level, returns list.
     // Currently only adapted for testing level
-    private ArrayList populateCoins() {
-        ArrayList coinList = new ArrayList<>();
-
-        for (int i = 0; i < NUM_COINS; i++) {
-            int coinX = (i + 1) * 60;
-            int coinY = 450;
-            coinList.add(new Coin(coinX, coinY));
-        }
-
-        return coinList;
-    }
 
 //TODO: Does not adhere to MVC
     @Override
