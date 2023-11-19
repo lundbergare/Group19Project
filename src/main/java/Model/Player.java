@@ -159,11 +159,11 @@ public class Player implements ActionListener, KeyListener {
             case KeyEvent.VK_A:
                 movingLeft = true;
                 moveLeftTick();
+                System.out.println("To the left");
                 break;
             // Handle other cases for different keys if needed
         }
         }
-
     @Override
     public void keyReleased(KeyEvent e) {
         int key = e.getKeyCode();
