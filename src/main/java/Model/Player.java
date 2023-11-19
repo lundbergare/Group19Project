@@ -6,9 +6,10 @@ import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.*;
 import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
 
-public class Player implements ActionListener{
+public class Player implements ActionListener, KeyListener {
 
     private Point pos;
     //TODO not properly implemented score, needs reworking
@@ -16,6 +17,8 @@ public class Player implements ActionListener{
     private int width = 50;
     private int height = 50;
 
+    private boolean movingRight = false;
+    private boolean movingLeft = false;
 
     //Player will fall down at 2 px/tick gravity by default
     public int GRAVITY = 2;
@@ -24,20 +27,11 @@ public class Player implements ActionListener{
     private int verticalVelocity;
 
     //Velocity when initially jumping
-    private final int JUMP_VELOCITY = -10;
+    private final int JUMP_VELOCITY = -1;
 
     // The maximum jump height when initially jumping, decreases while in air.
     private int jumpHeightRemaining;
-
-    //Decides which direction the Player is moving
-    private boolean movingRight = false;
-    private boolean movingLeft = false;
-
-
-
-
     public Player() {
-
         // initialize the state
         pos = new Point(10, 0);
         score = 0;
@@ -45,14 +39,52 @@ public class Player implements ActionListener{
         jumpHeightRemaining = 0;
 
     }
-
     //Draw the Smurf
-    public void drawPlayer(Graphics g){
-        g.setColor(Color.cyan);
-        g.fillRect(pos.x, pos.y, width, height);
+    public int getWidth() {
+        return width;
+    }
+
+    public int getHeight() {
+        return height;
     }
 
 
+
+    //While there is remaining jump height, the player will keep going up.
+    // Jump height decreases by adding vertical (downwards) velocity for each tick.
+
+    private void levelBordersTick(){
+        // prevent the player from moving off the edge of the board sideways
+        if (pos.x < 0) {
+            pos.x = 0;
+        } else if (pos.x >= TestingLevel.YAXIS) {
+            pos.x = TestingLevel.YAXIS - 1;
+        }
+        // prevent the player from moving off the edge of the board vertically
+        if (pos.y < 0) {
+            pos.y = 0;
+        } else if (pos.y >= TestingLevel.XAXIS) {
+            pos.y = TestingLevel.XAXIS - 1;
+        }
+    }
+
+    //TODO: Must also fix the moving right and left: seem to "pixellike"
+    //Moves the player right ways while right direction true
+    //Moves the player right ways while right direction true
+    private void moveRightTick(){
+        if (movingRight){
+            pos.translate(1, 0);}
+    }
+
+    //Moves the player left ways while left direction true
+    //Moves the player left ways while left direction true
+    private void moveLeftTick(){
+        if (movingLeft){
+            pos.translate(-1, 0);}
+    }
+
+
+    //TODO: fix the Jump function: jumps in a very weird way.
     private void jump(){
         verticalVelocity = JUMP_VELOCITY;
         jumpHeightRemaining = 120; // Set the maximum jump height
@@ -62,58 +94,23 @@ public class Player implements ActionListener{
     // Jump height decreases by adding vertical (downwards) velocity for each tick.
     private void jumpTick(){
         if (jumpHeightRemaining > 0) {
-        pos.translate(0, verticalVelocity);
-        jumpHeightRemaining += verticalVelocity;
-         }
-
+            pos.translate(0, verticalVelocity);
+            jumpHeightRemaining += verticalVelocity;
+        }
         else {
-        // else Apply gravity (player falls down)
-        verticalVelocity = GRAVITY;
-        pos.translate(0, verticalVelocity);
-
-         }
-
-    }
-
-
-    private void levelBordersTick(){
-        // prevent the player from moving off the edge of the board sideways
-        if (pos.x < 0) {
-            pos.x = 0;
-        } else if (pos.x >= TestingLevel.YAXIS) {
-            pos.x = TestingLevel.YAXIS - 1;
-        }
-
-        // prevent the player from moving off the edge of the board vertically
-        if (pos.y < 0) {
-            pos.y = 0;
-        } else if (pos.y >= TestingLevel.XAXIS) {
-            pos.y = TestingLevel.XAXIS - 1;
+            // else Apply gravity (player falls down)
+            verticalVelocity = GRAVITY;
+            pos.translate(0, verticalVelocity);
         }
     }
-
-    //Moves the player right ways while right direction true
-    private void moveRightTick(){
-        if (movingRight){
-        pos.translate(3, 0);}
-    }
-
-    //Moves the player left ways while left direction true
-    private void moveLeftTick(){
-        if (movingLeft){
-            pos.translate(-3, 0);}
-    }
-
 
 
     public void tick() {
         // this gets called once every tick, before the repainting process happens.
-
         jumpTick();
         levelBordersTick();
         moveRightTick();
         moveLeftTick();
-
     }
 
     //TODO score not working
@@ -143,49 +140,51 @@ public class Player implements ActionListener{
 
     //The player controls. W key activates the jump() method,
     // and A and D turn their respective booleans true until the keys are released, where they are returned to false.
-    public void configureKeyBindings(JComponent component) {
-        int condition = JComponent.WHEN_IN_FOCUSED_WINDOW;
 
-        component.getInputMap(condition).put(KeyStroke.getKeyStroke("W"), "jump");
-        component.getActionMap().put("jump", new AbstractAction() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
+
+    //TODO: Everything below here must be moved to a seperate controller, PlayerController. Does not adhere to MVC.
+    @Override
+    public void keyPressed(KeyEvent e) {
+        int key = e.getKeyCode();
+        switch (key) {
+            case KeyEvent.VK_W:
                 jump();
-            }
-        });
-
-
-        component.getInputMap(condition).put(KeyStroke.getKeyStroke(KeyEvent.VK_D, 0, false), "pressedMoveRight");
-        component.getActionMap().put("pressedMoveRight", new AbstractAction() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
+                System.out.println("Jumping");
+                break;
+            case KeyEvent.VK_D:
                 movingRight = true;
-            }
-        });
-
-
-        component.getInputMap(condition).put(KeyStroke.getKeyStroke(KeyEvent.VK_D, 0, true), "releasedMoveRight");
-        component.getActionMap().put("releasedMoveRight", new AbstractAction() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                movingRight = false;
-            }
-        });
-
-        component.getInputMap(condition).put(KeyStroke.getKeyStroke(KeyEvent.VK_A, 0, false), "pressedMoveLeft");
-        component.getActionMap().put("pressedMoveLeft", new AbstractAction() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
+                System.out.println("To the right");
+                moveRightTick();
+                break;
+            case KeyEvent.VK_A:
                 movingLeft = true;
-            }
-        });
+                moveLeftTick();
+                break;
+            // Handle other cases for different keys if needed
+        }
+        }
 
-        component.getInputMap(condition).put(KeyStroke.getKeyStroke(KeyEvent.VK_A, 0, true), "releasedMoveLeft");
-        component.getActionMap().put("releasedMoveLeft", new AbstractAction() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
+    @Override
+    public void keyReleased(KeyEvent e) {
+        int key = e.getKeyCode();
+        switch (key) {
+            case KeyEvent.VK_D:
+                movingRight = false;
+                break;
+            case KeyEvent.VK_A:
                 movingLeft = false;
-            }
-        });
+                break;
+            // Handle other cases for different keys if needed
+        }
     }
+    @Override
+    public void keyTyped(KeyEvent e) {
+        // Implementation not necessary for your case, can be left empty
     }
+
+
+
+
+
+}
+

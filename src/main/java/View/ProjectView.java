@@ -18,7 +18,9 @@ public class ProjectView {
     private final JLabel titleLabel;
 
     public ProjectView() {
+
         frame = new JFrame("Super Smurf Game");
+        frame.requestFocusInWindow();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         int height = 750;
         int width = 1000;
@@ -68,6 +70,8 @@ public class ProjectView {
         currentScreen = mainPanel;
 
         frame.setVisible(true);
+
+
     }
 
     public void addLevelButtonListener(ActionListener listener) {

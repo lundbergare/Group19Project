@@ -5,8 +5,10 @@ import java.lang.reflect.Array;
 
 public class Platform {
 
+
+    //TODO: Should not be hardcoded I think, and should seperate drawing the platform from the model.
     public Point pos;
-    private int width = 600;
+    private int width = 400;
     private int height = 50;
 
     //Only xy-coordinates necessary when initalizing
