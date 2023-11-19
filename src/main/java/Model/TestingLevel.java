@@ -1,5 +1,6 @@
 package Model;
 
+import View.EnemyView;
 import View.PlayerView;
 
 import java.awt.*;
@@ -8,7 +9,7 @@ import java.util.ArrayList;
 import java.util.Random;
 import javax.swing.*;
 
-
+//TODO: Move all draw stuff from this to GameView instead. 
 
 public class TestingLevel extends JPanel implements ActionListener, KeyListener {
 
@@ -29,23 +30,27 @@ public class TestingLevel extends JPanel implements ActionListener, KeyListener 
     private Player player;
     private ArrayList<Coin> coins;
 
+    private JLabel coinLabel;
     private Platform platform;
     private Enemy enemy;
     private PlayerView playerView; // Declare it as a class-level field
 
-
+    private EnemyView enemyView;
     public TestingLevel() {
+        setFocusable(true);
         //initiate window background and objects
         setPreferredSize(new Dimension(YAXIS, XAXIS));
         setBackground(new Color(68, 138, 184));
-
         player = new Player();
         playerView = new PlayerView(player);
+
+        enemy = new Enemy(200, 100, 1, 300); // Set initial position and direction
+        enemyView = new EnemyView(enemy);
 
         coins = populateCoins();
         platform = new Platform(10, 500);
         addKeyListener(this);
-        setFocusable(true);
+
         setFocusTraversalKeysEnabled(false);
         //enemy = new Enemy(100, 100, 1, 20);
 
@@ -53,13 +58,14 @@ public class TestingLevel extends JPanel implements ActionListener, KeyListener 
         // this timer will call the actionPerformed() method every DELAY ms
         timer = new Timer(DELAY, this);
         timer.start();
+
+
     }
 
-
+//TODO: Move to some view, should probably not paint the screen in the model.
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-
         // draw our graphics.
         //drawBackground(g);
         textAA(g);
@@ -67,8 +73,9 @@ public class TestingLevel extends JPanel implements ActionListener, KeyListener 
             coin.drawCoin(g);
         }
         playerView.draw(g);
-
         platform.drawPlatform(g);
+        enemyView.draw(g); // Draw the enemy
+
         //enemy.drawEnemy(g);
         // this smooths out animations on some systems
         Toolkit.getDefaultToolkit().sync();
@@ -86,7 +93,7 @@ public class TestingLevel extends JPanel implements ActionListener, KeyListener 
         //Activates collisions when necessary
         ProjectModel.platformCollision(player, platform);
         ProjectModel.collectCoins(player, coins);
-
+        enemy.move();
         // calling repaint() will trigger paintComponent() to run again,
         // which will refresh/redraw the graphics.
         repaint();
@@ -96,13 +103,13 @@ public class TestingLevel extends JPanel implements ActionListener, KeyListener 
 
     //Supposed to make text and certain edges look smoother, does not always work. Also adds font to Coin "5"
     private void textAA(Graphics g) {
-        Graphics2D g2d = (Graphics2D) g;
-        g2d.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
-        g2d.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
-        g2d.setRenderingHint(RenderingHints.KEY_FRACTIONALMETRICS, RenderingHints.VALUE_FRACTIONALMETRICS_ON);
-        // set the text color and font
-        g2d.setColor(new Color(30, 201, 139));
-        g2d.setFont(new Font("Lato", Font.BOLD, 25));
+//        Graphics2D g2d = (Graphics2D) g;
+//        g2d.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+//        g2d.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
+//        g2d.setRenderingHint(RenderingHints.KEY_FRACTIONALMETRICS, RenderingHints.VALUE_FRACTIONALMETRICS_ON);
+//        // set the text color and font
+//        g2d.setColor(new Color(30, 201, 139));
+//        g2d.setFont(new Font("Lato", Font.BOLD, 25));
     }
 
     //Populate the level with the coins and add to list of coins in level, returns list.
@@ -123,7 +130,6 @@ public class TestingLevel extends JPanel implements ActionListener, KeyListener 
     @Override
     public void keyTyped(KeyEvent e) {
         player.keyTyped(e);
-        System.out.println("Noticing what happens in Model.Player");
     }
 
     @Override

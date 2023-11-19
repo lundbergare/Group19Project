@@ -149,17 +149,16 @@ public class Player implements ActionListener, KeyListener {
         switch (key) {
             case KeyEvent.VK_W:
                 jump();
-                System.out.println("Jumping");
+
                 break;
             case KeyEvent.VK_D:
                 movingRight = true;
-                System.out.println("To the right");
+
                 moveRightTick();
                 break;
             case KeyEvent.VK_A:
                 movingLeft = true;
                 moveLeftTick();
-                System.out.println("To the left");
                 break;
             // Handle other cases for different keys if needed
         }
