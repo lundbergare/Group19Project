@@ -19,8 +19,10 @@ public class ProjectView {
 
     public ProjectView() {
 
+
+
         frame = new JFrame("Super Smurf Game");
-        frame.requestFocusInWindow();
+
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         int height = 750;
         int width = 1000;
@@ -32,6 +34,7 @@ public class ProjectView {
         mainPanel.setLayout(new GridBagLayout());
         //mainPanel = new JPanel(new GridBagLayout());
         frame.add(mainPanel);
+
 
         titleLabel = new JLabel("Super Smurf Game");
         titleLabel.setFont(new Font("Arial", Font.BOLD, 60)); // Set the font, style, and size
