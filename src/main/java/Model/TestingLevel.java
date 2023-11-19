@@ -18,8 +18,7 @@ public class TestingLevel extends JPanel implements ActionListener, KeyListener 
     // controls the size of the board (wrong module?)
     public static final int YAXIS = 800;
     public static final int XAXIS = 600;
-    // controls how many coins appear on the board, probably unnecessary since each coin will be uniquely placed
-    public static final int NUM_COINS = 4;
+
     // suppress serialization warning, not really sure what it's supposed to do so commented out
    // private static final long serialVersionUID = 490905409104883233L;
 
