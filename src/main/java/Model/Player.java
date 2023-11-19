@@ -53,6 +53,8 @@ public class Player implements ActionListener, KeyListener {
     //While there is remaining jump height, the player will keep going up.
     // Jump height decreases by adding vertical (downwards) velocity for each tick.
 
+    //TODO: The player should not depend on the TestingLevel class.
+
     private void levelBordersTick(){
         // prevent the player from moving off the edge of the board sideways
         if (pos.x < 0) {

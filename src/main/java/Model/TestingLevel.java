@@ -36,6 +36,8 @@ public class TestingLevel extends JPanel implements ActionListener, KeyListener 
     private PlayerView playerView; // Declare it as a class-level field
 
     private EnemyView enemyView;
+
+    //TODO: Add enemies in here as well!
     public TestingLevel() {
         setFocusable(true);
         //initiate window background and objects
