@@ -46,7 +46,8 @@ public class TestingLevel extends JPanel implements ActionListener, KeyListener 
         player = new Player();
         playerView = new PlayerView(player);
         coinView = new CoinView();
-        enemy = new Enemy(200,200,1,400);
+        enemy=new Enemy(500, 450, 1, 850);
+        //enemy = new Enemy(200,200,1,400);
         enView = new EnemyView(enemy);
         platform = new Platform(10, 500, 400, 50);
         addKeyListener(this);

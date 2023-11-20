@@ -1,7 +1,7 @@
 package Model;
 
 public class Enemy {
-    private final int maxYPosition;
+    private final int maxXPosition;
     private int rectangleX;
     private int rectangleY;
     private int direction;
@@ -10,19 +10,19 @@ public class Enemy {
 
     //TODO Not something that is supposed to be in the view: Move over to model.
 
-    public Enemy(int initialX, int initialY, int initialDirection, int maxYPosition) {
+    public Enemy(int initialX, int initialY, int initialDirection, int maxXPosition) {
         this.rectangleX = initialX;
         this.rectangleY = initialY;
         this.direction = initialDirection;
-        this.maxYPosition = maxYPosition; // Set the maximum Y position
+        this.maxXPosition = maxXPosition; // Set the maximum Y position
         this.speed = 1; // Set the speed
 
     }
 
     //TODO: Try and fix the speed of the Enemy, currently too fast I think
     public void move() {
-        rectangleY += direction * speed;
-        if (rectangleY >= maxYPosition || rectangleY <= 0) {
+        rectangleX += direction * speed;
+        if (rectangleX >= maxXPosition || rectangleX <= 340) {
             reverseDirection(); // Invert the direction
         }
     }
