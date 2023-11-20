@@ -1,6 +1,7 @@
 package Model;
 
 import View.CoinView;
+import View.EnemyView;
 import View.PlayerView;
 
 import java.awt.*;
@@ -31,6 +32,7 @@ public class TestingLevel extends JPanel implements ActionListener, KeyListener 
 
     private Platform platform;
     private Enemy enemy;
+    private EnemyView enView;
     private PlayerView playerView; // Declare it as a class-level field
 
     private CoinView coinView; // Add this field
@@ -44,8 +46,9 @@ public class TestingLevel extends JPanel implements ActionListener, KeyListener 
         player = new Player();
         playerView = new PlayerView(player);
         coinView = new CoinView();
-
-        platform = new Platform(10, 500);
+        enemy = new Enemy(200,100,1,400);
+        enView=new EnemyView(enemy);
+        platform = new Platform(10, 500, 400, 50);
         addKeyListener(this);
         setFocusable(true);
         setFocusTraversalKeysEnabled(false);
@@ -72,13 +75,12 @@ public class TestingLevel extends JPanel implements ActionListener, KeyListener 
         }
 
         playerView.draw(g);
-
+        enView.draw(g);
         platform.drawPlatform(g);
         //enemy.drawEnemy(g);
         // this smooths out animations on some systems
         Toolkit.getDefaultToolkit().sync();
     }
-
 
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -91,6 +93,7 @@ public class TestingLevel extends JPanel implements ActionListener, KeyListener 
         //Activates collisions when necessary
         ProjectModel.platformCollision(player, platform);
         Coin.collectCoins(player, coins);
+        enemy.move();
 
         // calling repaint() will trigger paintComponent() to run again,
         // which will refresh/redraw the graphics.
@@ -117,7 +120,6 @@ public class TestingLevel extends JPanel implements ActionListener, KeyListener 
     @Override
     public void keyTyped(KeyEvent e) {
         player.keyTyped(e);
-        System.out.println("Noticing what happens in Model.Player");
     }
 
     @Override
