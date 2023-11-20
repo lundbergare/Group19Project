@@ -5,29 +5,39 @@ import java.lang.reflect.Array;
 
 public class Platform {
 
+    //private Point pos;
+    private int width;
+    private int height;
+    private int xPos;
+    private int yPos;
 
-    //TODO: Should not be hardcoded I think, and should seperate drawing the platform from the model.
-    public Point pos;
-    private int width = 400;
-    private int height = 50;
+
 
     //Only xy-coordinates necessary when initalizing
-    public Platform(int x, int y) {
-        pos = new Point(x, y);
-    }
+    public Platform(int xPos, int yPos, int width, int height) {
 
+        this.xPos = xPos;
+        this.yPos = yPos;
+        this.width = width;
+        this.height = height;
+
+    }
+    //TODO: Should have no drawing in the model!
     // Draws the visual representation of the platform
     public void drawPlatform(Graphics g){
         g.setColor(Color.gray);
-        g.fillRect(pos.x, pos.y, width, height);
+        g.fillRect(xPos, yPos, width, height);
     }
     // Return a list of each corner of the platform
     public int[] getArea(){
-        return new int[] {pos.x, pos.y, pos.x+width, pos.y+height};
+        return new int[] {xPos, yPos, xPos+width, yPos+height};
     }
 
-    public Point getPos() {
-        return pos;
+    public int getXPos(){
+        return xPos;
+    }
+    public int getYPos(){
+        return yPos;
     }
 
 }

@@ -18,9 +18,6 @@ public class ProjectView {
     private final JLabel titleLabel;
 
     public ProjectView() {
-
-
-
         frame = new JFrame("Super Smurf Game");
 
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -31,12 +28,10 @@ public class ProjectView {
         frame.setResizable(false); // Set frame to be non-resizable
 
         mainPanel = new BackgroundPanel("src/main/java/View/TheSmurfs.png");
-        mainPanel.setLayout(new GridBagLayout());
-        //mainPanel = new JPanel(new GridBagLayout());
         frame.add(mainPanel);
+        mainPanel.setLayout(new GridBagLayout());
 
-
-        titleLabel = new JLabel("Super Smurf Game");
+        titleLabel = new JLabel("Super Smurf Bros");
         titleLabel.setFont(new Font("Arial", Font.BOLD, 60)); // Set the font, style, and size
         titleLabel.setForeground(Color.BLACK); // Set the text color
 
@@ -44,7 +39,7 @@ public class ProjectView {
         GridBagConstraints titleConstraints = new GridBagConstraints();
         titleConstraints.gridx = 0;
         titleConstraints.gridy = 0; // Adjust grid position as needed
-        titleConstraints.insets = new Insets(0, 10, 200, 10); // Optional: Adjust spacing
+        titleConstraints.insets = new Insets(0, 10, 50, 10); // Optional: Adjust spacing
         titleConstraints.anchor = GridBagConstraints.CENTER;
         mainPanel.add(titleLabel, titleConstraints);
 
@@ -58,24 +53,22 @@ public class ProjectView {
         quitButton.setPreferredSize(new Dimension(150, 50));
 
         GridBagConstraints constraints = new GridBagConstraints();
-        constraints.insets = new Insets(20, 10, 20, 10);
+        constraints.insets = new Insets(25, 10, 10, 10); // Equal spacing for all buttons
         constraints.gridx = 0;
-        constraints.gridy = 0;
+        constraints.gridy = 1;
         constraints.anchor = GridBagConstraints.CENTER;
 
         mainPanel.add(levelSelectButton, constraints);
-        constraints.gridy = 1;
-        mainPanel.add(howToPlayButton, constraints);
         constraints.gridy = 2;
+        mainPanel.add(howToPlayButton, constraints);
+        constraints.gridy = 3;
         mainPanel.add(quitButton, constraints);
 
         // Initialize the currentScreen with the main content
         currentScreen = mainPanel;
-
         frame.setVisible(true);
-
-
     }
+
 
     public void addLevelButtonListener(ActionListener listener) {
         levelSelectButton.addActionListener(listener);
@@ -101,7 +94,7 @@ public class ProjectView {
     // Change the screen back to the main panel
     //Should this be in model?! I don't think so, but quite a lot of job for the view?
     public void showPreviousScreen() {
-        NewScreenPanel newScreen = new NewScreenPanel();
+
         frame.getContentPane().remove(currentScreen);
         frame.getContentPane().add(mainPanel);
         frame.getContentPane().revalidate();

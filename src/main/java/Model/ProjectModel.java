@@ -9,8 +9,8 @@ public class ProjectModel{
         int[] platformArea = platform.getArea();
         int ySmurf = smurf.getPos().y;
         int xSmurf = smurf.getCenterX();
-        int surface = platform.pos.y-50;
-        int under = platform.pos.y;
+        int surface = platform.getYPos()-50;
+        int under = platform.getYPos();
         int rightEdge = platformArea[2];
         int leftEdge = platformArea[0];
         //Make sure the player doesn't fall through platforms when on top and within left/right edges

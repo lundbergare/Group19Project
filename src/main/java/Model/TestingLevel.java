@@ -32,9 +32,9 @@ public class TestingLevel extends JPanel implements ActionListener, KeyListener 
 
     private JLabel coinLabel;
     private Platform platform;
+
     private Enemy enemy;
     private PlayerView playerView; // Declare it as a class-level field
-
     private EnemyView enemyView;
 
     //TODO: Add enemies in here as well!
@@ -50,7 +50,10 @@ public class TestingLevel extends JPanel implements ActionListener, KeyListener 
         enemyView = new EnemyView(enemy);
 
         coins = populateCoins();
-        platform = new Platform(10, 500);
+
+
+        platform = new Platform(10, 500, 300, 50);
+
         addKeyListener(this);
 
         setFocusTraversalKeysEnabled(false);
@@ -64,7 +67,7 @@ public class TestingLevel extends JPanel implements ActionListener, KeyListener 
 
     }
 
-//TODO: Move to some view, should probably not paint the screen in the model.
+//TODO: Move over all this into GameView: Should be no visual creating in the model (I think?)
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -76,6 +79,7 @@ public class TestingLevel extends JPanel implements ActionListener, KeyListener 
         }
         playerView.draw(g);
         platform.drawPlatform(g);
+
         enemyView.draw(g); // Draw the enemy
 
         //enemy.drawEnemy(g);
