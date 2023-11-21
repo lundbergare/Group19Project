@@ -1,5 +1,7 @@
 package View;
 
+import Controller.PlayerController;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
@@ -102,4 +104,6 @@ public class ProjectView {
         currentScreen = mainPanel;
     }
 
+    public void addKeyListener(PlayerController playerController) {
+    }
 }
