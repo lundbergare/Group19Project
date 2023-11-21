@@ -81,7 +81,7 @@ public class TestingLevel extends JPanel implements ActionListener, KeyListener 
         // Draw the player's score
         g.setColor(Color.BLACK); // color for the score text
         g.setFont(new Font("Arial", Font.BOLD, 20)); // font for score
-        g.drawString("Score: " + player.getScore(), 10, 20); // position of score on screen
+        g.drawString("Collected coins: " + player.getScore() + "/" + Coin.NUM_COINS, 10, 20); // position of score on screen
     }
 
 
