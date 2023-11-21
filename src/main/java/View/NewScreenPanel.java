@@ -8,7 +8,7 @@ import java.awt.event.ActionListener;
 
 //We will probably not use this class.
 
-//TODO: Should delete this, since it does not add anything right now.
+//TODO: Delete this one
 public class NewScreenPanel extends JPanel {
     private EnemyView enemy;
 

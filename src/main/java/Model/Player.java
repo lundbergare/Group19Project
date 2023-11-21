@@ -48,8 +48,6 @@ public class Player implements ActionListener, KeyListener {
         return height;
     }
 
-
-
     //While there is remaining jump height, the player will keep going up.
     // Jump height decreases by adding vertical (downwards) velocity for each tick.
 
@@ -155,7 +153,6 @@ public class Player implements ActionListener, KeyListener {
                 break;
             case KeyEvent.VK_D:
                 movingRight = true;
-
                 moveRightTick();
                 break;
             case KeyEvent.VK_A:
@@ -182,10 +179,6 @@ public class Player implements ActionListener, KeyListener {
     public void keyTyped(KeyEvent e) {
         // Implementation not necessary for your case, can be left empty
     }
-
-
-
-
 
 }
 
