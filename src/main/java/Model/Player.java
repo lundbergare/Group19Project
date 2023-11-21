@@ -14,6 +14,7 @@ public class Player implements ActionListener, KeyListener {
     private Point pos;
     //TODO not properly implemented score, needs reworking
     private int score;
+    private int numLives;
     private int width = 50;
     private int height = 50;
 
@@ -37,6 +38,7 @@ public class Player implements ActionListener, KeyListener {
         score = 0;
         verticalVelocity = 0;
         jumpHeightRemaining = 0;
+        numLives = 3;
 
     }
     //Draw the Smurf
@@ -124,7 +126,18 @@ public class Player implements ActionListener, KeyListener {
         score += amount;
     }
 
+    // TODO implement properly
+    public void addLives() {
 
+    }
+
+    public void removeLives() {
+
+    }
+
+    public int getLives() {
+        return numLives;
+    }
 
     public Point getPos() {
         return pos;
