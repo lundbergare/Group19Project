@@ -9,7 +9,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 
-public class Player implements ActionListener, KeyListener {
+public class Player implements ActionListener {
 
     private Point pos;
     //TODO not properly implemented score, needs reworking
@@ -50,8 +50,6 @@ public class Player implements ActionListener, KeyListener {
         return height;
     }
 
-
-
     //While there is remaining jump height, the player will keep going up.
     // Jump height decreases by adding vertical (downwards) velocity for each tick.
 
@@ -75,28 +73,28 @@ public class Player implements ActionListener, KeyListener {
     //TODO: Must also fix the moving right and left: seem to "pixellike"
     //Moves the player right ways while right direction true
     //Moves the player right ways while right direction true
-    private void moveRightTick(){
+    public void moveRightTick(){
         if (movingRight){
             pos.translate(1, 0);}
     }
 
     //Moves the player left ways while left direction true
     //Moves the player left ways while left direction true
-    private void moveLeftTick(){
+    public void moveLeftTick(){
         if (movingLeft){
             pos.translate(-1, 0);}
     }
 
 
     //TODO: fix the Jump function: jumps in a very weird way.
-    private void jump(){
+    public void jump(){
         verticalVelocity = JUMP_VELOCITY;
         jumpHeightRemaining = 120; // Set the maximum jump height
     }
 
     //While there is remaining jump height, the player will keep going up.
     // Jump height decreases by adding vertical (downwards) velocity for each tick.
-    private void jumpTick(){
+    public void jumpTick(){
         if (jumpHeightRemaining > 0) {
             pos.translate(0, verticalVelocity);
             jumpHeightRemaining += verticalVelocity;
@@ -106,6 +104,14 @@ public class Player implements ActionListener, KeyListener {
             verticalVelocity = GRAVITY;
             pos.translate(0, verticalVelocity);
         }
+    }
+
+    public void setMovingRight(boolean movingRight) {
+        this.movingRight = movingRight;
+    }
+
+    public void setMovingLeft(boolean movingLeft) {
+        this.movingLeft = movingLeft;
     }
 
 
@@ -152,52 +158,6 @@ public class Player implements ActionListener, KeyListener {
     public void actionPerformed(ActionEvent e) {
 
     }
-
-    //The player controls. W key activates the jump() method,
-    // and A and D turn their respective booleans true until the keys are released, where they are returned to false.
-
-
-    //TODO: Everything below here must be moved to a seperate controller, PlayerController. Does not adhere to MVC.
-    @Override
-    public void keyPressed(KeyEvent e) {
-        int key = e.getKeyCode();
-        switch (key) {
-            case KeyEvent.VK_W:
-                jump();
-
-                break;
-            case KeyEvent.VK_D:
-                movingRight = true;
-
-                moveRightTick();
-                break;
-            case KeyEvent.VK_A:
-                movingLeft = true;
-                moveLeftTick();
-                break;
-            // Handle other cases for different keys if needed
-        }
-        }
-    @Override
-    public void keyReleased(KeyEvent e) {
-        int key = e.getKeyCode();
-        switch (key) {
-            case KeyEvent.VK_D:
-                movingRight = false;
-                break;
-            case KeyEvent.VK_A:
-                movingLeft = false;
-                break;
-            // Handle other cases for different keys if needed
-        }
-    }
-    @Override
-    public void keyTyped(KeyEvent e) {
-        // Implementation not necessary for your case, can be left empty
-    }
-
-
-
 
 
 }

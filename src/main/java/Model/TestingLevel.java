@@ -1,5 +1,6 @@
 package Model;
 
+import Controller.PlayerController;
 import View.CoinView;
 import View.EnemyView;
 import View.PlayerView;
@@ -12,7 +13,7 @@ import javax.swing.*;
 
 
 
-public class TestingLevel extends JPanel implements ActionListener, KeyListener {
+public class TestingLevel extends JPanel implements ActionListener {
 
     // controls the delay between each tick in ms
     private final int DELAY = 1;
@@ -34,10 +35,13 @@ public class TestingLevel extends JPanel implements ActionListener, KeyListener 
     private Enemy enemy;
     private EnemyView enView;
     private PlayerView playerView; // Declare it as a class-level field
-
     private CoinView coinView; // Add this field
     private Image heartImage;
 
+
+    //TODO: Hmm, like the controls are a bit seperated now from the player, but this is really a God-class, as almost everything is done here.
+
+    //Move all drawing and visual stuff to the GameView instead
 
     public TestingLevel() {
         //initiate window background and objects
@@ -46,12 +50,20 @@ public class TestingLevel extends JPanel implements ActionListener, KeyListener 
 
         player = new Player();
         playerView = new PlayerView(player);
+        PlayerController playerController = new PlayerController(player);
+
+        addKeyListener(playerController);
+        setFocusable(true);
+        setFocusTraversalKeysEnabled(false);
         coinView = new CoinView();
+
         enemy=new Enemy(500, 450, 1, 850);
         //enemy = new Enemy(200,200,1,400);
         enView = new EnemyView(enemy);
-        platform = new Platform(10, 500, 400, 50);
-        addKeyListener(this);
+        platform = new Platform(90, 500, 400, 50);
+
+
+        //addKeyListener(this);
         setFocusable(true);
         setFocusTraversalKeysEnabled(false);
         //enemy = new Enemy(100, 100, 1, 20);
@@ -83,7 +95,8 @@ public class TestingLevel extends JPanel implements ActionListener, KeyListener 
 
         playerView.draw(g);
         enView.draw(g);
-        platform.drawPlatform(g);
+       platform.drawPlatform(g);
+
         //enemy.drawEnemy(g);
         // this smooths out animations on some systems
         Toolkit.getDefaultToolkit().sync();
@@ -109,6 +122,9 @@ public class TestingLevel extends JPanel implements ActionListener, KeyListener 
         player.tick();
         //enemy.moveRectangle(); //TODO enemy does not move
         //Activates collisions when necessary
+
+        //TODO: Make so that ALL platforms are collisionable, currently we now have to specify that a platform is collisionable :/
+
         ProjectModel.platformCollision(player, platform);
         Coin.collectCoins(player, coins);
         enemy.move();
@@ -134,19 +150,5 @@ public class TestingLevel extends JPanel implements ActionListener, KeyListener 
     //Populate the level with the coins and add to list of coins in level, returns list.
     // Currently only adapted for testing level
 
-//TODO: Does not adhere to MVC
-    @Override
-    public void keyTyped(KeyEvent e) {
-        player.keyTyped(e);
-    }
 
-    @Override
-    public void keyPressed(KeyEvent e) {
-        player.keyPressed(e);
-    }
-
-    @Override
-    public void keyReleased(KeyEvent e) {
-        player.keyReleased(e);
-    }
 }

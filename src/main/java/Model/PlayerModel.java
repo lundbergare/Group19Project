@@ -3,7 +3,7 @@ package Model;
 import java.awt.Color;
 import java.awt.Graphics;
 
-//TODO This does not follow MVC, FIX!!!
+//TODO We can delete this one, no one is using this
 public class PlayerModel {
     public int x, y;
     public int width;
