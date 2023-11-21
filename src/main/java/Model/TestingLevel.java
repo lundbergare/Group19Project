@@ -77,6 +77,11 @@ public class TestingLevel extends JPanel implements ActionListener, KeyListener 
         //enemy.drawEnemy(g);
         // this smooths out animations on some systems
         Toolkit.getDefaultToolkit().sync();
+
+        // Draw the player's score
+        g.setColor(Color.BLACK); // color for the score text
+        g.setFont(new Font("Arial", Font.BOLD, 20)); // font for score
+        g.drawString("Score: " + player.getScore(), 10, 20); // position of score on screen
     }
 
 

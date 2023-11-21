@@ -43,7 +43,7 @@ public class Coin {
         // if the player is within coin reach, collect it
         for (Coin coin: coins) {
             if (coinCollision(player, coin)) {
-                player.addScore(5); //TODO needs new implementation
+                player.addScore(1); //TODO needs new implementation
                 collectedCoins.add(coin);
             }
         }
