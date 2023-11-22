@@ -1,12 +1,7 @@
 package Model;
-import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.Graphics;
 import java.awt.Point;
-import java.awt.*;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 
 
 public class Player implements ActionListener {
@@ -59,14 +54,14 @@ public class Player implements ActionListener {
         // prevent the player from moving off the edge of the board sideways
         if (pos.x < 0) {
             pos.x = 0;
-        } else if (pos.x >= TestingLevel.YAXIS) {
-            pos.x = TestingLevel.YAXIS - 1;
+        } else if (pos.x >= Level1.YAXIS) {
+            pos.x = Level1.YAXIS - 1;
         }
         // prevent the player from moving off the edge of the board vertically
         if (pos.y < 0) {
             pos.y = 0;
-        } else if (pos.y >= TestingLevel.XAXIS) {
-            pos.y = TestingLevel.XAXIS - 1;
+        } else if (pos.y >= Level1.XAXIS) {
+            pos.y = Level1.XAXIS - 1;
         }
     }
 
