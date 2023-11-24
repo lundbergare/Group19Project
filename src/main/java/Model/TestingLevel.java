@@ -3,16 +3,13 @@ package Model;
 import Controller.PlayerController;
 import View.CoinView;
 import View.EnemyView;
+import View.PlatformView;
 import View.PlayerView;
 
 import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
-import java.util.Random;
 import javax.swing.*;
-
-
-
 public class TestingLevel extends JPanel implements ActionListener {
 
     // controls the delay between each tick in ms
@@ -22,7 +19,6 @@ public class TestingLevel extends JPanel implements ActionListener {
     public static final int XAXIS = 600;
 
     // suppress serialization warning, not really sure what it's supposed to do so commented out
-   // private static final long serialVersionUID = 490905409104883233L;
 
     // keep a reference to the timer object that triggers actionPerformed() in
     // case we need access to it in another method
@@ -30,19 +26,16 @@ public class TestingLevel extends JPanel implements ActionListener {
     // objects that appear on the game board
     private Player player;
     private ArrayList<Coin> coins;
-
     private Platform platform;
+    private PlatformView platformView;
     private Enemy enemy;
     private EnemyView enView;
     private PlayerView playerView; // Declare it as a class-level field
     private CoinView coinView; // Add this field
     private Image heartImage;
 
-
     //TODO: Hmm, like the controls are a bit seperated now from the player, but this is really a God-class, as almost everything is done here.
-
     //Move all drawing and visual stuff to the GameView instead
-
     public TestingLevel() {
         //initiate window background and objects
         setPreferredSize(new Dimension(YAXIS, XAXIS));
@@ -58,10 +51,9 @@ public class TestingLevel extends JPanel implements ActionListener {
         coinView = new CoinView();
 
         enemy=new Enemy(500, 450, 1, 850);
-        //enemy = new Enemy(200,200,1,400);
         enView = new EnemyView(enemy);
         platform = new Platform(90, 500, 400, 50);
-
+        platformView = new PlatformView(platform);
 
         //addKeyListener(this);
         setFocusable(true);
@@ -74,7 +66,6 @@ public class TestingLevel extends JPanel implements ActionListener {
         heartImage = heartImage.getScaledInstance(scaledWidth, scaledHeight, Image.SCALE_SMOOTH);
 
         coins = Coin.populateCoins();
-
         // this timer will call the actionPerformed() method every DELAY ms
         timer = new Timer(DELAY, this);
         timer.start();
@@ -84,19 +75,15 @@ public class TestingLevel extends JPanel implements ActionListener {
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-
         // draw our graphics.
         //drawBackground(g);
         textAA(g);
-
         for (Coin coin : coins) {
             coinView.drawCoin(g, coin); // Draw each coin
         }
-
         playerView.draw(g);
         enView.draw(g);
-       platform.drawPlatform(g);
-
+        platformView.draw(g);
         //enemy.drawEnemy(g);
         // this smooths out animations on some systems
         Toolkit.getDefaultToolkit().sync();

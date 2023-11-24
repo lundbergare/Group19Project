@@ -37,7 +37,6 @@ public class Level1 extends Level {
        //     drawCoin(g, coin);
         }
         playerView.draw(g);
-        platform.drawPlatform(g);
         drawPlayerInfo(g);
     }
 

@@ -24,10 +24,6 @@ public class Platform {
     }
     //TODO: Should have no drawing in the model!
     // Draws the visual representation of the platform
-    public void drawPlatform(Graphics g){
-        g.setColor(Color.gray);
-        g.fillRect(xPos, yPos, width, height);
-    }
     // Return a list of each corner of the platform
     public int[] getArea(){
         return new int[] {xPos, yPos, xPos+width, yPos+height};
@@ -38,6 +34,14 @@ public class Platform {
     }
     public int getYPos(){
         return yPos;
+    }
+
+    public int getWidth(){
+        return width;
+    }
+
+    public int getHeight(){
+        return height;
     }
 
 }

@@ -4,7 +4,7 @@ import java.awt.event.ActionListener;
 import java.awt.Point;
 
 
-public class Player implements ActionListener {
+public class Player {
 
     private Point pos;
     //TODO not properly implemented score, needs reworking
@@ -149,10 +149,6 @@ public class Player implements ActionListener {
         return this.pos.x+(this.width/2);
     }
 
-    @Override
-    public void actionPerformed(ActionEvent e) {
-
-    }
 
 
 }

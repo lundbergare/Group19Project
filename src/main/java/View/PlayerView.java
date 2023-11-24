@@ -6,7 +6,6 @@ import java.awt.*;
 
 public class PlayerView {
 
-
     private int playerWidth = 50;
     private int playerHeight = 50;
     private Player player;
