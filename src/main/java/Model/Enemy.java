@@ -15,7 +15,7 @@ public class Enemy {
         this.rectangleY = initialY;
         this.direction = initialDirection;
         this.maxXPosition = maxXPosition; // Set the maximum Y position
-        this.speed = 1; // Set the speed
+        this.speed = 6; // Set the speed
 
     }
 

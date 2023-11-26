@@ -21,9 +21,11 @@ public class Player {
 
     //Velocity used when calculating falling/jumping
     private int verticalVelocity;
+    private boolean isJumping = false;
+
 
     //Velocity when initially jumping
-    private final int JUMP_VELOCITY = -1;
+    private final int JUMP_VELOCITY = -10;
 
     // The maximum jump height when initially jumping, decreases while in air.
     private int jumpHeightRemaining;
@@ -70,21 +72,21 @@ public class Player {
     //Moves the player right ways while right direction true
     public void moveRightTick(){
         if (movingRight){
-            pos.translate(1, 0);}
+            pos.translate(8, 0);}
     }
 
     //Moves the player left ways while left direction true
     //Moves the player left ways while left direction true
     public void moveLeftTick(){
         if (movingLeft){
-            pos.translate(-1, 0);}
+            pos.translate(-8, 0);}
     }
 
 
     //TODO: fix the Jump function: jumps in a very weird way.
     public void jump(){
         verticalVelocity = JUMP_VELOCITY;
-        jumpHeightRemaining = 120; // Set the maximum jump height
+        jumpHeightRemaining = 200; // Set the maximum jump height
     }
 
     //While there is remaining jump height, the player will keep going up.
@@ -113,7 +115,6 @@ public class Player {
     public void tick() {
         // this gets called once every tick, before the repainting process happens.
         jumpTick();
-        levelBordersTick();
         moveRightTick();
         moveLeftTick();
     }

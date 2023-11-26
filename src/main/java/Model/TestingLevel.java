@@ -34,6 +34,10 @@ public class TestingLevel extends JPanel implements ActionListener {
     private CoinView coinView; // Add this field
     private Image heartImage;
 
+    private long lastTime = System.nanoTime();
+    private final double NS_PER_UPDATE = 1000000000.0 / 60.0; // 60 updates per second
+    private double accumulatedTime = 0.0;
+
     //TODO: Hmm, like the controls are a bit seperated now from the player, but this is really a God-class, as almost everything is done here.
     //Move all drawing and visual stuff to the GameView instead
     public TestingLevel() {
@@ -52,7 +56,7 @@ public class TestingLevel extends JPanel implements ActionListener {
 
         enemy=new Enemy(500, 450, 1, 850);
         enView = new EnemyView(enemy);
-        platform = new Platform(90, 500, 400, 50);
+        platform = new Platform(0, 500, 400, 50);
         platformView = new PlatformView(platform);
 
         //addKeyListener(this);
@@ -100,21 +104,33 @@ public class TestingLevel extends JPanel implements ActionListener {
         }
     }
 
+
     @Override
     public void actionPerformed(ActionEvent e) {
+
+        long now = System.nanoTime();
+        double delta = (now - lastTime) / NS_PER_UPDATE; // Calculate delta time
+        lastTime = now;
+
+        accumulatedTime += delta;
         // this method is called by the timer every DELAY ms.
         // use this space to update the state of the game or animation
         // before the graphics are redrawn.
         // allow for player control and prevent the player from disappearing off the board
-        player.tick();
         //enemy.moveRectangle(); //TODO enemy does not move
         //Activates collisions when necessary
+        while (accumulatedTime >= 1) {
+            player.tick(); // Update player logic
+            enemy.move();
+            // Other game logic updates here...
+            accumulatedTime -= 1;
+        }
+
 
         //TODO: Make so that ALL platforms are collisionable, currently we now have to specify that a platform is collisionable :/
 
         ProjectModel.platformCollision(player, platform);
         Coin.collectCoins(player, coins);
-        enemy.move();
 
         // calling repaint() will trigger paintComponent() to run again,
         // which will refresh/redraw the graphics.
