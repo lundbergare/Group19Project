@@ -12,7 +12,7 @@ public class Player {
     private int numLives;
     private int width = 50;
     private int height = 50;
-
+    
     private boolean movingRight = false;
     private boolean movingLeft = false;
 
@@ -56,14 +56,14 @@ public class Player {
         // prevent the player from moving off the edge of the board sideways
         if (pos.x < 0) {
             pos.x = 0;
-        } else if (pos.x >= TestingLevel.YAXIS) {
-            pos.x = TestingLevel.YAXIS - 1;
+        } else if (pos.x >= TestingLevel.XAXIS) {
+            pos.x = TestingLevel.XAXIS - 1;
         }
         // prevent the player from moving off the edge of the board vertically
         if (pos.y < 0) {
             pos.y = 0;
-        } else if (pos.y >= TestingLevel.XAXIS) {
-            pos.y = TestingLevel.XAXIS - 1;
+        } else if (pos.y >= TestingLevel.YAXIS) {
+            pos.y = TestingLevel.YAXIS - 1;
         }
     }
 

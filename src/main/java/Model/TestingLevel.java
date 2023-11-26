@@ -10,13 +10,15 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
 import javax.swing.*;
+
+//TODO Fix platform extension
 public class TestingLevel extends JPanel implements ActionListener {
 
     // controls the delay between each tick in ms
     private final int DELAY = 1;
     // controls the size of the board (wrong module?)
-    public static final int YAXIS = 800;
-    public static final int XAXIS = 600;
+    public static final int YAXIS = 600;
+    public static final int XAXIS = 1500;
 
     // suppress serialization warning, not really sure what it's supposed to do so commented out
 
@@ -34,6 +36,8 @@ public class TestingLevel extends JPanel implements ActionListener {
     private CoinView coinView; // Add this field
     private Image heartImage;
 
+    private LevelCamera camera;
+
     private long lastTime = System.nanoTime();
     private final double NS_PER_UPDATE = 1000000000.0 / 60.0; // 60 updates per second
     private double accumulatedTime = 0.0;
@@ -42,12 +46,14 @@ public class TestingLevel extends JPanel implements ActionListener {
     //Move all drawing and visual stuff to the GameView instead
     public TestingLevel() {
         //initiate window background and objects
-        setPreferredSize(new Dimension(YAXIS, XAXIS));
+        setPreferredSize(new Dimension(XAXIS, YAXIS));
         setBackground(new Color(68, 138, 184));
 
         player = new Player();
         playerView = new PlayerView(player);
         PlayerController playerController = new PlayerController(player);
+
+        camera = new LevelCamera(XAXIS, YAXIS);
 
         addKeyListener(playerController);
         setFocusable(true);
@@ -57,6 +63,7 @@ public class TestingLevel extends JPanel implements ActionListener {
         enemy=new Enemy(500, 450, 1, 850);
         enView = new EnemyView(enemy);
         platform = new Platform(0, 500, 400, 50);
+
         platformView = new PlatformView(platform);
 
         //addKeyListener(this);
@@ -79,18 +86,29 @@ public class TestingLevel extends JPanel implements ActionListener {
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
+        Graphics2D g2d = (Graphics2D) g;
         // draw our graphics.
         //drawBackground(g);
+        g2d.translate(-camera.getX(), -camera.getY());
         textAA(g);
         for (Coin coin : coins) {
-            coinView.drawCoin(g, coin); // Draw each coin
+            coinView.drawCoin(g2d, coin); // Draw each coin
         }
-        playerView.draw(g);
-        enView.draw(g);
-        platformView.draw(g);
+        playerView.draw(g2d);
+        enView.draw(g2d);
+        platformView.draw(g2d);
         //enemy.drawEnemy(g);
         // this smooths out animations on some systems
         Toolkit.getDefaultToolkit().sync();
+
+        // Create a copy of the Graphics instance
+        //Graphics2D g2d = (Graphics2D) g.create();
+
+        // Translate the graphics context to simulate camera movement
+
+        g2d.dispose(); // Dispose the graphics copy
+
+
 
         // Draw the player's score
         g.setColor(Color.BLACK); // color for the score text
@@ -126,7 +144,9 @@ public class TestingLevel extends JPanel implements ActionListener {
             accumulatedTime -= 1;
         }
 
-
+        // Update the camera position
+        camera.update(player.getPos(), 2000, 750); //
+        
         //TODO: Make so that ALL platforms are collisionable, currently we now have to specify that a platform is collisionable :/
 
         ProjectModel.platformCollision(player, platform);
