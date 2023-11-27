@@ -23,7 +23,7 @@ public class Player implements ActionListener {
     private int verticalVelocity;
 
     //Velocity when initially jumping
-    private final int JUMP_VELOCITY = -1;
+    private final int JUMP_VELOCITY = -10;
 
     // The maximum jump height when initially jumping, decreases while in air.
     private int jumpHeightRemaining;
