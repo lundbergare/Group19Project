@@ -57,13 +57,13 @@ public class Player {
         if (pos.x < 0) {
             pos.x = 0;
         } else if (pos.x >= TestingLevel.XAXIS) {
-            pos.x = TestingLevel.XAXIS - 1;
+            pos.x = TestingLevel.XAXIS - 50;
         }
         // prevent the player from moving off the edge of the board vertically
         if (pos.y < 0) {
             pos.y = 0;
         } else if (pos.y >= TestingLevel.YAXIS) {
-            pos.y = TestingLevel.YAXIS - 1;
+            pos.y = TestingLevel.YAXIS - 50;
         }
     }
 
@@ -117,6 +117,7 @@ public class Player {
         jumpTick();
         moveRightTick();
         moveLeftTick();
+        levelBordersTick();
     }
 
     //TODO score not working

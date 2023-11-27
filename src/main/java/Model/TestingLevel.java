@@ -8,6 +8,7 @@ import View.PlayerView;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.awt.geom.AffineTransform;
 import java.util.ArrayList;
 import javax.swing.*;
 
@@ -17,9 +18,9 @@ public class TestingLevel extends JPanel implements ActionListener {
     // controls the delay between each tick in ms
     private final int DELAY = 1;
     // controls the size of the board (wrong module?)
-    public static final int YAXIS = 600;
-    public static final int XAXIS = 1500;
-
+    
+    public static final int YAXIS = 1000;
+    public static final int XAXIS = 3000;
     // suppress serialization warning, not really sure what it's supposed to do so commented out
 
     // keep a reference to the timer object that triggers actionPerformed() in
@@ -53,7 +54,8 @@ public class TestingLevel extends JPanel implements ActionListener {
         playerView = new PlayerView(player);
         PlayerController playerController = new PlayerController(player);
 
-        camera = new LevelCamera(XAXIS, YAXIS);
+        //camera = new LevelCamera(XAXIS, YAXIS);
+        camera = new LevelCamera(1000, 750);
 
         addKeyListener(playerController);
         setFocusable(true);
@@ -62,7 +64,7 @@ public class TestingLevel extends JPanel implements ActionListener {
 
         enemy=new Enemy(500, 450, 1, 850);
         enView = new EnemyView(enemy);
-        platform = new Platform(0, 500, 400, 50);
+        platform = new Platform(0, 500, 1600, 50);
 
         platformView = new PlatformView(platform);
 
@@ -87,6 +89,9 @@ public class TestingLevel extends JPanel implements ActionListener {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g;
+
+        // Save the current transform
+        AffineTransform originalTransform = g2d.getTransform();
         // draw our graphics.
         //drawBackground(g);
         g2d.translate(-camera.getX(), -camera.getY());
@@ -101,14 +106,12 @@ public class TestingLevel extends JPanel implements ActionListener {
         // this smooths out animations on some systems
         Toolkit.getDefaultToolkit().sync();
 
+        g2d.setTransform(originalTransform);
+
         // Create a copy of the Graphics instance
         //Graphics2D g2d = (Graphics2D) g.create();
 
         // Translate the graphics context to simulate camera movement
-
-        g2d.dispose(); // Dispose the graphics copy
-
-
 
         // Draw the player's score
         g.setColor(Color.BLACK); // color for the score text
@@ -120,6 +123,7 @@ public class TestingLevel extends JPanel implements ActionListener {
         for (int i = 0; i < lives; i++) {
             g.drawImage(heartImage, 10 + (i * 30), 40, this); // Adjust position and spacing as needed
         }
+        g2d.dispose(); // dispose the graphics copy
     }
 
 
@@ -145,8 +149,8 @@ public class TestingLevel extends JPanel implements ActionListener {
         }
 
         // Update the camera position
-        camera.update(player.getPos(), 2000, 750); //
-        
+        //camera.update(player.getPos(), 2000, 750); //
+        camera.update(player.getPos(), 3000, 1000);
         //TODO: Make so that ALL platforms are collisionable, currently we now have to specify that a platform is collisionable :/
 
         ProjectModel.platformCollision(player, platform);
