@@ -52,6 +52,15 @@ public abstract class Level extends JPanel implements ActionListener {
         super.paintComponent(g);
         drawLevel(g);
         Toolkit.getDefaultToolkit().sync();
+        g.setColor(Color.BLACK); // color for the score text
+        g.setFont(new Font("Arial", Font.BOLD, 20)); // font for score
+        g.drawString("Collected coins: " + player.getScore() + "/" + Coin.NUM_COINS, 10, 20); // position of score on screen
+
+        // Draw the player's lives
+        int lives = player.getLives();
+        for (int i = 0; i < lives; i++) {
+            g.drawImage(heartImage, 10 + (i * 30), 40, this); // Adjust position and spacing as needed
+        }
     }
 
     protected abstract void drawLevel(Graphics g);
