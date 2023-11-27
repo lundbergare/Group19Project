@@ -35,7 +35,6 @@ public class TestingLevel extends JPanel implements ActionListener {
     private EnemyView enView;
     private PlayerView playerView; // Declare it as a class-level field
     private CoinView coinView; // Add this field
-    private Image heartImage;
 
     private LevelCamera camera;
 
@@ -72,11 +71,6 @@ public class TestingLevel extends JPanel implements ActionListener {
         setFocusable(true);
         setFocusTraversalKeysEnabled(false);
         //enemy = new Enemy(100, 100, 1, 20);
-        ImageIcon icon = new ImageIcon("src/main/java/Model/images/GameHeart.png");
-        heartImage = icon.getImage();
-        int scaledWidth = 25; // width
-        int scaledHeight = 25; // height
-        heartImage = heartImage.getScaledInstance(scaledWidth, scaledHeight, Image.SCALE_SMOOTH);
 
         coins = Coin.populateCoins();
         // this timer will call the actionPerformed() method every DELAY ms
@@ -112,17 +106,8 @@ public class TestingLevel extends JPanel implements ActionListener {
         //Graphics2D g2d = (Graphics2D) g.create();
 
         // Translate the graphics context to simulate camera movement
+        coinView.drawScoreAndLives(g, player);
 
-        // Draw the player's score
-        g.setColor(Color.BLACK); // color for the score text
-        g.setFont(new Font("Arial", Font.BOLD, 20)); // font for score
-        g.drawString("Collected coins: " + player.getScore() + "/" + Coin.NUM_COINS, 10, 20); // position of score on screen
-
-        // Draw the player's lives
-        int lives = player.getLives();
-        for (int i = 0; i < lives; i++) {
-            g.drawImage(heartImage, 10 + (i * 30), 40, this); // Adjust position and spacing as needed
-        }
         g2d.dispose(); // dispose the graphics copy
     }
 
