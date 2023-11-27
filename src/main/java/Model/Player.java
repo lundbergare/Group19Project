@@ -23,6 +23,9 @@ public class Player {
     private int verticalVelocity;
     private boolean isJumping = false;
 
+    private boolean canJump = true; // Flag to control jumping
+
+
 
     //Velocity when initially jumping
     private final int JUMP_VELOCITY = -10;
@@ -85,8 +88,11 @@ public class Player {
 
     //TODO: fix the Jump function: jumps in a very weird way.
     public void jump(){
+        if(canJump){
         verticalVelocity = JUMP_VELOCITY;
-        jumpHeightRemaining = 200; // Set the maximum jump height
+        jumpHeightRemaining = 150;
+        canJump = false;// Set the maximum jump height
+        }
     }
 
     //While there is remaining jump height, the player will keep going up.
@@ -101,6 +107,10 @@ public class Player {
             verticalVelocity = GRAVITY;
             pos.translate(0, verticalVelocity);
         }
+    }
+
+    public void land() {
+        canJump = true; // Allow jumping when the player lands
     }
 
     public void setMovingRight(boolean movingRight) {
