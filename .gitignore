@@ -3,7 +3,6 @@
 /workspace.xml
 target/
 target/classes/.idea/workspace.xml
-*.xml
 .classpath
 .project
 .settings/
@@ -17,3 +16,5 @@ target/classes/App$1.class
 target/classes/App$1.class
 target/classes/App.class
 target/classes/FirstSwingExample.class
+*.xml
+.idea/misc.xml
