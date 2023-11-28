@@ -21,14 +21,10 @@ public class Player {
 
     //Velocity used when calculating falling/jumping
     private int verticalVelocity;
-    private boolean isJumping = false;
+    private boolean canJump = true;
 
-    private boolean canJump = true; // Flag to control jumping
+    private boolean facingRight = true;
 
-
-
-    //Velocity when initially jumping
-    private final int JUMP_VELOCITY = -10;
 
     // The maximum jump height when initially jumping, decreases while in air.
     private int jumpHeightRemaining;
@@ -73,23 +69,32 @@ public class Player {
     //TODO: Must also fix the moving right and left: seem to "pixellike"
     //Moves the player right ways while right direction true
     //Moves the player right ways while right direction true
-    public void moveRightTick(){
-        if (movingRight){
-            pos.translate(8, 0);}
+    public void moveRightTick() {
+        if (movingRight) {
+            pos.translate(6, 0);
+            facingRight = true; // Player is moving right
+        }
     }
 
     //Moves the player left ways while left direction true
     //Moves the player left ways while left direction true
-    public void moveLeftTick(){
-        if (movingLeft){
-            pos.translate(-8, 0);}
+    public void moveLeftTick() {
+        if (movingLeft) {
+            pos.translate(-6, 0);
+            facingRight = false; // Player is moving left
+        }
+    }
+
+    public boolean isStandingStill() {
+        return !movingLeft && !movingRight;
     }
 
 
     //TODO: fix the Jump function: jumps in a very weird way.
     public void jump(){
         if(canJump){
-        verticalVelocity = JUMP_VELOCITY;
+            //Velocity when initially jumping
+            verticalVelocity = -10;
         jumpHeightRemaining = 150;
         canJump = false;// Set the maximum jump height
         }
@@ -137,6 +142,14 @@ public class Player {
 
     public void addScore(int amount) {
         score += amount;
+    }
+
+    public boolean isFacingRight() {
+        return facingRight;
+    }
+
+    public void setFacingRight(boolean facingRight) {
+        this.facingRight = facingRight;
     }
 
     // TODO implement properly

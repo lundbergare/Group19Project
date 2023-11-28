@@ -25,9 +25,10 @@ public class Platform {
     //TODO: Should have no drawing in the model!
     // Draws the visual representation of the platform
     // Return a list of each corner of the platform
-    public int[] getArea(){
-        return new int[] {xPos, yPos, xPos+width, yPos+height};
+    public int[] getArea() {
+        return new int[] { xPos, yPos, xPos + width, yPos + height };
     }
+
 
     public int getXPos(){
         return xPos;

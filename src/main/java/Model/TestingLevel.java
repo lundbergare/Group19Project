@@ -29,18 +29,20 @@ public class TestingLevel extends JPanel implements ActionListener {
     // objects that appear on the game board
     private Player player;
     private ArrayList<Coin> coins;
-    private Platform platform;
-    private PlatformView platformView;
     private Enemy enemy;
     private EnemyView enView;
-    private PlayerView playerView; // Declare it as a class-level field
-    private CoinView coinView; // Add this field
+
+    private PlayerView playerView;
+    private CoinView coinView;
 
     private LevelCamera camera;
 
     private long lastTime = System.nanoTime();
     private final double NS_PER_UPDATE = 1000000000.0 / 60.0; // 60 updates per second
     private double accumulatedTime = 0.0;
+
+    private ArrayList<Platform> platforms; // Declare the ArrayList for platforms
+
 
     //TODO: Hmm, like the controls are a bit seperated now from the player, but this is really a God-class, as almost everything is done here.
     //Move all drawing and visual stuff to the GameView instead
@@ -61,11 +63,26 @@ public class TestingLevel extends JPanel implements ActionListener {
         setFocusTraversalKeysEnabled(false);
         coinView = new CoinView();
 
-        enemy=new Enemy(500, 450, 1, 850);
-        enView = new EnemyView(enemy);
-        platform = new Platform(0, 500, 1600, 50);
 
-        platformView = new PlatformView(platform);
+
+
+        enemy=new Enemy(500, 450, 1, 850);
+
+
+        enView = new EnemyView(enemy);
+
+
+        platforms = new ArrayList<>();
+
+        Platform platform1 = new Platform(0, 500, 300, 50);
+        Platform platform2 = new Platform(370, 500, 200, 50);
+        Platform platform3 = new Platform(400, 300, 200, 50);
+        Platform platform4 = new Platform(670, 300, 200, 50);
+
+        platforms.add(platform1);
+        platforms.add(platform2);
+        platforms.add(platform3);
+        platforms.add(platform4);
 
         //addKeyListener(this);
         setFocusable(true);
@@ -94,11 +111,14 @@ public class TestingLevel extends JPanel implements ActionListener {
             coinView.drawCoin(g2d, coin); // Draw each coin
         }
         playerView.draw(g2d);
+
         enView.draw(g2d);
-        platformView.draw(g2d);
-        //enemy.drawEnemy(g);
-        // this smooths out animations on some systems
-        Toolkit.getDefaultToolkit().sync();
+
+        for (Platform platform : platforms) {
+            PlatformView platformView = new PlatformView(platforms);
+            platformView.draw(g2d);
+        }
+       // Toolkit.getDefaultToolkit().sync();
 
         g2d.setTransform(originalTransform);
 
@@ -120,25 +140,19 @@ public class TestingLevel extends JPanel implements ActionListener {
         lastTime = now;
 
         accumulatedTime += delta;
-        // this method is called by the timer every DELAY ms.
-        // use this space to update the state of the game or animation
-        // before the graphics are redrawn.
-        // allow for player control and prevent the player from disappearing off the board
-        //enemy.moveRectangle(); //TODO enemy does not move
-        //Activates collisions when necessary
+
+        ProjectModel.platformCollision(player, platforms);
+
         while (accumulatedTime >= 1) {
             player.tick(); // Update player logic
             enemy.move();
             // Other game logic updates here...
             accumulatedTime -= 1;
         }
-
         // Update the camera position
         //camera.update(player.getPos(), 2000, 750); //
         camera.update(player.getPos(), 3000, 1000);
-        //TODO: Make so that ALL platforms are collisionable, currently we now have to specify that a platform is collisionable :/
 
-        ProjectModel.platformCollision(player, platform);
         Coin.collectCoins(player, coins);
 
         // calling repaint() will trigger paintComponent() to run again,
