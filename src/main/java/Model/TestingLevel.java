@@ -63,7 +63,7 @@ public class TestingLevel extends JPanel implements ActionListener, IBoundary {
         coinView = new CoinView();
 
 
-        enemy=new Enemy(500, 450, 1, 850);
+        enemy=new Enemy(500, 450, 1, 850,50,50);
 
         enView = new EnemyView(enemy);
 
@@ -141,6 +141,8 @@ public class TestingLevel extends JPanel implements ActionListener, IBoundary {
         while (accumulatedTime >= 1) {
             player.tick(); // Update player logic
             enemy.move();
+            enemy.kill(player, enemy);
+            player.kill(player, enemy);
             // Other game logic updates here...
             accumulatedTime -= 1;
         }

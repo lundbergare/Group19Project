@@ -33,7 +33,7 @@ public class Level1 extends Level {
         platforms.add(platform);
         coins = Coin.populateCoins();
         coinView = new CoinView();
-        enemy = new Enemy(100, 100, 1, 30);
+        enemy = new Enemy(100, 100, 1, 30,50,50);
         enemyView = new EnemyView(enemy);
     }
 

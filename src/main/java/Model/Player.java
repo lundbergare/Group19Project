@@ -3,9 +3,9 @@ package Model;
 import java.awt.Point;
 
 
-public class Player {
+public class Player implements interfacekill {
 
-    private Point pos;
+    public Point pos;
     //TODO not properly implemented score, needs reworking
     private int score;
     private int numLives;
@@ -111,6 +111,9 @@ public class Player {
             pos.translate(0, verticalVelocity);
         }
     }
+    public void setPos(Point pos){
+        this.pos=pos;
+    }
 
     public void land() {
         canJump = true; // Allow jumping when the player lands
@@ -171,8 +174,29 @@ public class Player {
     public int getCenterX(){
         return this.pos.x+(this.width/2);
     }
+    @Override
+    public void kill(Player smurf, Enemy enemy) {
+ 
+            if (collision(smurf, enemy)){
+                enemy.setRectangleY(-100);
+                enemy.setRectangleX(-100);
+            
+        }
+    }
+    @Override
+    public boolean collision(Player smurf, Enemy enemy) {
+        int yEnemyTop = enemy.getRectangleY() - 50;  // Top of the enemy
+        int yEnemyBottom = enemy.getRectangleY();     // Bottom of the enemy
+        int playerBottom = smurf.getPos().y;          // Bottom of the player
+        if (playerBottom >= yEnemyTop && playerBottom <= yEnemyBottom
+                && smurf.getPos().x >= enemy.getRectangleX() && smurf.getPos().x <= enemy.getRectangleX() + enemy.getWidth()) {
+            return true;
+        }
+        return false;
+    }
+    }
 
 
 
-}
+
 
