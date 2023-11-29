@@ -28,6 +28,8 @@ public class Level1 extends Level {
     public Level1() {
         super();
         platform = new Platform(90, 500, 400, 50);
+        platforms = new ArrayList<>();
+
         platforms.add(platform);
         coins = Coin.populateCoins();
         coinView = new CoinView();
@@ -55,5 +57,15 @@ public class Level1 extends Level {
 
     private void drawPlayerInfo(Graphics g) {
 
+    }
+
+    @Override
+    public int getXAxisLimit() {
+        return XAXIS;
+    }
+
+    @Override
+    public int getYAxisLimit() {
+        return YAXIS;
     }
 }

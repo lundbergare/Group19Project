@@ -4,7 +4,11 @@ import java.util.ArrayList;
 
 public class ProjectModel {
 
+    //TODO Could argue that the name of the file is not fitting?
+
     public static void platformCollision(Player smurf, ArrayList<Platform> platforms) {
+
+
         boolean onPlatform = false;
         for (Platform platform : platforms) {
             int[] platformArea = platform.getArea();
@@ -16,7 +20,7 @@ public class ProjectModel {
             int leftEdge = platformArea[0];
 
             // Check if the player is on the current platform
-            if ((ySmurf > surface) && (xSmurf < rightEdge) && (xSmurf > leftEdge) && (ySmurf < under)) {
+            if ((ySmurf >= surface) && (ySmurf <= under)  && (xSmurf > leftEdge) && (xSmurf < rightEdge) ) {
                 smurf.GRAVITY = 0;
                 smurf.land();
                 onPlatform = true;

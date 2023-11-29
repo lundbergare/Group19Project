@@ -13,14 +13,14 @@ import java.util.ArrayList;
 import javax.swing.*;
 
 //TODO Fix platform extension
-public class TestingLevel extends JPanel implements ActionListener {
+public class TestingLevel extends JPanel implements ActionListener, IBoundary {
 
     // controls the delay between each tick in ms
     private final int DELAY = 1;
     // controls the size of the board (wrong module?)
     
-    public static final int YAXIS = 1000;
-    public static final int XAXIS = 3000;
+    private static final int YAXIS = 1000;
+    private static final int XAXIS = 3000;
     // suppress serialization warning, not really sure what it's supposed to do so commented out
 
     // keep a reference to the timer object that triggers actionPerformed() in
@@ -51,11 +51,10 @@ public class TestingLevel extends JPanel implements ActionListener {
         setPreferredSize(new Dimension(XAXIS, YAXIS));
         setBackground(new Color(68, 138, 184));
 
-        player = new Player();
+        player = new Player(this);
         playerView = new PlayerView(player);
         PlayerController playerController = new PlayerController(player);
 
-        //camera = new LevelCamera(XAXIS, YAXIS);
         camera = new LevelCamera(1000, 750);
 
         addKeyListener(playerController);
@@ -64,13 +63,9 @@ public class TestingLevel extends JPanel implements ActionListener {
         coinView = new CoinView();
 
 
-
-
         enemy=new Enemy(500, 450, 1, 850);
 
-
         enView = new EnemyView(enemy);
-
 
         platforms = new ArrayList<>();
 
@@ -171,6 +166,16 @@ public class TestingLevel extends JPanel implements ActionListener {
         // set the text color and font
         g2d.setColor(new Color(30, 201, 139));
         g2d.setFont(new Font("Lato", Font.BOLD, 25));
+    }
+
+    @Override
+    public int getXAxisLimit() {
+        return XAXIS;
+    }
+
+    @Override
+    public int getYAxisLimit() {
+        return YAXIS;
     }
 
     //Populate the level with the coins and add to list of coins in level, returns list.

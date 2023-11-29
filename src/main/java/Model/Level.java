@@ -7,7 +7,7 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
-public abstract class Level extends JPanel implements ActionListener {
+public abstract class Level extends JPanel implements ActionListener, IBoundary {
 
     protected static final int YAXIS = 800;
     protected static final int XAXIS = 600;
@@ -23,7 +23,7 @@ public abstract class Level extends JPanel implements ActionListener {
         setPreferredSize(new Dimension(YAXIS, XAXIS));
         setBackground(new Color(68, 138, 184));
 
-        player = new Player();
+        player = new Player(this);
         playerView = new PlayerView(player);
         playerController = new PlayerController(player);
 

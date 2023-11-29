@@ -24,7 +24,7 @@ public class Coin {
         return pos;
     }
 
-    public static ArrayList populateCoins() { //TODO separate drawing coins and adding to coin list
+    public static ArrayList populateCoins() {
         ArrayList coinList = new ArrayList<>();
 
         for (int i = 0; i < NUM_COINS; i++) {

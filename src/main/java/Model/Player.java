@@ -1,6 +1,5 @@
 package Model;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+
 import java.awt.Point;
 
 
@@ -24,17 +23,18 @@ public class Player {
     private boolean canJump = true;
 
     private boolean facingRight = true;
-
+    private IBoundary boundary;
 
     // The maximum jump height when initially jumping, decreases while in air.
     private int jumpHeightRemaining;
-    public Player() {
+    public Player(IBoundary boundary) {
         // initialize the state
         pos = new Point(10, 0);
         score = 0;
         verticalVelocity = 0;
         jumpHeightRemaining = 0;
         numLives = 3;
+        this.boundary = boundary;
 
     }
     //Draw the Smurf
@@ -49,20 +49,18 @@ public class Player {
     //While there is remaining jump height, the player will keep going up.
     // Jump height decreases by adding vertical (downwards) velocity for each tick.
 
-    //TODO: The player should not depend on the TestingLevel class.
-
     private void levelBordersTick(){
         // prevent the player from moving off the edge of the board sideways
         if (pos.x < 0) {
             pos.x = 0;
-        } else if (pos.x >= TestingLevel.XAXIS) {
-            pos.x = TestingLevel.XAXIS - 50;
+        } else if (pos.x >= boundary.getXAxisLimit()) {
+            pos.x = boundary.getXAxisLimit() - 50;
         }
         // prevent the player from moving off the edge of the board vertically
         if (pos.y < 0) {
             pos.y = 0;
-        } else if (pos.y >= TestingLevel.YAXIS) {
-            pos.y = TestingLevel.YAXIS - 50;
+        } else if (pos.y >= boundary.getYAxisLimit()) {
+            pos.y = boundary.getYAxisLimit() - 50;
         }
     }
 

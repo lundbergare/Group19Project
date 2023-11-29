@@ -14,7 +14,7 @@ public class PlayerView {
 
     private BufferedImage standingStillImage; // Image for standing still
 
-    private Player player;
+    private final Player player;
     private int scaledWidth = 50; // Width for image
     private int scaledHeight = 50; // Height for image
 
