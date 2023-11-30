@@ -1,4 +1,6 @@
 package Model;
+import View.PlayerView;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.Point;
@@ -12,9 +14,12 @@ public class Player {
     private int numLives;
     private int width = 50;
     private int height = 50;
-    
+
     private boolean movingRight = false;
     private boolean movingLeft = false;
+
+    private boolean isPoweredUp = false;
+    private long powerUpEndTime;
 
     //Player will fall down at 2 px/tick gravity by default
     public int GRAVITY = 2;
@@ -28,6 +33,7 @@ public class Player {
 
     // The maximum jump height when initially jumping, decreases while in air.
     private int jumpHeightRemaining;
+
     public Player() {
         // initialize the state
         pos = new Point(10, 0);
@@ -37,6 +43,7 @@ public class Player {
         numLives = 3;
 
     }
+
     //Draw the Smurf
     public int getWidth() {
         return width;
@@ -51,7 +58,7 @@ public class Player {
 
     //TODO: The player should not depend on the TestingLevel class.
 
-    private void levelBordersTick(){
+    private void levelBordersTick() {
         // prevent the player from moving off the edge of the board sideways
         if (pos.x < 0) {
             pos.x = 0;
@@ -91,23 +98,22 @@ public class Player {
 
 
     //TODO: fix the Jump function: jumps in a very weird way.
-    public void jump(){
-        if(canJump){
+    public void jump() {
+        if (canJump) {
             //Velocity when initially jumping
             verticalVelocity = -10;
-        jumpHeightRemaining = 150;
-        canJump = false;// Set the maximum jump height
+            jumpHeightRemaining = 150;
+            canJump = false;// Set the maximum jump height
         }
     }
 
     //While there is remaining jump height, the player will keep going up.
     // Jump height decreases by adding vertical (downwards) velocity for each tick.
-    public void jumpTick(){
+    public void jumpTick() {
         if (jumpHeightRemaining > 0) {
             pos.translate(0, verticalVelocity);
             jumpHeightRemaining += verticalVelocity;
-        }
-        else {
+        } else {
             // else Apply gravity (player falls down)
             verticalVelocity = GRAVITY;
             pos.translate(0, verticalVelocity);
@@ -133,6 +139,12 @@ public class Player {
         moveRightTick();
         moveLeftTick();
         levelBordersTick();
+        if (isPoweredUp && System.currentTimeMillis() > powerUpEndTime) {
+            isPoweredUp = false;
+
+            width /= 1.8;
+            height /= 1.8;
+        }
     }
 
     //TODO score not working
@@ -170,11 +182,22 @@ public class Player {
     }
 
     //Used for collisions
-    public int getCenterX(){
-        return this.pos.x+(this.width/2);
+    public int getCenterX() {
+        return this.pos.x + (this.width / 2);
     }
 
+    public void applyPowerUp(PowerUpModel powerUp) {
+        if (powerUp.isEffectActive()) {
+            isPoweredUp = true;
+            powerUpEndTime = System.currentTimeMillis() + 5000; // 5 seconds from now
+            int oldHeight = height;
+            // Double the size
+            width *= 1.8;
+            height *= 1.8;
 
-
+            int heightDifference = height - oldHeight;
+            // Adjust the Y position
+            pos.y -= heightDifference;
+        }
+    }
 }
-
