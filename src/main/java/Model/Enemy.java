@@ -60,7 +60,7 @@ public class Enemy implements interfacekill {
         int rightSide = enemyArea[2];
         int leftSide = enemyArea[0];
         // Player has to be inside the enemy (above underside, inside left and right) to collide
-        if (ySmurfTop >= topSide + 5 && xSmurf > leftSide && xSmurf < rightSide) {
+        if (ySmurfTop <= underSide-5 &&ySmurfTop >= topSide + 5 && xSmurf > leftSide && xSmurf < rightSide) {
             return true;
         }
         return false;
