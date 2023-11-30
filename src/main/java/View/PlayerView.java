@@ -1,6 +1,7 @@
 package View;
 
 import Model.Player;
+import Model.PowerUpModel;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -14,7 +15,7 @@ public class PlayerView {
 
     private BufferedImage standingStillImage; // Image for standing still
 
-    private final Player player;
+    private Player player;
     private int scaledWidth = 50; // Width for image
     private int scaledHeight = 50; // Height for image
 
@@ -34,22 +35,24 @@ public class PlayerView {
         if (playerImage != null && standingStillImage != null) {
             int x = player.getPos().x;
             int y = player.getPos().y;
+            int width = player.getWidth(); // width from Player
+            int height = player.getHeight(); // height from Player
 
             if (player.isFacingRight()) {
                 if (player.isStandingStill()) {
                     // Standing still
-                    g.drawImage(standingStillImage, x, y, scaledWidth, scaledHeight, null);
+                    g.drawImage(standingStillImage, x, y, width, height, null);
                 } else {
                     // Moving right
-                    g.drawImage(playerImage, x, y, scaledWidth, scaledHeight, null);
+                    g.drawImage(playerImage, x, y, width, height, null);
                 }
             } else {
                 if (player.isStandingStill()) {
                     // Draw the standing still flipped image when facing left and not moving
-                    g.drawImage(standingStillImage, x + scaledWidth, y, -scaledWidth, scaledHeight, null);
+                    g.drawImage(standingStillImage, x + width, y, -width, height, null);
                 } else {
                     // Moving left(flipped image)
-                    g.drawImage(playerImage, x + scaledWidth, y, -scaledWidth, scaledHeight, null);
+                    g.drawImage(playerImage, x + width, y, -width, height, null);
                 }
             }
         } else {
