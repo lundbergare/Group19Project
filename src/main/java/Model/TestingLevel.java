@@ -1,10 +1,7 @@
 package Model;
 
 import Controller.PlayerController;
-import View.CoinView;
-import View.EnemyView;
-import View.PlatformView;
-import View.PlayerView;
+import View.*;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -35,6 +32,9 @@ public class TestingLevel extends JPanel implements ActionListener, IBoundary {
     private PlayerView playerView;
     private CoinView coinView;
 
+    private PowerUpModel powerUpModel;
+    private PowerUpView powerUpView;
+
     private LevelCamera camera;
 
     private long lastTime = System.nanoTime();
@@ -56,6 +56,9 @@ public class TestingLevel extends JPanel implements ActionListener, IBoundary {
         PlayerController playerController = new PlayerController(player);
 
         camera = new LevelCamera(1000, 750);
+
+        powerUpModel = new PowerUpModel(200, 420);
+        powerUpView = new PowerUpView();
 
         addKeyListener(playerController);
         setFocusable(true);
@@ -109,6 +112,8 @@ public class TestingLevel extends JPanel implements ActionListener, IBoundary {
 
         enView.draw(g2d);
 
+        powerUpView.draw(g2d, powerUpModel);
+
         for (Platform platform : platforms) {
             PlatformView platformView = new PlatformView(platforms);
             platformView.draw(g2d);
@@ -126,6 +131,18 @@ public class TestingLevel extends JPanel implements ActionListener, IBoundary {
         g2d.dispose(); // dispose the graphics copy
     }
 
+    public boolean checkCollision(Player player, PowerUpModel powerUp) {
+        if (!powerUp.isActive()) {
+            return false; // No collision if the power-up is not active
+        }
+
+        Rectangle playerRect = new Rectangle(player.getPos().x, player.getPos().y, player.getWidth(), player.getHeight());
+        Point powerUpPos = powerUp.getPosition();
+        Rectangle powerUpRect = new Rectangle(powerUpPos.x, powerUpPos.y, 30, 30);
+
+        return playerRect.intersects(powerUpRect);
+    }
+
 
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -137,6 +154,11 @@ public class TestingLevel extends JPanel implements ActionListener, IBoundary {
         accumulatedTime += delta;
 
         ProjectModel.platformCollision(player, platforms);
+
+        if (checkCollision(player, powerUpModel)) {
+            powerUpModel.activate();
+            player.applyPowerUp(powerUpModel);
+        }
 
         while (accumulatedTime >= 1) {
             player.tick(); // Update player logic

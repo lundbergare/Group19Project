@@ -23,7 +23,7 @@ public class EnemyView implements Observer {
         this.enemy = enemy;
         try {
             // Load your enemy image file
-            enemyImage = ImageIO.read(new File("C:\\Users\\halal\\Documents\\GitHub\\Group19Project-1\\src\\main\\java\\View\\ImagesForView\\enemyright.png"));
+            enemyImage = ImageIO.read(new File("src/main/java/View/ImagesForView/enemyright.png"));
 
         } catch (IOException e) {
             e.printStackTrace();
