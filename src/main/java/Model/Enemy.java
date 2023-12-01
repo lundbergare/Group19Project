@@ -95,6 +95,7 @@ public class Enemy extends Observable implements interfacekill {
              if (collision(smurf, enemy)){
 
                 smurf.setPos(new Point(50,50));
+                smurf.die();
             };
                 notifyObservers();
 

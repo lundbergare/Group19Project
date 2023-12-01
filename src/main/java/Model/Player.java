@@ -9,6 +9,10 @@ public class Player implements interfacekill {
     //TODO not properly implemented score, needs reworking
     private int score;
     private int numLives;
+    
+    public void setNumLives(int numLives) {
+        this.numLives = numLives;
+    }
     private int width = 50;
     private int height = 50;
     
@@ -143,6 +147,9 @@ public class Player implements interfacekill {
 
     public void addScore(int amount) {
         score += amount;
+    }
+    public void die () {
+        numLives -= 1;
     }
 
     public boolean isFacingRight() {
