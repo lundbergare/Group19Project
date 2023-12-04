@@ -42,5 +42,17 @@ public class CoinView {
             g.drawImage(heartImage, 10 + (i * 30), 40, null);
         }
     }
+
+    public void drawScoreAndLivesView(Graphics g, String score, int lives) {
+        // Draw the player's score
+        g.setColor(Color.BLACK);
+        g.setFont(new Font("Arial", Font.BOLD, 20));
+        g.drawString("Collected coins: " + score + "/" + Coin.NUM_COINS, 10, 20);
+
+        // Draw the player's lives
+        for (int i = 0; i < lives; i++) {
+            g.drawImage(heartImage, 10 + (i * 30), 40, null);
+        }
+    }
 }
 
