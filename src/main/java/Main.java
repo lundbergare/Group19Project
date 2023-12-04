@@ -12,7 +12,6 @@ public class Main {
     //TODO: This is not correct according to MVC, but oh well
 
     private static void initWindow() {
-        ProjectModel model = new ProjectModel();
         ProjectView view = new ProjectView();
         ProjectController controller = new ProjectController(view);
 

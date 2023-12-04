@@ -3,7 +3,7 @@ package Model;
 import java.awt.*;
 import java.util.ArrayList;
 
-public class Coin {
+public class Coin implements ICollectable {
 
     private Point pos;
 
@@ -24,6 +24,27 @@ public class Coin {
         return pos;
     }
 
+    @Override
+    public boolean checkCollision(Player smurf) {
+        int[] coinArea = getArea();
+        int ySmurf = smurf.getPos().y-25;
+        int xSmurf = smurf.getCenterX();
+        int topSide = getPos().y-50;
+        int underSide = getPos().y;
+        int rightSide = coinArea[2];
+        int leftSide = coinArea[0];
+        // Player has to be inside the coin (below topside, above underside, inside left and right) to collect
+        if ((ySmurf >= topSide+5 && ySmurf <= underSide-5) && (xSmurf > leftSide && xSmurf < rightSide)){
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public void collect(Player player) {
+
+    }
+
     public static ArrayList populateCoins() {
         ArrayList coinList = new ArrayList<>();
 
@@ -35,36 +56,18 @@ public class Coin {
 
         return coinList;
     }
-
-    // Collect a coin when it is within reach (coinCollision), add the coin to array of collected coins
     public static void collectCoins(Player player, ArrayList<Coin> coins){
         // Array of collected coins
         ArrayList<Coin> collectedCoins = new ArrayList<>();
-        // if the player is within coin reach, collect it
+        // Collect coins that the player is in contact with
         for (Coin coin: coins) {
-            if (coinCollision(player, coin)) {
-                player.addScore(1); //TODO needs new implementation
+            if (coin.checkCollision(player)) {
+                player.addScore(1);
                 collectedCoins.add(coin);
             }
         }
-        // remove collected coins from the level
+        // Remove collected coins from the level
         coins.removeAll(collectedCoins);
-    }
-
-    // Returns true if player is within reach of collecting coin, otherwise false
-    public static boolean coinCollision(Player smurf, Coin coin){
-        int[] coinArea = coin.getArea();
-        int ySmurf = smurf.getPos().y-25;
-        int xSmurf = smurf.getCenterX();
-        int topSide = coin.getPos().y-50;
-        int underSide = coin.getPos().y;
-        int rightSide = coinArea[2];
-        int leftSide = coinArea[0];
-        // Player has to be inside the coin (below topside, above underside, inside left and right) to collect
-        if ((ySmurf >= topSide+5 && ySmurf <= underSide-5) && (xSmurf > leftSide && xSmurf < rightSide)){
-            return true;
-        }
-        return false;
     }
 
     public int getCenterX(){

@@ -88,12 +88,12 @@ public class TestingLevel extends JPanel implements ActionListener, IBoundary {
 
         enView = new EnemyView(enemy);
 
+        //Code below here is quite ugly, but I don't know.
         platforms = new ArrayList<>();
-
-        Platform platform1 = new Platform(0, 500, 300, 50);
-        Platform platform2 = new Platform(370, 500, 200, 50);
-        Platform platform3 = new Platform(400, 300, 200, 50);
-        Platform platform4 = new Platform(670, 300, 200, 50);
+        Platform platform1 = PlatformFactory.createPlatform(0,600,200,50);
+        Platform platform2 = PlatformFactory.createPlatform(370, 500, 200, 50);
+        Platform platform3 = PlatformFactory.createPlatform(400,300,200,50);
+        Platform platform4 = PlatformFactory.createPlatform(670,300,200,50);
 
         platforms.add(platform1);
         platforms.add(platform2);
@@ -141,8 +141,8 @@ public class TestingLevel extends JPanel implements ActionListener, IBoundary {
 
         shieldPowerUpView.draw(g2d, shieldPowerUpModel);
 
+        PlatformView platformView = new PlatformView(platforms);
         for (Platform platform : platforms) {
-            PlatformView platformView = new PlatformView(platforms);
             platformView.draw(g2d);
         }
        // Toolkit.getDefaultToolkit().sync();
@@ -158,7 +158,7 @@ public class TestingLevel extends JPanel implements ActionListener, IBoundary {
 
         g2d.dispose(); // dispose the graphics copy
     }
-
+//TODO Change all of this, should probably not be in the TestingLevel class, and code duplication.
     public boolean checkCollision(Player player, PowerUpModel powerUp) {
         if (!powerUp.isActive()) {
             return false; // No collision if the power-up is not active
@@ -241,14 +241,13 @@ public class TestingLevel extends JPanel implements ActionListener, IBoundary {
         camera.update(player.getPos(), 3000, 1000);
         Key.collectKeys(player, keys);
 
+
         Coin.collectCoins(player, coins);
         // calling repaint() will trigger paintComponent() to run again,
         // which will refresh/redraw the graphics.
         repaint();
     }
-
     // these are not used but must be defined as part of the KeyListener interface
-
     //Supposed to make text and certain edges look smoother, does not always work. Also adds font to Coin "5"
     private void textAA(Graphics g) {
         Graphics2D g2d = (Graphics2D) g;
@@ -259,19 +258,14 @@ public class TestingLevel extends JPanel implements ActionListener, IBoundary {
         g2d.setColor(new Color(30, 201, 139));
         g2d.setFont(new Font("Lato", Font.BOLD, 25));
     }
-
     @Override
     public int getXAxisLimit() {
         return XAXIS;
     }
-
     @Override
     public int getYAxisLimit() {
         return YAXIS;
     }
-
     //Populate the level with the coins and add to list of coins in level, returns list.
     // Currently only adapted for testing level
-
-
 }

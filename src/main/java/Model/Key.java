@@ -4,7 +4,7 @@ import java.awt.*;
 import java.util.ArrayList;
 
 
-public class Key {
+public class Key implements ICollectable {
 
     private Point pos;
 
@@ -19,6 +19,25 @@ public class Key {
     public Point getPos() {
         return pos;
     }
+
+    @Override
+    public boolean checkCollision(Player player) {
+        int[] keyArea = getArea();
+        int yPlayer = player.getPos().y - 25;
+        int xPlayer = player.getCenterX();
+        int topSide = getPos().y - 50;
+        int underSide = getPos().y;
+        int rightSide = keyArea[2];
+        int leftSide = keyArea[0];
+        return (yPlayer >= topSide + 5 && yPlayer <= underSide - 5) && (xPlayer > leftSide && xPlayer < rightSide);
+    }
+
+    //TODO Does not do anything here :(
+    @Override
+    public void collect(Player player) {
+
+    }
+
     public static ArrayList<Key> populateKeys() {
         ArrayList<Key> keyList = new ArrayList<>();
     
@@ -28,13 +47,11 @@ public class Key {
     
         return keyList;
     }
-    
-    
 
     public static void collectKeys(Player player, ArrayList<Key> keys) {
         ArrayList<Key> collectedKeys = new ArrayList<>();
         for (Key key : keys) {
-            if (keyCollision(player, key)) {
+            if (key.checkCollision(player)) {
                 player.addKeys(NUM_KEYS);
                 collectedKeys.add(key);
             }
@@ -42,16 +59,6 @@ public class Key {
         keys.removeAll(collectedKeys);
     }
 
-    public static boolean keyCollision(Player player, Key key) {
-        int[] keyArea = key.getArea();
-        int yPlayer = player.getPos().y - 25;
-        int xPlayer = player.getCenterX();
-        int topSide = key.getPos().y - 50;
-        int underSide = key.getPos().y;
-        int rightSide = keyArea[2];
-        int leftSide = keyArea[0];
-        return (yPlayer >= topSide + 5 && yPlayer <= underSide - 5) && (xPlayer > leftSide && xPlayer < rightSide);
-    }
 
     public int getCenterX() {
         return this.pos.x + (this.WIDTH / 2);
