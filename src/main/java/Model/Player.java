@@ -17,10 +17,14 @@ public class Player implements interfacekill {
     private int height = 50;
 
     private boolean movingRight = false;
+    private boolean isSpeedPoweredUp = false;
     private boolean movingLeft = false;
 
     private boolean isPoweredUp = false;
     private long powerUpEndTime;
+
+    private double speedMultiplier = 1.0;
+    private long speedPowerUpEndTime;
 
     //Player will fall down at 2 px/tick gravity by default
     public int GRAVITY = 2;
@@ -81,6 +85,10 @@ public class Player implements interfacekill {
             pos.translate(6, 0);
             facingRight = true; // Player is moving right
         }
+        /*if (movingRight && isSpeedPoweredUp) {
+            pos.translate((int)(6 * speedMultiplier), 0);
+            facingRight = true;
+        }*/
     }
 
     //Moves the player left ways while left direction true
@@ -140,14 +148,25 @@ public class Player implements interfacekill {
     public void tick() {
         // this gets called once every tick, before the repainting process happens.
         jumpTick();
-        moveRightTick();
-        moveLeftTick();
+        //moveRightTick();
+        //moveLeftTick();
         levelBordersTick();
         if (isPoweredUp && System.currentTimeMillis() > powerUpEndTime) {
             isPoweredUp = false;
 
             width /= 1.8;
             height /= 1.8;
+        }
+
+        if (System.currentTimeMillis() > speedPowerUpEndTime) {
+            speedMultiplier = 1.0;
+        }
+
+        if (movingRight) {
+            pos.translate((int)(6 * speedMultiplier), 0);
+        }
+        if (movingLeft) {
+            pos.translate((int)(-6 * speedMultiplier), 0);
         }
     }
 
@@ -224,6 +243,13 @@ public class Player implements interfacekill {
         // Double the size
         width *= 1.8;
         height *= 1.8;
+    }
+
+    public void applySpeedPowerUp(SpeedPowerUpModel powerUp) {
+        if (powerUp.isEffectActive()) {
+            speedMultiplier = 2.0;
+            speedPowerUpEndTime = System.currentTimeMillis() + 5000; // 5 seconds
+        }
     }
 
 }

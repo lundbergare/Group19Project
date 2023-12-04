@@ -18,7 +18,7 @@ public class PowerUpView {
             raspberryImage = ImageIO.read(new File("src/main/java/View/ImagesForView/raspberry.png"));
         } catch (IOException e) {
             e.printStackTrace();
-            // Handle the error appropriately
+            // handle the error
         }
     }
 
