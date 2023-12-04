@@ -26,7 +26,7 @@ public class PowerUpModel {
     }
 
     public boolean isEffectActive() {
-        // Check if 5 seconds have passed since activation
+        // check if 5 seconds have passed since activation of power up
         return System.currentTimeMillis() - activationTime < 5000;
     }
 

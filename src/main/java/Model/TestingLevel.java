@@ -37,6 +37,12 @@ public class TestingLevel extends JPanel implements ActionListener, IBoundary {
     private PowerUpModel powerUpModel;
     private PowerUpView powerUpView;
 
+    private SpeedPowerUpModel speedPowerUpModel;
+    private SpeedPowerUpView speedPowerUpView;
+
+    private ShieldPowerUpModel shieldPowerUpModel;
+    private ShieldPowerUpView shieldPowerUpView;
+
     private LevelCamera camera;
 
     private long lastTime = System.nanoTime();
@@ -61,6 +67,12 @@ public class TestingLevel extends JPanel implements ActionListener, IBoundary {
 
         powerUpModel = new PowerUpModel(200, 420);
         powerUpView = new PowerUpView();
+
+        speedPowerUpModel = new SpeedPowerUpModel(150, 420);
+        speedPowerUpView = new SpeedPowerUpView();
+
+        shieldPowerUpModel = new ShieldPowerUpModel(450, 250);
+        shieldPowerUpView = new ShieldPowerUpView();
 
         addKeyListener(playerController);
         setFocusable(true);
@@ -122,6 +134,10 @@ public class TestingLevel extends JPanel implements ActionListener, IBoundary {
 
         powerUpView.draw(g2d, powerUpModel);
 
+        speedPowerUpView.draw(g2d, speedPowerUpModel);
+
+        shieldPowerUpView.draw(g2d, shieldPowerUpModel);
+
         for (Platform platform : platforms) {
             PlatformView platformView = new PlatformView(platforms);
             platformView.draw(g2d);
@@ -152,6 +168,29 @@ public class TestingLevel extends JPanel implements ActionListener, IBoundary {
         return playerRect.intersects(powerUpRect);
     }
 
+    public boolean checkCollision2(Player player, SpeedPowerUpModel powerUp) {
+        if (!powerUp.isActive()) {
+            return false; // No collision if the power-up is not active
+        }
+
+        Rectangle playerRect = new Rectangle(player.getPos().x, player.getPos().y, player.getWidth(), player.getHeight());
+        Point powerUpPos = powerUp.getPosition();
+        Rectangle powerUpRect = new Rectangle(powerUpPos.x, powerUpPos.y, 30, 30);
+
+        return playerRect.intersects(powerUpRect);
+    }
+
+    public boolean checkCollision3(Player player, ShieldPowerUpModel powerUp) {
+        if (!powerUp.isActive()) {
+            return false; // No collision if the power-up is not active
+        }
+
+        Rectangle playerRect = new Rectangle(player.getPos().x, player.getPos().y, player.getWidth(), player.getHeight());
+        Point powerUpPos = powerUp.getPosition();
+        Rectangle powerUpRect = new Rectangle(powerUpPos.x, powerUpPos.y, 30, 30);
+
+        return playerRect.intersects(powerUpRect);
+    }
 
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -167,6 +206,16 @@ public class TestingLevel extends JPanel implements ActionListener, IBoundary {
         if (checkCollision(player, powerUpModel)) {
             powerUpModel.activate();
             player.applyPowerUp(powerUpModel);
+        }
+
+        if (checkCollision2(player, speedPowerUpModel)) {
+            speedPowerUpModel.activate();
+            player.applySpeedPowerUp(speedPowerUpModel);
+        }
+
+        if (checkCollision3(player, shieldPowerUpModel)) {
+            shieldPowerUpModel.activate();
+            player.applyShieldPowerUp(shieldPowerUpModel);
         }
 
         while (accumulatedTime >= 1) {
