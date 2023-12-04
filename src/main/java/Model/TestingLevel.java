@@ -26,8 +26,10 @@ public class TestingLevel extends JPanel implements ActionListener, IBoundary {
     // objects that appear on the game board
     private Player player;
     private ArrayList<Coin> coins;
+    private ArrayList<Key> keys;
     private Enemy enemy;
     private EnemyView enView;
+    private KeyView keyView;
 
     private PlayerView playerView;
     private CoinView coinView;
@@ -64,6 +66,7 @@ public class TestingLevel extends JPanel implements ActionListener, IBoundary {
         setFocusable(true);
         setFocusTraversalKeysEnabled(false);
         coinView = new CoinView();
+        keyView= new KeyView();
 
 
         enemy=new Enemy(500, 450, 1, 850,50,50);
@@ -88,6 +91,7 @@ public class TestingLevel extends JPanel implements ActionListener, IBoundary {
         //enemy = new Enemy(100, 100, 1, 20);
 
         coins = Coin.populateCoins();
+        keys= Key.populateKeys();
         // this timer will call the actionPerformed() method every DELAY ms
         timer = new Timer(DELAY, this);
         timer.start();
@@ -108,6 +112,10 @@ public class TestingLevel extends JPanel implements ActionListener, IBoundary {
         for (Coin coin : coins) {
             coinView.drawCoin(g2d, coin); // Draw each coin
         }
+
+        for (Key key : keys) {
+            keyView.drawKey(g2d, key);
+        }
         playerView.draw(g2d);
 
         enView.draw(g2d);
@@ -127,6 +135,7 @@ public class TestingLevel extends JPanel implements ActionListener, IBoundary {
 
         // Translate the graphics context to simulate camera movement
         coinView.drawScoreAndLives(g, player);
+        keyView.drawScoreAndKeys(g,player);
 
         g2d.dispose(); // dispose the graphics copy
     }
@@ -171,9 +180,9 @@ public class TestingLevel extends JPanel implements ActionListener, IBoundary {
         // Update the camera position
         //camera.update(player.getPos(), 2000, 750); //
         camera.update(player.getPos(), 3000, 1000);
+        Key.collectKeys(player, keys);
 
         Coin.collectCoins(player, coins);
-
         // calling repaint() will trigger paintComponent() to run again,
         // which will refresh/redraw the graphics.
         repaint();

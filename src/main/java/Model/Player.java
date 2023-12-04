@@ -9,7 +9,7 @@ public class Player implements interfacekill {
     //TODO not properly implemented score, needs reworking
     private int score;
     private int numLives;
-    
+    private int keyscore;
     public void setNumLives(int numLives) {
         this.numLives = numLives;
     }
@@ -39,6 +39,7 @@ public class Player implements interfacekill {
         // initialize the state
         pos = new Point(10, 0);
         score = 0;
+        keyscore=0;
         verticalVelocity = 0;
         jumpHeightRemaining = 0;
         numLives = 3;
@@ -162,6 +163,9 @@ public class Player implements interfacekill {
     public void die () {
         numLives -= 1;
     }
+        public void addScorekey(int amount) {
+        score += amount;
+    }
 
     public boolean isFacingRight() {
         return facingRight;
@@ -224,6 +228,15 @@ public class Player implements interfacekill {
         // Double the size
         width *= 1.8;
         height *= 1.8;
+    }
+
+    public void addKeys(int i) {
+    score += 1;
+
+    }
+
+    public int getKeys() {
+        return 0;
     }
 
 }
