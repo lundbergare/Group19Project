@@ -8,8 +8,6 @@ import java.awt.*;
 //TODO: Sort of implemented, but must be connected to everything. Right now TestingLevel has too much stuff in it, like drawing etc.
 
 
-
-
 public class GameView extends JPanel {
     private PlayerView playerView;
     private EnemyView enemyView;

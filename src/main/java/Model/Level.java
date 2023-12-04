@@ -8,7 +8,7 @@ import java.awt.event.*;
 import java.util.ArrayList;
 import javax.swing.*;
 
-public abstract class Level extends JPanel implements ActionListener {
+public abstract class Level extends JPanel implements ActionListener, IBoundary {
 
     protected static final int YAXIS = 800;
     protected static final int XAXIS = 600;

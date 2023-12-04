@@ -53,4 +53,14 @@ public class Level1 extends Level {
         return enemy;
     }
 
+    @Override
+    public int getXAxisLimit() {
+        return XAXIS;
+    }
+
+    @Override
+    public int getYAxisLimit() {
+        return YAXIS;
+    }
+
 }
