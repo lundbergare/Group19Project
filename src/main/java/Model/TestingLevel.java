@@ -45,6 +45,8 @@ public class TestingLevel extends JPanel implements ActionListener, IBoundary {
 
     private LevelCamera camera;
 
+    private ProjectView projectView;
+
     private long lastTime = System.nanoTime();
     private final double NS_PER_UPDATE = 1000000000.0 / 60.0; // 60 updates per second
     private double accumulatedTime = 0.0;
@@ -54,7 +56,8 @@ public class TestingLevel extends JPanel implements ActionListener, IBoundary {
 
     //TODO: Hmm, like the controls are a bit seperated now from the player, but this is really a God-class, as almost everything is done here.
     //Move all drawing and visual stuff to the GameView instead
-    public TestingLevel() {
+    public TestingLevel(ProjectView projectView) {
+        this.projectView = projectView;
         //initiate window background and objects
         setPreferredSize(new Dimension(XAXIS, YAXIS));
         setBackground(new Color(68, 138, 184));
@@ -216,6 +219,13 @@ public class TestingLevel extends JPanel implements ActionListener, IBoundary {
         if (checkCollision3(player, shieldPowerUpModel)) {
             shieldPowerUpModel.activate();
             player.applyShieldPowerUp(shieldPowerUpModel);
+        }
+
+        if (player.getLives() <= 0) {
+            SwingUtilities.invokeLater(() -> {
+                // Assuming you have a reference to ProjectView in TestingLevel
+                projectView.showGameOverScreen();
+            });
         }
 
         while (accumulatedTime >= 1) {

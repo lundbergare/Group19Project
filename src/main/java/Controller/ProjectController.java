@@ -26,7 +26,7 @@ public class ProjectController {
     class LevelButtonListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            TestingLevel newLevel = new TestingLevel();
+            TestingLevel newLevel = new TestingLevel(view);
             view.showNewScreen(newLevel);
             newLevel.requestFocusInWindow();
         }

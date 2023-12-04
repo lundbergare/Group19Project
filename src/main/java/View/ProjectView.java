@@ -106,4 +106,10 @@ public class ProjectView {
 
     public void addKeyListener(PlayerController playerController) {
     }
+
+    public void showGameOverScreen() {
+        GameOverPanel gameOverPanel = new GameOverPanel();
+        gameOverPanel.addReturnToMenuButtonListener(e -> showPreviousScreen());
+        showNewScreen(gameOverPanel);
+    }
 }
