@@ -26,6 +26,9 @@ public class Player implements interfacekill {
     private double speedMultiplier = 1.0;
     private long speedPowerUpEndTime;
 
+    private boolean isImmune = false;
+    private long immunityEndTime;
+
     //Player will fall down at 2 px/tick gravity by default
     public int GRAVITY = 2;
 
@@ -162,6 +165,10 @@ public class Player implements interfacekill {
             speedMultiplier = 1.0;
         }
 
+        if (System.currentTimeMillis() > immunityEndTime) {
+            Enemy.isImmune = false;
+        }
+
         if (movingRight) {
             pos.translate((int)(6 * speedMultiplier), 0);
         }
@@ -213,9 +220,9 @@ public class Player implements interfacekill {
     }
 
     @Override
-    public void kill(Player smurf, Enemy enemy) {
+    public void kill(Player player, Enemy enemy) {
 
-        if (collision(smurf, enemy)) {
+        if (!Enemy.isImmune && collision(player, enemy)) {
             enemy.setRectangleY(-100);
             enemy.setRectangleX(-100);
 
@@ -249,6 +256,13 @@ public class Player implements interfacekill {
         if (powerUp.isEffectActive()) {
             speedMultiplier = 2.0;
             speedPowerUpEndTime = System.currentTimeMillis() + 5000; // 5 seconds
+        }
+    }
+
+    public void applyShieldPowerUp(ShieldPowerUpModel powerUp) {
+        if (powerUp.isEffectActive()) {
+            Enemy.isImmune = true;
+            immunityEndTime = System.currentTimeMillis() + 5000; // 5 seconds
         }
     }
 

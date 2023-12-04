@@ -8,6 +8,8 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 public class Enemy extends Observable implements interfacekill {
+    public static boolean isImmune;
+    //public boolean isImmune;
     private final int maxXPosition;
     private int rectangleX;
     private int rectangleY;
@@ -92,7 +94,7 @@ public class Enemy extends Observable implements interfacekill {
          }
          @Override
          public void kill(Player smurf, Enemy enemy) {
-             if (collision(smurf, enemy)){
+             if (!isImmune && collision(smurf, enemy)){
 
                 smurf.setPos(new Point(50,50));
                 smurf.die();
