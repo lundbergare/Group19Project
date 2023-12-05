@@ -1,9 +1,10 @@
 package Controller;
 
 
-import Model.Level1;
-import Model.TestingLevel;
-import View.LevelView1;
+import Model.LevelOne;
+import Model.LevelTEST;
+import View.LevelOneView;
+import View.LevelTESTView;
 import View.ProjectView;
 import View.HowToPlayView;
 
@@ -29,26 +30,26 @@ public class ProjectController {
         @Override
         public void actionPerformed(ActionEvent e) {
 /*
-            TestingLevel newLevel = new TestingLevel();
+            TestingLevel newLevel = new TestingLevel(view);
             view.showNewScreen(newLevel);
             newLevel.requestFocusInWindow();
 
-
  */
-
-
-
-
-
-
-            Level1 newLevel1 = new Level1();
-            LevelView1 newView1 = new LevelView1(newLevel1);
-            LevelController controller1 = new LevelController(newLevel1, newView1);
+/*
+            LevelTEST newLevelTEST = new LevelTEST();
+            LevelTESTView newView1 = new LevelTESTView(newLevelTEST);
+            LevelController controller1 = new LevelController(newLevelTEST, newView1);
             view.showNewScreen(newView1);
             newView1.requestFocusInWindow();
 
 
+ */
 
+            LevelOne newLevel = new LevelOne();
+            LevelOneView levelView = new LevelOneView(newLevel);
+            LevelController controller = new LevelController(newLevel, levelView);
+            view.showNewScreen(levelView);
+            levelView.requestFocusInWindow();
 
 
         }

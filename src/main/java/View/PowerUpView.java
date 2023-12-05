@@ -13,6 +13,8 @@ public class PowerUpView {
     private int scaledWidth = 30;
     private int scaledHeight = 30;
 
+    private Point point;
+
     public PowerUpView() {
         try {
             raspberryImage = ImageIO.read(new File("src/main/java/View/ImagesForView/raspberry.png"));

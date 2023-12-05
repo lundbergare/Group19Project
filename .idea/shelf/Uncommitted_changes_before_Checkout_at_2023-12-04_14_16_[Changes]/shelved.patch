@@ -1,0 +1,188 @@
+Index: src/main/java/Model/Level.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package Model;\r\n\r\nimport Controller.PlayerController;\r\nimport View.PlayerView;\r\n\r\nimport java.awt.*;\r\nimport java.awt.event.*;\r\nimport javax.swing.*;\r\n\r\npublic abstract class Level extends JPanel implements ActionListener {\r\n\r\n    protected static final int YAXIS = 800;\r\n    protected static final int XAXIS = 600;\r\n\r\n    protected Timer timer;\r\n    public Player player;\r\n    protected PlayerView playerView;\r\n    protected PlayerController playerController;\r\n\r\n    protected Image heartImage;\r\n\r\n    public Level() {\r\n        setPreferredSize(new Dimension(YAXIS, XAXIS));\r\n        setBackground(new Color(68, 138, 184));\r\n\r\n        player = new Player();\r\n        playerView = new PlayerView(player);\r\n        playerController = new PlayerController(player);\r\n\r\n        addKeyListener(playerController);\r\n        setFocusable(true);\r\n        setFocusTraversalKeysEnabled(false);\r\n\r\n        ImageIcon icon = new ImageIcon(\"src/main/java/Model/images/GameHeart.png\");\r\n        heartImage = icon.getImage().getScaledInstance(25, 25, Image.SCALE_SMOOTH);\r\n\r\n        timer = new Timer(1, this);\r\n        timer.start();\r\n    }\r\n\r\n    @Override\r\n    public void actionPerformed(ActionEvent e) {\r\n        player.tick();\r\n        updateLevel();\r\n        repaint();\r\n    }\r\n\r\n    protected abstract void updateLevel();\r\n\r\n    @Override\r\n    protected void paintComponent(Graphics g) {\r\n        super.paintComponent(g);\r\n        drawLevel(g);\r\n        Toolkit.getDefaultToolkit().sync();\r\n        g.setColor(Color.BLACK); // color for the score text\r\n        g.setFont(new Font(\"Arial\", Font.BOLD, 20)); // font for score\r\n        g.drawString(\"Collected coins: \" + player.getScore() + \"/\" + Coin.NUM_COINS, 10, 20); // position of score on screen\r\n\r\n        // Draw the player's lives\r\n        int lives = player.getLives();\r\n        for (int i = 0; i < lives; i++) {\r\n            g.drawImage(heartImage, 10 + (i * 30), 40, this); // Adjust position and spacing as needed\r\n        }\r\n    }\r\n\r\n    protected abstract void drawLevel(Graphics g);\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/Model/Level.java b/src/main/java/Model/Level.java
+--- a/src/main/java/Model/Level.java	(revision 22af3280fce56cf9086f84d73f75d7a647d643c5)
++++ b/src/main/java/Model/Level.java	(date 1701694969284)
+@@ -16,15 +16,16 @@
+     public Player player;
+     protected PlayerView playerView;
+     protected PlayerController playerController;
+-
+     protected Image heartImage;
++    private LevelListener listener;
++
+ 
+     public Level() {
+         setPreferredSize(new Dimension(YAXIS, XAXIS));
+         setBackground(new Color(68, 138, 184));
+ 
+         player = new Player();
+-        playerView = new PlayerView(player);
++       // playerView = new PlayerView(player);
+         playerController = new PlayerController(player);
+ 
+         addKeyListener(playerController);
+@@ -35,18 +36,31 @@
+         heartImage = icon.getImage().getScaledInstance(25, 25, Image.SCALE_SMOOTH);
+ 
+         timer = new Timer(1, this);
++    }
++
++
++    public void startTimer() {
+         timer.start();
+     }
+ 
++    public void stopTimer() {
++        timer.stop();
++    }
++
+     @Override
+     public void actionPerformed(ActionEvent e) {
+         player.tick();
+         updateLevel();
+-        repaint();
+-    }
++        if (listener != null) {
++            listener.onTimerTick();
++        }    }
+ 
+     protected abstract void updateLevel();
+ 
++    public void setLevelListener(LevelListener listener) {
++        this.listener = listener;
++    }
++/*
+     @Override
+     protected void paintComponent(Graphics g) {
+         super.paintComponent(g);
+@@ -64,4 +78,7 @@
+     }
+ 
+     protected abstract void drawLevel(Graphics g);
++
++ */
+ }
++
+Index: src/main/java/Model/Level1.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package Model;\r\n\r\nimport Controller.PlayerController;\r\nimport View.CoinView;\r\nimport View.EnemyView;\r\nimport View.PlayerView;\r\n\r\n\r\nimport java.awt.*;\r\nimport java.awt.event.*;\r\nimport java.util.ArrayList;\r\nimport javax.swing.*;\r\n\r\n\r\npublic class Level1 extends Level {\r\n\r\n    private ArrayList<Coin> coins;\r\n    private Platform platform;\r\n    private Enemy enemy;\r\n    private CoinView coinView;\r\n    private EnemyView enemyView;\r\n\r\n    private ArrayList<Platform> platforms; // Declare the ArrayList for platforms\r\n\r\n\r\n\r\n\r\n    public Level1() {\r\n        super();\r\n        platform = new Platform(90, 500, 400, 50);\r\n        platforms.add(platform);\r\n        coins = Coin.populateCoins();\r\n        coinView = new CoinView();\r\n        enemy = new Enemy(100, 100, 1, 30);\r\n        enemyView = new EnemyView(enemy);\r\n    }\r\n\r\n    @Override\r\n    protected void updateLevel() {\r\n        // Level-specific update logic TICK\r\n        ProjectModel.platformCollision(player, platforms);\r\n        Coin.collectCoins(player, coins);\r\n        enemy.move();\r\n    }\r\n\r\n    protected void drawLevel(Graphics g) {\r\n        // Level-specific drawing code\r\n        for (Coin coin : coins) {\r\n            coinView.drawCoin(g, coin); // Draw each coin\r\n        }\r\n        playerView.draw(g);\r\n        drawPlayerInfo(g);\r\n        enemyView.draw(g);\r\n    }\r\n\r\n    private void drawPlayerInfo(Graphics g) {\r\n\r\n    }\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/Model/Level1.java b/src/main/java/Model/Level1.java
+--- a/src/main/java/Model/Level1.java	(revision 22af3280fce56cf9086f84d73f75d7a647d643c5)
++++ b/src/main/java/Model/Level1.java	(date 1701694998208)
+@@ -23,16 +23,27 @@
+     private ArrayList<Platform> platforms; // Declare the ArrayList for platforms
+ 
+ 
++    public ArrayList<Coin> getCoins() {
++        return coins;
++    }
+ 
++    public Enemy getEnemy() {
++        return enemy;
++    }
++
++    public ArrayList<Platform> getPlatforms() {
++        return platforms;
++    }
+ 
+     public Level1() {
+         super();
+         platform = new Platform(90, 500, 400, 50);
++        platforms = new ArrayList<Platform>();
+         platforms.add(platform);
+         coins = Coin.populateCoins();
+-        coinView = new CoinView();
++       // coinView = new CoinView();
+         enemy = new Enemy(100, 100, 1, 30);
+-        enemyView = new EnemyView(enemy);
++       // enemyView = new EnemyView(enemy);
+     }
+ 
+     @Override
+@@ -42,7 +53,7 @@
+         Coin.collectCoins(player, coins);
+         enemy.move();
+     }
+-
++/*
+     protected void drawLevel(Graphics g) {
+         // Level-specific drawing code
+         for (Coin coin : coins) {
+@@ -53,6 +64,8 @@
+         enemyView.draw(g);
+     }
+ 
++ */
++
+     private void drawPlayerInfo(Graphics g) {
+ 
+     }
+Index: src/main/java/Controller/ProjectController.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package Controller;\r\n\r\n\r\nimport Model.TestingLevel;\r\nimport View.ProjectView;\r\nimport View.HowToPlayView;\r\n\r\nimport java.awt.event.ActionEvent;\r\nimport java.awt.event.ActionListener;\r\n\r\n//This class is probably too big right now, should be separate controllers?\r\n\r\npublic class ProjectController {\r\n    private ProjectView view;\r\n\r\n    public ProjectController(ProjectView view) {\r\n        this.view = view;\r\n\r\n        // Set up action listeners in the controller\r\n        view.addLevelButtonListener(new LevelButtonListener());\r\n        view.addHowToPlayButtonListener(new HTPButtonListener());\r\n        view.addQuitButtonListener(new QuitButtonListener());\r\n\r\n    }\r\n\r\n    class LevelButtonListener implements ActionListener {\r\n        @Override\r\n        public void actionPerformed(ActionEvent e) {\r\n            TestingLevel newLevel = new TestingLevel();\r\n            view.showNewScreen(newLevel);\r\n            newLevel.requestFocusInWindow();\r\n        }\r\n    }\r\n\r\n\r\n    class HTPButtonListener implements ActionListener {\r\n        @Override\r\n        public void actionPerformed(ActionEvent e) {\r\n            showHowToPlayScreen();\r\n        }\r\n    }\r\n\r\n    // ActionListener for \"Quit\" button\r\n    class QuitButtonListener implements ActionListener {\r\n        @Override\r\n        public void actionPerformed(ActionEvent e) {\r\n            System.exit(0);\r\n        }\r\n    }\r\n\r\n    private void showHowToPlayScreen() {\r\n        HowToPlayView howToPlayView = new HowToPlayView(new BackButtonListener());\r\n        view.showNewScreen(howToPlayView);\r\n    }\r\n\r\n    class BackButtonListener implements ActionListener {\r\n        @Override\r\n        public void actionPerformed(ActionEvent e) {\r\n            showPreviousScreen();\r\n        }\r\n    }\r\n\r\n    private void showPreviousScreen() {\r\n        view.showPreviousScreen();\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/Controller/ProjectController.java b/src/main/java/Controller/ProjectController.java
+--- a/src/main/java/Controller/ProjectController.java	(revision 22af3280fce56cf9086f84d73f75d7a647d643c5)
++++ b/src/main/java/Controller/ProjectController.java	(date 1701691386475)
+@@ -1,7 +1,9 @@
+ package Controller;
+ 
+ 
++import Model.Level1;
+ import Model.TestingLevel;
++import View.LevelView1;
+ import View.ProjectView;
+ import View.HowToPlayView;
+ 
+@@ -26,9 +28,18 @@
+     class LevelButtonListener implements ActionListener {
+         @Override
+         public void actionPerformed(ActionEvent e) {
++            /*
+             TestingLevel newLevel = new TestingLevel();
+             view.showNewScreen(newLevel);
+             newLevel.requestFocusInWindow();
++
++             */
++
++            Level1 newLevel1 = new Level1();
++            LevelView1 newView1 = new LevelView1(newLevel1.player.getScore(), newLevel1.player.getLives(), newLevel1);
++            LevelController controller1 = new LevelController(newLevel1, newView1);
++            view.showNewScreen(newView1);
++            newView1.requestFocusInWindow();
+         }
+     }
+ 
+Index: .idea/misc.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"ExternalStorageConfigurationManager\" enabled=\"true\" />\r\n  <component name=\"MavenProjectsManager\">\r\n    <option name=\"originalFiles\">\r\n      <list>\r\n        <option value=\"$PROJECT_DIR$/pom.xml\" />\r\n      </list>\r\n    </option>\r\n  </component>\r\n  <component name=\"ProjectRootManager\" version=\"2\" languageLevel=\"JDK_X\" default=\"true\" project-jdk-name=\"18\" project-jdk-type=\"JavaSDK\">\r\n    <output url=\"file://$PROJECT_DIR$/out\" />\r\n  </component>\r\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/misc.xml b/.idea/misc.xml
+--- a/.idea/misc.xml	(revision 22af3280fce56cf9086f84d73f75d7a647d643c5)
++++ b/.idea/misc.xml	(date 1701690622012)
+@@ -8,7 +8,7 @@
+       </list>
+     </option>
+   </component>
+-  <component name="ProjectRootManager" version="2" languageLevel="JDK_X" default="true" project-jdk-name="18" project-jdk-type="JavaSDK">
++  <component name="ProjectRootManager" version="2" languageLevel="JDK_18" default="true" project-jdk-name="18" project-jdk-type="JavaSDK">
+     <output url="file://$PROJECT_DIR$/out" />
+   </component>
+ </project>
+\ No newline at end of file

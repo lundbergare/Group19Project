@@ -1,0 +1,221 @@
+Index: src/main/java/Model/Level1.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package Model;\r\n\r\nimport Controller.PlayerController;\r\nimport View.CoinView;\r\nimport View.EnemyView;\r\nimport View.PlayerView;\r\n\r\n\r\nimport java.awt.*;\r\nimport java.awt.event.*;\r\nimport java.util.ArrayList;\r\nimport javax.swing.*;\r\n\r\n\r\npublic class Level1 extends Level {\r\n\r\n    private ArrayList<Coin> coins;\r\n    private Platform platform;\r\n    private Enemy enemy;\r\n    private CoinView coinView;\r\n    private EnemyView enemyView;\r\n\r\n    private ArrayList<Platform> platforms; // Declare the ArrayList for platforms\r\n\r\n\r\n\r\n\r\n    public Level1() {\r\n        super();\r\n        platform = new Platform(90, 500, 400, 50);\r\n        platforms.add(platform);\r\n        coins = Coin.populateCoins();\r\n        coinView = new CoinView();\r\n        enemy = new Enemy(100, 100, 1, 30);\r\n        enemyView = new EnemyView(enemy);\r\n    }\r\n\r\n    @Override\r\n    protected void updateLevel() {\r\n        // Level-specific update logic TICK\r\n        ProjectModel.platformCollision(player, platforms);\r\n        Coin.collectCoins(player, coins);\r\n        enemy.move();\r\n    }\r\n\r\n    protected void drawLevel(Graphics g) {\r\n        // Level-specific drawing code\r\n        for (Coin coin : coins) {\r\n            coinView.drawCoin(g, coin); // Draw each coin\r\n        }\r\n        playerView.draw(g);\r\n        drawPlayerInfo(g);\r\n        enemyView.draw(g);\r\n    }\r\n\r\n    private void drawPlayerInfo(Graphics g) {\r\n\r\n    }\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/Model/Level1.java b/src/main/java/Model/Level1.java
+--- a/src/main/java/Model/Level1.java	
++++ b/src/main/java/Model/Level1.java	
+@@ -1,8 +1,8 @@
+ package Model;
+ 
+-import Controller.PlayerController;
+ import View.CoinView;
+ import View.EnemyView;
++import View.PlatformView;
+ import View.PlayerView;
+ 
+ 
+@@ -16,19 +16,30 @@
+ 
+     private ArrayList<Coin> coins;
+     private Platform platform;
+-    private Enemy enemy;
++    public Enemy enemy;
+     private CoinView coinView;
+     private EnemyView enemyView;
+-
++    private PlatformView platformView;
+     private ArrayList<Platform> platforms; // Declare the ArrayList for platforms
++    private long lastTime = System.nanoTime();
++    private final double NS_PER_UPDATE = 1000000000.0 / 60.0; // 60 updates per second
++    private double accumulatedTime = 0.0;
+ 
+ 
+ 
+ 
+     public Level1() {
+         super();
+-        platform = new Platform(90, 500, 400, 50);
+-        platforms.add(platform);
++        platforms = new ArrayList<>();
++        Platform platform1 = new Platform(0, 500, 300, 50);
++        Platform platform2 = new Platform(370, 500, 200, 50);
++        Platform platform3 = new Platform(400, 300, 200, 50);
++        Platform platform4 = new Platform(670, 300, 200, 50);
++        platforms.add(platform1);
++        platforms.add(platform2);
++        platforms.add(platform3);
++        platforms.add(platform4);
++        platformView = new PlatformView(platforms);
+         coins = Coin.populateCoins();
+         coinView = new CoinView();
+         enemy = new Enemy(100, 100, 1, 30);
+@@ -38,22 +49,42 @@
+     @Override
+     protected void updateLevel() {
+         // Level-specific update logic TICK
++        long now = System.nanoTime();
++        double delta = (now - lastTime) / NS_PER_UPDATE; // Calculate delta time
++        lastTime = now;
++
++        accumulatedTime += delta;
++
+         ProjectModel.platformCollision(player, platforms);
+-        Coin.collectCoins(player, coins);
+-        enemy.move();
+-    }
++
++        while (accumulatedTime >= 1) {
++            player.tick(); // Update player logic
++            enemy.move();
++            // Other game logic updates here...
++            accumulatedTime -= 1;
++        }
++        // Update the camera position
++        //camera.update(player.getPos(), 2000, 750); //
++        camera.update(player.getPos(), 3000, 1000);
++
++        Coin.collectCoins(player, coins);
+ 
+-    protected void drawLevel(Graphics g) {
+-        // Level-specific drawing code
+-        for (Coin coin : coins) {
+-            coinView.drawCoin(g, coin); // Draw each coin
+-        }
+-        playerView.draw(g);
+-        drawPlayerInfo(g);
+-        enemyView.draw(g);
++        // calling repaint() will trigger paintComponent() to run again,
++        // which will refresh/redraw the graphics.
+     }
++
+ 
+     private void drawPlayerInfo(Graphics g) {
+ 
+     }
++
++    public ArrayList<Coin> getCoins() {
++        return coins;
++    }
++
++
++    @Override
++    public ArrayList<Platform> getPlatforms() {
++        return platforms;
++    }
+ }
+\ No newline at end of file
+Index: src/main/java/Model/TestingLevel.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package Model;\r\n\r\nimport Controller.PlayerController;\r\nimport View.CoinView;\r\nimport View.EnemyView;\r\nimport View.PlatformView;\r\nimport View.PlayerView;\r\n\r\nimport java.awt.*;\r\nimport java.awt.event.*;\r\nimport java.awt.geom.AffineTransform;\r\nimport java.util.ArrayList;\r\nimport javax.swing.*;\r\n\r\n//TODO Fix platform extension\r\npublic class TestingLevel extends JPanel implements ActionListener {\r\n\r\n    // controls the delay between each tick in ms\r\n    private final int DELAY = 1;\r\n    // controls the size of the board (wrong module?)\r\n    \r\n    public static final int YAXIS = 1000;\r\n    public static final int XAXIS = 3000;\r\n    // suppress serialization warning, not really sure what it's supposed to do so commented out\r\n\r\n    // keep a reference to the timer object that triggers actionPerformed() in\r\n    // case we need access to it in another method\r\n    private Timer timer;\r\n    // objects that appear on the game board\r\n    private Player player;\r\n    private ArrayList<Coin> coins;\r\n    private Enemy enemy;\r\n    private EnemyView enView;\r\n\r\n    private PlayerView playerView;\r\n    private CoinView coinView;\r\n\r\n    private LevelCamera camera;\r\n\r\n    private long lastTime = System.nanoTime();\r\n    private final double NS_PER_UPDATE = 1000000000.0 / 60.0; // 60 updates per second\r\n    private double accumulatedTime = 0.0;\r\n\r\n    private ArrayList<Platform> platforms; // Declare the ArrayList for platforms\r\n\r\n\r\n    //TODO: Hmm, like the controls are a bit seperated now from the player, but this is really a God-class, as almost everything is done here.\r\n    //Move all drawing and visual stuff to the GameView instead\r\n    public TestingLevel() {\r\n        //initiate window background and objects\r\n        setPreferredSize(new Dimension(XAXIS, YAXIS));\r\n        setBackground(new Color(68, 138, 184));\r\n\r\n        player = new Player();\r\n        playerView = new PlayerView(player);\r\n        PlayerController playerController = new PlayerController(player);\r\n\r\n        //camera = new LevelCamera(XAXIS, YAXIS);\r\n        camera = new LevelCamera(1000, 750);\r\n\r\n        addKeyListener(playerController);\r\n        setFocusable(true);\r\n        setFocusTraversalKeysEnabled(false);\r\n        coinView = new CoinView();\r\n\r\n\r\n\r\n\r\n        enemy=new Enemy(500, 450, 1, 850);\r\n\r\n\r\n        enView = new EnemyView(enemy);\r\n\r\n\r\n        platforms = new ArrayList<>();\r\n\r\n        Platform platform1 = new Platform(0, 500, 300, 50);\r\n        Platform platform2 = new Platform(370, 500, 200, 50);\r\n        Platform platform3 = new Platform(400, 300, 200, 50);\r\n        Platform platform4 = new Platform(670, 300, 200, 50);\r\n\r\n        platforms.add(platform1);\r\n        platforms.add(platform2);\r\n        platforms.add(platform3);\r\n        platforms.add(platform4);\r\n\r\n        //addKeyListener(this);\r\n        setFocusable(true);\r\n        setFocusTraversalKeysEnabled(false);\r\n        //enemy = new Enemy(100, 100, 1, 20);\r\n\r\n        coins = Coin.populateCoins();\r\n        // this timer will call the actionPerformed() method every DELAY ms\r\n        timer = new Timer(DELAY, this);\r\n        timer.start();\r\n    }\r\n\r\n\r\n    @Override\r\n    public void paintComponent(Graphics g) {\r\n        super.paintComponent(g);\r\n        Graphics2D g2d = (Graphics2D) g;\r\n\r\n        // Save the current transform\r\n        AffineTransform originalTransform = g2d.getTransform();\r\n        // draw our graphics.\r\n        //drawBackground(g);\r\n        g2d.translate(-camera.getX(), -camera.getY());\r\n        textAA(g);\r\n        for (Coin coin : coins) {\r\n            coinView.drawCoin(g2d, coin); // Draw each coin\r\n        }\r\n        playerView.draw(g2d);\r\n\r\n        enView.draw(g2d);\r\n\r\n        for (Platform platform : platforms) {\r\n            PlatformView platformView = new PlatformView(platforms);\r\n            platformView.draw(g2d);\r\n        }\r\n       // Toolkit.getDefaultToolkit().sync();\r\n\r\n        g2d.setTransform(originalTransform);\r\n\r\n        // Create a copy of the Graphics instance\r\n        //Graphics2D g2d = (Graphics2D) g.create();\r\n\r\n        // Translate the graphics context to simulate camera movement\r\n        coinView.drawScoreAndLives(g, player);\r\n\r\n        g2d.dispose(); // dispose the graphics copy\r\n    }\r\n\r\n\r\n    @Override\r\n    public void actionPerformed(ActionEvent e) {\r\n\r\n        long now = System.nanoTime();\r\n        double delta = (now - lastTime) / NS_PER_UPDATE; // Calculate delta time\r\n        lastTime = now;\r\n\r\n        accumulatedTime += delta;\r\n\r\n        ProjectModel.platformCollision(player, platforms);\r\n\r\n        while (accumulatedTime >= 1) {\r\n            player.tick(); // Update player logic\r\n            enemy.move();\r\n            // Other game logic updates here...\r\n            accumulatedTime -= 1;\r\n        }\r\n        // Update the camera position\r\n        //camera.update(player.getPos(), 2000, 750); //\r\n        camera.update(player.getPos(), 3000, 1000);\r\n\r\n        Coin.collectCoins(player, coins);\r\n\r\n        // calling repaint() will trigger paintComponent() to run again,\r\n        // which will refresh/redraw the graphics.\r\n        repaint();\r\n    }\r\n\r\n    // these are not used but must be defined as part of the KeyListener interface\r\n\r\n    //Supposed to make text and certain edges look smoother, does not always work. Also adds font to Coin \"5\"\r\n    private void textAA(Graphics g) {\r\n        Graphics2D g2d = (Graphics2D) g;\r\n        g2d.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);\r\n        g2d.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);\r\n        g2d.setRenderingHint(RenderingHints.KEY_FRACTIONALMETRICS, RenderingHints.VALUE_FRACTIONALMETRICS_ON);\r\n        // set the text color and font\r\n        g2d.setColor(new Color(30, 201, 139));\r\n        g2d.setFont(new Font(\"Lato\", Font.BOLD, 25));\r\n    }\r\n\r\n    //Populate the level with the coins and add to list of coins in level, returns list.\r\n    // Currently only adapted for testing level\r\n\r\n\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/Model/TestingLevel.java b/src/main/java/Model/TestingLevel.java
+--- a/src/main/java/Model/TestingLevel.java	
++++ b/src/main/java/Model/TestingLevel.java	
+@@ -151,7 +151,7 @@
+         }
+         // Update the camera position
+         //camera.update(player.getPos(), 2000, 750); //
+-        camera.update(player.getPos(), 3000, 1000);
++            camera.update(player.getPos(), 3000, 1000);
+ 
+         Coin.collectCoins(player, coins);
+ 
+Index: src/main/java/Controller/ProjectController.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package Controller;\r\n\r\n\r\nimport Model.TestingLevel;\r\nimport View.ProjectView;\r\nimport View.HowToPlayView;\r\n\r\nimport java.awt.event.ActionEvent;\r\nimport java.awt.event.ActionListener;\r\n\r\n//This class is probably too big right now, should be separate controllers?\r\n\r\npublic class ProjectController {\r\n    private ProjectView view;\r\n\r\n    public ProjectController(ProjectView view) {\r\n        this.view = view;\r\n\r\n        // Set up action listeners in the controller\r\n        view.addLevelButtonListener(new LevelButtonListener());\r\n        view.addHowToPlayButtonListener(new HTPButtonListener());\r\n        view.addQuitButtonListener(new QuitButtonListener());\r\n\r\n    }\r\n\r\n    class LevelButtonListener implements ActionListener {\r\n        @Override\r\n        public void actionPerformed(ActionEvent e) {\r\n            TestingLevel newLevel = new TestingLevel();\r\n            view.showNewScreen(newLevel);\r\n            newLevel.requestFocusInWindow();\r\n        }\r\n    }\r\n\r\n\r\n    class HTPButtonListener implements ActionListener {\r\n        @Override\r\n        public void actionPerformed(ActionEvent e) {\r\n            showHowToPlayScreen();\r\n        }\r\n    }\r\n\r\n    // ActionListener for \"Quit\" button\r\n    class QuitButtonListener implements ActionListener {\r\n        @Override\r\n        public void actionPerformed(ActionEvent e) {\r\n            System.exit(0);\r\n        }\r\n    }\r\n\r\n    private void showHowToPlayScreen() {\r\n        HowToPlayView howToPlayView = new HowToPlayView(new BackButtonListener());\r\n        view.showNewScreen(howToPlayView);\r\n    }\r\n\r\n    class BackButtonListener implements ActionListener {\r\n        @Override\r\n        public void actionPerformed(ActionEvent e) {\r\n            showPreviousScreen();\r\n        }\r\n    }\r\n\r\n    private void showPreviousScreen() {\r\n        view.showPreviousScreen();\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/Controller/ProjectController.java b/src/main/java/Controller/ProjectController.java
+--- a/src/main/java/Controller/ProjectController.java	
++++ b/src/main/java/Controller/ProjectController.java	
+@@ -1,9 +1,10 @@
+ package Controller;
+ 
+ 
+-import Model.TestingLevel;
++import Model.*;
+ import View.ProjectView;
+ import View.HowToPlayView;
++import View.LevelView1;
+ 
+ import java.awt.event.ActionEvent;
+ import java.awt.event.ActionListener;
+@@ -26,9 +27,19 @@
+     class LevelButtonListener implements ActionListener {
+         @Override
+         public void actionPerformed(ActionEvent e) {
+-            TestingLevel newLevel = new TestingLevel();
++            /*
++            Level1 level = new Level1();
++            LevelView1 newLevel = new LevelView1(level.player.getScore(), level.player.getLives(), level);
++            view.showNewScreen(newLevel);
++            newLevel.requestFocusInWindow();
++
++             */
++            Level1 level = new Level1();
++            LevelView1 newLevel = new LevelView1(level.player.getScore(), level.player.getLives(), level);
++            //LevelController controller1 = new LevelController(level, newLevel);
+             view.showNewScreen(newLevel);
+             newLevel.requestFocusInWindow();
++
+         }
+     }
+ 
+Index: src/main/java/App.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import Controller.PlayerController;\r\nimport Model.Level1;\r\nimport Model.TestingLevel;\r\n\r\nimport javax.swing.*;\r\n\r\n\r\n        //Jumps straight to the testing level\r\nclass App {\r\n\r\n    private static void initWindow() {\r\n        // create a window frame and set the title in the toolbar\r\n        JFrame window = new JFrame(\"Super Smurf\");\r\n        // when we close the window, stop the app\r\n        window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);\r\n\r\n        // create the jpanel to draw on.\r\n        // this also initializes the game loop\r\n        Level1 level1 = new Level1();\r\n        // add the jpanel to the window\r\n        window.add(level1);\r\n        // pass keyboard inputs to the jpanel\r\n        window.addKeyListener(new PlayerController(level1.player));\r\n\r\n        // don't allow the user to resize the window\r\n        window.setResizable(false);\r\n        // fit the window size around the components (just our jpanel).\r\n        // pack() should be called after setResizable() to avoid issues on some platforms\r\n        window.pack();\r\n        // open window in the center of the screen\r\n        window.setLocationRelativeTo(null);\r\n        // display the window\r\n        window.setVisible(true);\r\n    }\r\n\r\n    public static void main(String[] args) {\r\n        // invokeLater() is used here to prevent our graphics processing from\r\n        // blocking the GUI. https://stackoverflow.com/a/22534931/4655368\r\n        // this is a lot of boilerplate code that you shouldn't be too concerned about.\r\n        // just know that when main runs it will call initWindow() once.\r\n        SwingUtilities.invokeLater(new Runnable() {\r\n            public void run() {\r\n                initWindow();\r\n            }\r\n        });\r\n    }\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/App.java b/src/main/java/App.java
+--- a/src/main/java/App.java	
++++ b/src/main/java/App.java	
+@@ -1,6 +1,7 @@
+ import Controller.PlayerController;
+ import Model.Level1;
+ import Model.TestingLevel;
++import View.LevelView1;
+ 
+ import javax.swing.*;
+ 
+@@ -17,8 +18,9 @@
+         // create the jpanel to draw on.
+         // this also initializes the game loop
+         Level1 level1 = new Level1();
++        LevelView1 view1 = new LevelView1(level1.player.getScore(), level1.player.getLives(),level1);
+         // add the jpanel to the window
+-        window.add(level1);
++        window.add(view1);
+         // pass keyboard inputs to the jpanel
+         window.addKeyListener(new PlayerController(level1.player));
+ 
+Index: .idea/misc.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"ExternalStorageConfigurationManager\" enabled=\"true\" />\r\n  <component name=\"MavenProjectsManager\">\r\n    <option name=\"originalFiles\">\r\n      <list>\r\n        <option value=\"$PROJECT_DIR$/pom.xml\" />\r\n      </list>\r\n    </option>\r\n  </component>\r\n  <component name=\"ProjectRootManager\" version=\"2\" languageLevel=\"JDK_X\" default=\"true\" project-jdk-name=\"18\" project-jdk-type=\"JavaSDK\">\r\n    <output url=\"file://$PROJECT_DIR$/out\" />\r\n  </component>\r\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/misc.xml b/.idea/misc.xml
+--- a/.idea/misc.xml	
++++ b/.idea/misc.xml	
+@@ -8,7 +8,7 @@
+       </list>
+     </option>
+   </component>
+-  <component name="ProjectRootManager" version="2" languageLevel="JDK_X" default="true" project-jdk-name="18" project-jdk-type="JavaSDK">
++  <component name="ProjectRootManager" version="2" languageLevel="JDK_18" default="true" project-jdk-name="18" project-jdk-type="JavaSDK">
+     <output url="file://$PROJECT_DIR$/out" />
+   </component>
+ </project>
+\ No newline at end of file

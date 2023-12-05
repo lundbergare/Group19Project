@@ -4,6 +4,7 @@ import Model.Key;
 import Model.Player;
 
 import java.awt.*;
+import java.util.ArrayList;
 import javax.swing.ImageIcon;
 
 public class KeyView {
@@ -24,6 +25,7 @@ public class KeyView {
 
     public void drawKey(Graphics g, Key key) {
         Point pos = key.getPos();
+        g.setColor(Color.gray);
         g.drawImage(keyImage, pos.x, pos.y, WIDTH, HEIGHT, null);
         g.setColor(Color.gray);
     }
@@ -38,6 +40,18 @@ public class KeyView {
         // Draw the player's remaining keys
         int keys = player.getKeys();
         for (int i = 0; i < keys; i++) {
+            g.drawImage(keyImage, 10 + (i * 30), 40, null);
+        }
+    }
+
+    public void drawScoreAndKeysView(Graphics g, ArrayList<Key> keys){
+        // Draw the player's score
+        g.setColor(Color.BLACK);
+        g.setFont(new Font("Arial", Font.BOLD, 20));
+        g.drawString("Collected keys: " + keys + "/" + Key.NUM_KEYS, 300, 20);
+
+        // Draw the player's remaining keys
+        for (int i = 0; i < keys.size(); i++) {
             g.drawImage(keyImage, 10 + (i * 30), 40, null);
         }
     }

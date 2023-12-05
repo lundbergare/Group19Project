@@ -11,15 +11,26 @@ import javax.swing.*;
 public abstract class Level extends JPanel implements ActionListener, IBoundary {
 
     protected static final int YAXIS = 800;
-    protected static final int XAXIS = 600;
+    protected static final int XAXIS = 1600;
 
     protected Timer timer;
     public Player player;
-    protected PlayerView playerView;
     protected PlayerController playerController;
     protected Image heartImage;
     private LevelListener listener;
     protected ArrayList<Platform> platforms; // Declare the ArrayList for platforms
+    protected ArrayList<Coin> coins;
+
+
+
+    protected ArrayList<Key> keys;
+
+
+
+    private long lastTime = System.nanoTime();
+    private final double NS_PER_UPDATE = 1000000000.0 / 60.0; // 60 updates per second
+    private double accumulatedTime = 0.0;
+
 
 
 
@@ -28,9 +39,10 @@ public abstract class Level extends JPanel implements ActionListener, IBoundary 
         setBackground(new Color(68, 138, 184));
 
         platforms = new ArrayList<Platform>();
+        keys = new ArrayList<Key>();
 
 
-        player = new Player();
+        player = new Player(this);
         playerController = new PlayerController(player);
 
         addKeyListener(playerController);
@@ -54,11 +66,26 @@ public abstract class Level extends JPanel implements ActionListener, IBoundary 
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        long now = System.nanoTime();
+        double delta = (now - lastTime) / NS_PER_UPDATE; // Calculate delta time
+        lastTime = now;
+
+        accumulatedTime += delta;
+        while (accumulatedTime >= 1) {
+            player.tick(); // Update player logic
+            updateLevel();
+            if (listener != null) {
+                listener.onTimerTick();
+            }
+            // Other game logic updates here...
+            accumulatedTime -= 1;
+        }
         player.tick();
         updateLevel();
         if (listener != null) {
             listener.onTimerTick();
-        }    }
+        }
+    }
 
     protected abstract void updateLevel();
 
@@ -69,6 +96,14 @@ public abstract class Level extends JPanel implements ActionListener, IBoundary 
 
     public ArrayList<Platform> getPlatforms() {
         return platforms;
+    }
+
+    public ArrayList<Key> getKeys() {
+        return keys;
+    }
+
+    public ArrayList<Coin> getCoins() {
+        return coins;
     }
 
 
