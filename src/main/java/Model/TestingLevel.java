@@ -105,8 +105,8 @@ public class TestingLevel extends JPanel implements ActionListener, IBoundary {
         setFocusTraversalKeysEnabled(false);
         //enemy = new Enemy(100, 100, 1, 20);
 
-        coins = Coin.populateCoins();
-        keys= Key.populateKeys();
+        //coins = Coin.populateCoins();
+        //keys= Key.populateKeys();
         // this timer will call the actionPerformed() method every DELAY ms
         timer = new Timer(DELAY, this);
         timer.start();

@@ -25,8 +25,8 @@ public class LevelTEST extends Level {
         platforms.add(platform2);
         platforms.add(platform3);
         platforms.add(platform4);
-        coins = Coin.populateCoins();
-        keys = Key.populateKeys();
+        //coins = Coin.populateCoins();
+        //keys = Key.populateKeys();
         enemy = new Enemy(500, 450, 1, 850, 10, 10);
 
         powerUpModel = new PowerUpModel(200, 420);

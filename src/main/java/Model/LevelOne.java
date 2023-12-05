@@ -1,5 +1,9 @@
 package Model;
 
+import java.awt.*;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+
 public class LevelOne extends Level {
 
     private final Enemy enemy;
@@ -8,6 +12,7 @@ public class LevelOne extends Level {
     public LevelOne() {
         super();
 
+        //This is quite ugly, but I think it is really easy to understand how we are creating platforms, keys and coins etc.
         Platform platform1 = PlatformFactory.createPlatform(0,500,300,50);
         Platform platform2 = PlatformFactory.createPlatform(370, 500, 200, 50);
         Platform platform3 = PlatformFactory.createPlatform(400, 300, 200, 50);
@@ -15,17 +20,29 @@ public class LevelOne extends Level {
         Platform platform5 = PlatformFactory.createPlatform(470, 700, 800, 50);
         Platform platform6 = PlatformFactory.createPlatform(380, 400, 800, 50);
 
-
         platforms.add(platform1);
         platforms.add(platform2);
         platforms.add(platform3);
         platforms.add(platform4);
-
         platforms.add(platform5);
         platforms.add(platform6);
 
-        coins = Coin.populateCoins();
-        keys = Key.populateKeys();
+        ArrayList<Point> coinPositions = new ArrayList<>();
+        coinPositions.add(new Point(60, 450));
+        coinPositions.add(new Point(120, 450));
+        coinPositions.add(new Point(180, 450));
+        coinPositions.add(new Point(240, 450));
+
+
+        coins = Coin.populateCoins(coinPositions);
+        ArrayList<Point> keyPositions = new ArrayList<>();
+        keyPositions.add(new Point(580, 270));
+        keyPositions.add(new Point(500, 460));
+
+        keys = Key.populateKeys(keyPositions);
+
+
+
         enemy = new Enemy(500, 450, 1, 850, 10, 10);
         enemy2 = new Enemy(500, 650, 1, 650, 10, 10);
 

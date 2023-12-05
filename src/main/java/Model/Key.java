@@ -10,6 +10,8 @@ public class Key implements ICollectable {
 
     private final int WIDTH = 50;
     private final int HEIGHT = 50;
+
+    //TODO REMOVE GLOBAL VARIABLE ARGHHH
     public static final int NUM_KEYS = 2;
 
     public Key(int x, int y) {
@@ -35,16 +37,16 @@ public class Key implements ICollectable {
     //TODO Does not do anything here :(
     @Override
     public void collect(Player player) {
-
+        player.addKeys(1);
     }
 
-    public static ArrayList<Key> populateKeys() {
+    public static ArrayList<Key> populateKeys(ArrayList<Point> keyPositions) {
         ArrayList<Key> keyList = new ArrayList<>();
-    
-        keyList.add(new Key(580, 270));
-    
-        keyList.add(new Key(500, 460));
-    
+
+        for (Point position : keyPositions) {
+            keyList.add(new Key(position.x, position.y));
+        }
+
         return keyList;
     }
 
@@ -52,7 +54,7 @@ public class Key implements ICollectable {
         ArrayList<Key> collectedKeys = new ArrayList<>();
         for (Key key : keys) {
             if (key.checkCollision(player)) {
-                player.addKeys(NUM_KEYS);
+                key.collect(player);
                 collectedKeys.add(key);
             }
         }

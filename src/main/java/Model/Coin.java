@@ -12,13 +12,15 @@ public class Coin implements ICollectable {
     private final int HEIGHT = 50;
 
     // controls how many coins appear on the board, probably unnecessary since each coin will be uniquely placed
+
+
+    //TODO REMOVE GLOBAL VARIABLE ARGHHH
     public static final int NUM_COINS = 4;
 
     //Only xy-coordinates necessary when initalizing
     public Coin(int x, int y) {
         pos = new Point(x, y);
     }
-
 
     public Point getPos() {
         return pos;
@@ -42,31 +44,29 @@ public class Coin implements ICollectable {
 
     @Override
     public void collect(Player player) {
-
+        player.addScore(1);
     }
 
-    public static ArrayList populateCoins() {
-        ArrayList coinList = new ArrayList<>();
+    public static ArrayList<Coin> populateCoins(ArrayList<Point> coinPositions) {
+        ArrayList<Coin> coinList = new ArrayList<>();
 
-        for (int i = 0; i < NUM_COINS; i++) {
-            int coinX = (i + 1) * 60;
-            int coinY = 450;
-            coinList.add(new Coin(coinX, coinY));
+        for (Point position : coinPositions) {
+            coinList.add(new Coin(position.x, position.y));
         }
 
         return coinList;
     }
+
     public static void collectCoins(Player player, ArrayList<Coin> coins){
-        // Array of collected coins
         ArrayList<Coin> collectedCoins = new ArrayList<>();
-        // Collect coins that the player is in contact with
+
         for (Coin coin: coins) {
             if (coin.checkCollision(player)) {
-                player.addScore(1);
+                coin.collect(player); // Call collect() when collision happens
                 collectedCoins.add(coin);
             }
         }
-        // Remove collected coins from the level
+
         coins.removeAll(collectedCoins);
     }
 
