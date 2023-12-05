@@ -39,6 +39,9 @@ public class Player implements interfacekill {
     private boolean facingRight = true;
     private IBoundary boundary;
 
+
+    private boolean hasDoubleJumped = false;
+
     // The maximum jump height when initially jumping, decreases while in air.
     private int jumpHeightRemaining;
 
@@ -152,8 +155,6 @@ public class Player implements interfacekill {
     public void tick() {
         // this gets called once every tick, before the repainting process happens.
         jumpTick();
-        //moveRightTick();
-        //moveLeftTick();
         levelBordersTick();
         if (isPoweredUp && System.currentTimeMillis() > powerUpEndTime) {
             isPoweredUp = false;
@@ -225,14 +226,11 @@ public class Player implements interfacekill {
 
     @Override
     public void kill(Player player, Enemy enemy) {
-
         if (!Enemy.isImmune && collision(player, enemy)) {
             enemy.setRectangleY(-100);
             enemy.setRectangleX(-100);
-
         }
     }
-
     @Override
     public boolean collision(Player smurf, Enemy enemy) {
         int yEnemyTop = enemy.getRectangleY() - 50;  // Top of the enemy

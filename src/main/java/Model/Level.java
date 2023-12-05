@@ -28,7 +28,7 @@ public abstract class Level extends JPanel implements ActionListener, IBoundary 
 
 
     private long lastTime = System.nanoTime();
-    private final double NS_PER_UPDATE = 1000000000.0 / 60.0; // 60 updates per second
+    private final double NS_PER_UPDATE = 1000000000.0 / 60.0; //Updates per second, 100 now
     private double accumulatedTime = 0.0;
 
 

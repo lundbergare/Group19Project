@@ -2,22 +2,18 @@ package Model;
 
 public class LevelOne extends Level {
 
-
-
-    private Platform platform;
     private final Enemy enemy;
     private final Enemy enemy2;
 
     public LevelOne() {
         super();
 
-        Platform platform1 = new Platform(0, 500, 300, 50);
-        Platform platform2 = new Platform(370, 500, 200, 50);
-        Platform platform3 = new Platform(400, 300, 200, 50);
-        Platform platform4 = new Platform(670, 300, 200, 50);
-
-        Platform platform5 = new Platform(470, 700, 800, 50);
-        Platform platform6 = new Platform(380, 400, 800, 50);
+        Platform platform1 = PlatformFactory.createPlatform(0,500,300,50);
+        Platform platform2 = PlatformFactory.createPlatform(370, 500, 200, 50);
+        Platform platform3 = PlatformFactory.createPlatform(400, 300, 200, 50);
+        Platform platform4 = PlatformFactory.createPlatform(670, 300, 200, 50);
+        Platform platform5 = PlatformFactory.createPlatform(470, 700, 800, 50);
+        Platform platform6 = PlatformFactory.createPlatform(380, 400, 800, 50);
 
 
         platforms.add(platform1);
@@ -49,9 +45,6 @@ public class LevelOne extends Level {
     @Override
     protected void updateLevel() {
         // Level-specific TICK
-
-
-
         ProjectModel.platformCollision(player, platforms);
         Coin.collectCoins(player, coins);
         Key.collectKeys(player, keys);
