@@ -5,6 +5,7 @@ import View.PlayerView;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.util.ArrayList;
 import javax.swing.*;
 
 public abstract class Level extends JPanel implements ActionListener, IBoundary {
@@ -16,15 +17,20 @@ public abstract class Level extends JPanel implements ActionListener, IBoundary 
     public Player player;
     protected PlayerView playerView;
     protected PlayerController playerController;
-
     protected Image heartImage;
+    private LevelListener listener;
+    protected ArrayList<Platform> platforms; // Declare the ArrayList for platforms
+
+
 
     public Level() {
         setPreferredSize(new Dimension(YAXIS, XAXIS));
         setBackground(new Color(68, 138, 184));
 
-        player = new Player(this);
-        playerView = new PlayerView(player);
+        platforms = new ArrayList<Platform>();
+
+
+        player = new Player();
         playerController = new PlayerController(player);
 
         addKeyListener(playerController);
@@ -35,33 +41,36 @@ public abstract class Level extends JPanel implements ActionListener, IBoundary 
         heartImage = icon.getImage().getScaledInstance(25, 25, Image.SCALE_SMOOTH);
 
         timer = new Timer(1, this);
+    }
+
+
+    public void startTimer() {
         timer.start();
+    }
+
+    public void stopTimer() {
+        timer.stop();
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
         player.tick();
         updateLevel();
-        repaint();
-    }
+        if (listener != null) {
+            listener.onTimerTick();
+        }    }
 
     protected abstract void updateLevel();
 
-    @Override
-    protected void paintComponent(Graphics g) {
-        super.paintComponent(g);
-        drawLevel(g);
-        Toolkit.getDefaultToolkit().sync();
-        g.setColor(Color.BLACK); // color for the score text
-        g.setFont(new Font("Arial", Font.BOLD, 20)); // font for score
-        g.drawString("Collected coins: " + player.getScore() + "/" + Coin.NUM_COINS, 10, 20); // position of score on screen
-
-        // Draw the player's lives
-        int lives = player.getLives();
-        for (int i = 0; i < lives; i++) {
-            g.drawImage(heartImage, 10 + (i * 30), 40, this); // Adjust position and spacing as needed
-        }
+    public void setLevelListener(LevelListener listener) {
+        this.listener = listener;
     }
 
-    protected abstract void drawLevel(Graphics g);
+
+    public ArrayList<Platform> getPlatforms() {
+        return platforms;
+    }
+
+
 }
+

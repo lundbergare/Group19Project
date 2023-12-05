@@ -14,49 +14,43 @@ import javax.swing.*;
 
 public class Level1 extends Level {
 
+    public ArrayList<Coin> getCoins() {
+        return coins;
+    }
+
     private ArrayList<Coin> coins;
     private Platform platform;
     private Enemy enemy;
     private CoinView coinView;
     private EnemyView enemyView;
 
-    private ArrayList<Platform> platforms; // Declare the ArrayList for platforms
-
-
-
-
     public Level1() {
         super();
-        platform = new Platform(90, 500, 400, 50);
-        platforms = new ArrayList<>();
+        Platform platform1 = new Platform(0, 500, 300, 50);
+        Platform platform2 = new Platform(370, 500, 200, 50);
+        Platform platform3 = new Platform(400, 300, 200, 50);
+        Platform platform4 = new Platform(670, 300, 200, 50);
 
-        platforms.add(platform);
+        platforms.add(platform1);
+        platforms.add(platform2);
+        platforms.add(platform3);
+        platforms.add(platform4);
         coins = Coin.populateCoins();
-        coinView = new CoinView();
-        enemy = new Enemy(100, 100, 1, 30,50,50);
-        enemyView = new EnemyView(enemy);
+        enemy = new Enemy(500, 450, 1, 850);
     }
 
     @Override
     protected void updateLevel() {
-        // Level-specific update logic TICK
+        // Level-specific TICK
+
         ProjectModel.platformCollision(player, platforms);
         Coin.collectCoins(player, coins);
         enemy.move();
     }
 
-    protected void drawLevel(Graphics g) {
-        // Level-specific drawing code
-        for (Coin coin : coins) {
-            coinView.drawCoin(g, coin); // Draw each coin
-        }
-        playerView.draw(g);
-        drawPlayerInfo(g);
-        enemyView.draw(g);
-    }
 
-    private void drawPlayerInfo(Graphics g) {
-
+    public Enemy getEnemy() {
+        return enemy;
     }
 
     @Override
@@ -68,4 +62,5 @@ public class Level1 extends Level {
     public int getYAxisLimit() {
         return YAXIS;
     }
+
 }
