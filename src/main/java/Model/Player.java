@@ -86,7 +86,7 @@ public class Player implements interfacekill {
     //Moves the player right ways while right direction true
     public void moveRightTick() {
         if (movingRight) {
-            pos.translate(6, 0);
+            pos.translate(1, 0);
             facingRight = true; // Player is moving right
         }
         /*if (movingRight && isSpeedPoweredUp) {
@@ -99,7 +99,7 @@ public class Player implements interfacekill {
     //Moves the player left ways while left direction true
     public void moveLeftTick() {
         if (movingLeft) {
-            pos.translate(-6, 0);
+            pos.translate(-5, 0);
             facingRight = false; // Player is moving left
         }
     }
@@ -114,7 +114,7 @@ public class Player implements interfacekill {
         if (canJump) {
             //Velocity when initially jumping
             verticalVelocity = -10;
-            jumpHeightRemaining = 150;
+            jumpHeightRemaining = 180;
             canJump = false;// Set the maximum jump height
         }
     }

@@ -25,7 +25,7 @@ public class Enemy extends Observable implements interfacekill {
         this.rectangleY = initialY;
         this.direction = initialDirection;
         this.maxXPosition = maxXPosition; // Set the maximum Y position
-        this.speed = 6; // Set the speed
+        this.speed = 5; // Set the speed
         this.width= WIDTH;
         this.height= HIGHT;
         this.isFacingRight = isFacingRight;

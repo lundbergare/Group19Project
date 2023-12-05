@@ -80,11 +80,6 @@ public abstract class Level extends JPanel implements ActionListener, IBoundary 
             // Other game logic updates here...
             accumulatedTime -= 1;
         }
-        player.tick();
-        updateLevel();
-        if (listener != null) {
-            listener.onTimerTick();
-        }
     }
 
     protected abstract void updateLevel();
