@@ -1,30 +1,20 @@
 package Model;
 
-import Controller.PlayerController;
-import View.CoinView;
-import View.EnemyView;
-import View.PlayerView;
 
-
-import java.awt.*;
-import java.awt.event.*;
 import java.util.ArrayList;
-import javax.swing.*;
 
 
-public class Level1 extends Level {
+public class LevelTEST extends Level {
 
-    public ArrayList<Coin> getCoins() {
-        return coins;
-    }
-
-    private ArrayList<Coin> coins;
     private Platform platform;
-    private Enemy enemy;
-    private CoinView coinView;
-    private EnemyView enemyView;
+    private final Enemy enemy;
+    private PowerUpModel powerUpModel;
+    private SpeedPowerUpModel speedPowerUpModel;
+    private ShieldPowerUpModel shieldPowerUpModel;
 
-    public Level1() {
+
+
+    public LevelTEST() {
         super();
         Platform platform1 = new Platform(0, 500, 300, 50);
         Platform platform2 = new Platform(370, 500, 200, 50);
@@ -36,16 +26,27 @@ public class Level1 extends Level {
         platforms.add(platform3);
         platforms.add(platform4);
         coins = Coin.populateCoins();
-        enemy = new Enemy(500, 450, 1, 850);
+        keys = Key.populateKeys();
+        enemy = new Enemy(500, 450, 1, 850, 10, 10);
+
+        powerUpModel = new PowerUpModel(200, 420);
+        speedPowerUpModel = new SpeedPowerUpModel(150, 420);
+        shieldPowerUpModel = new ShieldPowerUpModel(450, 250);
+
     }
 
     @Override
     protected void updateLevel() {
         // Level-specific TICK
 
+
+
         ProjectModel.platformCollision(player, platforms);
         Coin.collectCoins(player, coins);
+        Key.collectKeys(player, keys);
         enemy.move();
+        enemy.kill(player, enemy);
+        player.kill(player, enemy);
     }
 
 
@@ -53,6 +54,9 @@ public class Level1 extends Level {
         return enemy;
     }
 
+    public ArrayList<Coin> getCoins() {
+        return coins;
+    }
     @Override
     public int getXAxisLimit() {
         return XAXIS;

@@ -1,0 +1,71 @@
+Index: src/main/java/Model/Level.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package Model;\r\n\r\nimport Controller.PlayerController;\r\nimport View.PlayerView;\r\n\r\nimport java.awt.*;\r\nimport java.awt.event.*;\r\nimport javax.swing.*;\r\n\r\npublic abstract class Level extends JPanel implements ActionListener {\r\n\r\n    protected static final int YAXIS = 800;\r\n    protected static final int XAXIS = 600;\r\n\r\n    protected Timer timer;\r\n    public Player player;\r\n    protected PlayerView playerView;\r\n    protected PlayerController playerController;\r\n\r\n    protected Image heartImage;\r\n\r\n    public Level() {\r\n        setPreferredSize(new Dimension(YAXIS, XAXIS));\r\n        setBackground(new Color(68, 138, 184));\r\n\r\n        player = new Player();\r\n        playerView = new PlayerView(player);\r\n        playerController = new PlayerController(player);\r\n\r\n        addKeyListener(playerController);\r\n        setFocusable(true);\r\n        setFocusTraversalKeysEnabled(false);\r\n\r\n        ImageIcon icon = new ImageIcon(\"src/main/java/Model/images/GameHeart.png\");\r\n        heartImage = icon.getImage().getScaledInstance(25, 25, Image.SCALE_SMOOTH);\r\n\r\n        timer = new Timer(1, this);\r\n        timer.start();\r\n    }\r\n\r\n    @Override\r\n    public void actionPerformed(ActionEvent e) {\r\n        player.tick();\r\n        updateLevel();\r\n        repaint();\r\n    }\r\n\r\n    protected abstract void updateLevel();\r\n\r\n    @Override\r\n    protected void paintComponent(Graphics g) {\r\n        super.paintComponent(g);\r\n        drawLevel(g);\r\n        Toolkit.getDefaultToolkit().sync();\r\n        g.setColor(Color.BLACK); // color for the score text\r\n        g.setFont(new Font(\"Arial\", Font.BOLD, 20)); // font for score\r\n        g.drawString(\"Collected coins: \" + player.getScore() + \"/\" + Coin.NUM_COINS, 10, 20); // position of score on screen\r\n\r\n        // Draw the player's lives\r\n        int lives = player.getLives();\r\n        for (int i = 0; i < lives; i++) {\r\n            g.drawImage(heartImage, 10 + (i * 30), 40, this); // Adjust position and spacing as needed\r\n        }\r\n    }\r\n\r\n    protected abstract void drawLevel(Graphics g);\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/Model/Level.java b/src/main/java/Model/Level.java
+--- a/src/main/java/Model/Level.java	
++++ b/src/main/java/Model/Level.java	
+@@ -5,6 +5,7 @@
+ 
+ import java.awt.*;
+ import java.awt.event.*;
++import java.util.ArrayList;
+ import javax.swing.*;
+ 
+ public abstract class Level extends JPanel implements ActionListener {
+@@ -18,6 +19,9 @@
+     protected PlayerController playerController;
+ 
+     protected Image heartImage;
++    private ArrayList<Platform> platforms; // Declare the ArrayList for platforms
++
++    protected LevelCamera camera;
+ 
+     public Level() {
+         setPreferredSize(new Dimension(YAXIS, XAXIS));
+@@ -36,13 +40,20 @@
+ 
+         timer = new Timer(1, this);
+         timer.start();
++
++        camera = new LevelCamera(1000, 750);
++
+     }
+ 
+     @Override
+     public void actionPerformed(ActionEvent e) {
++
+         player.tick();
+         updateLevel();
+-        repaint();
++    }
++
++    public ArrayList<Platform> getPlatforms() {
++        return platforms;
+     }
+ 
+     protected abstract void updateLevel();
+@@ -50,8 +61,9 @@
+     @Override
+     protected void paintComponent(Graphics g) {
+         super.paintComponent(g);
+-        drawLevel(g);
+         Toolkit.getDefaultToolkit().sync();
++
++        /*
+         g.setColor(Color.BLACK); // color for the score text
+         g.setFont(new Font("Arial", Font.BOLD, 20)); // font for score
+         g.drawString("Collected coins: " + player.getScore() + "/" + Coin.NUM_COINS, 10, 20); // position of score on screen
+@@ -61,7 +73,8 @@
+         for (int i = 0; i < lives; i++) {
+             g.drawImage(heartImage, 10 + (i * 30), 40, this); // Adjust position and spacing as needed
+         }
++
++         */
+     }
+ 
+-    protected abstract void drawLevel(Graphics g);
+ }
