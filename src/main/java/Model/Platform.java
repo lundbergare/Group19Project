@@ -13,18 +13,27 @@ public class Platform {
 
 
 
-    //Only xy-coordinates necessary when initalizing
+    /**
+     * A platform with specified position and dimensions.
+     *
+     * @param xPos The x-coordinate of the platform's top-left corner.
+     * @param yPos The y-coordinate of the platform's top-left corner.
+     * @param width The width of the platform.
+     * @param height The height of the platform.
+     */
     public Platform(int xPos, int yPos, int width, int height) {
-
         this.xPos = xPos;
         this.yPos = yPos;
         this.width = width;
         this.height = height;
 
     }
-    //TODO: Should have no drawing in the model!
-    // Draws the visual representation of the platform
-    // Return a list of each corner of the platform
+
+    /**
+     * Retrieves coordinates that represents the area covered by the platform
+     * The array contains the x and y-coordinates in the top left corner
+     * @return An array with positions
+     */
     public int[] getArea() {
         return new int[] { xPos, yPos, xPos + width, yPos + height };
     }

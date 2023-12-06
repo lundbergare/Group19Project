@@ -29,8 +29,4 @@ public class ShieldPowerUpModel implements IPowerUp {
         // check if 5 seconds have passed since activation of power up
         return System.currentTimeMillis() - activationTime < 5000;
     }
-    @Override
-    public void reset() {
-        isActive = true;
-    }
 }

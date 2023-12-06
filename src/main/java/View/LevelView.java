@@ -6,6 +6,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 
+/**
+ * Creates a level that is used solely for testing and playing around...
+ */
 public abstract class LevelView extends JPanel {
     protected static final int YAXIS = 1000;
     protected static final int XAXIS = 3000;
@@ -84,7 +87,6 @@ public abstract class LevelView extends JPanel {
             keyView.drawKey(g, key);
         }
     }
-
 
         @Override
         protected void paintComponent (Graphics g){

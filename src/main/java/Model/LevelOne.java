@@ -1,20 +1,27 @@
 package Model;
-
 import View.ProjectView;
-
 import java.awt.*;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
+/**
+ * Represents the first level, extended from Level class.
+ *
+ * Defines specific configuration for LevelOne while inheriting
+ * from the Level class.
+ *
+ */
 public class LevelOne extends Level {
-
     private final Enemy enemy;
     private final Enemy enemy2;
 
+    /**
+     * Constructs LevelOne, initializing the platforms, power-ups, coins, keys and enemies.
+     *
+     * @param projectView ProjectView instance associated with LevelOne
+     */
     public LevelOne(ProjectView projectView) {
         super(projectView);
 
-        //This is quite ugly, but I think it is really easy to understand how we are creating platforms, keys and coins etc.
         Platform platform1 = PlatformFactory.createPlatform(0,500,300,50);
         Platform platform2 = PlatformFactory.createPlatform(370, 500, 200, 50);
         Platform platform3 = PlatformFactory.createPlatform(400, 300, 200, 50);
@@ -50,9 +57,7 @@ public class LevelOne extends Level {
 
         enemy = new Enemy(500, 450, 1, 850, 10, 10);
         enemy2 = new Enemy(500, 650, 1, 650, 10, 10);
-
     }
-
 
     @Override
     public int getXAxisLimit() {
@@ -63,6 +68,13 @@ public class LevelOne extends Level {
     public int getYAxisLimit() {
         return YAXIS;
     }
+    /**
+     * Updates game features for the level
+     *
+     * Is responsible for updating the level by performing
+     * actions related to platform collisions, coin and keys,
+     * enemy movements, and the player killing enemies.
+     */
 
     @Override
     protected void updateLevel() {
@@ -75,7 +87,6 @@ public class LevelOne extends Level {
         enemy.kill(player, enemy);
         enemy2.kill(player, enemy2);
         player.kill(player, enemy);
-
     }
     public Enemy getEnemy() {
         return enemy;
