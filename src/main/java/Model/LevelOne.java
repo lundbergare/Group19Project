@@ -38,14 +38,13 @@ public class LevelOne extends Level {
         coinPositions.add(new Point(120, 450));
         coinPositions.add(new Point(180, 450));
         coinPositions.add(new Point(240, 450));
+        coins = CoinFactory.createCoins(coinPositions);
 
 
-        coins = Coin.populateCoins(coinPositions);
         ArrayList<Point> keyPositions = new ArrayList<>();
         keyPositions.add(new Point(580, 270));
         keyPositions.add(new Point(500, 460));
-
-        keys = Key.populateKeys(keyPositions);
+        keys = KeyFactory.createKeys(keyPositions);
 
 
 
