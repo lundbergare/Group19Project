@@ -68,11 +68,11 @@ public class Enemy extends Observable implements interfacekill {
     public int getDirection() {
         return direction;
     }
-    public void setDirection(int direction) {
-        this.direction = direction;
-                notifyObservers();
-
-    }
+//    public void setDirection(int direction) {
+//        this.direction = direction;
+//                notifyObservers();
+//
+//    }
     @Override
     public boolean collision(Player smurf, Enemy enemy) {
         int[] enemyArea = enemy.getArea();
