@@ -6,10 +6,7 @@ import java.util.ArrayList;
 
 public class Key implements ICollectable {
 
-    private Point pos;
-
-    private final int WIDTH = 50;
-    private final int HEIGHT = 50;
+    private final Point pos;
 
     //TODO REMOVE GLOBAL VARIABLE ARGHHH
     public static final int NUM_KEYS = 2;
@@ -33,21 +30,9 @@ public class Key implements ICollectable {
         int leftSide = keyArea[0];
         return (yPlayer >= topSide + 5 && yPlayer <= underSide - 5) && (xPlayer > leftSide && xPlayer < rightSide);
     }
-
-    //TODO Does not do anything here :(
     @Override
     public void collect(Player player) {
         player.addKeys(1);
-    }
-
-    public static ArrayList<Key> populateKeys(ArrayList<Point> keyPositions) {
-        ArrayList<Key> keyList = new ArrayList<>();
-
-        for (Point position : keyPositions) {
-            keyList.add(new Key(position.x, position.y));
-        }
-
-        return keyList;
     }
 
     public static void collectKeys(Player player, ArrayList<Key> keys) {
@@ -62,11 +47,9 @@ public class Key implements ICollectable {
     }
 
 
-    public int getCenterX() {
-        return this.pos.x + (this.WIDTH / 2);
-    }
-
     public int[] getArea() {
+        int WIDTH = 50;
+        int HEIGHT = 50;
         return new int[]{pos.x, pos.y, pos.x + WIDTH, pos.y + HEIGHT};
     }
 }

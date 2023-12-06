@@ -6,10 +6,10 @@ import java.lang.reflect.Array;
 public class Platform {
 
     //private Point pos;
-    private int width;
-    private int height;
-    private int xPos;
-    private int yPos;
+    private final int width;
+    private final int height;
+    private final int xPos;
+    private final int yPos;
 
 
 

@@ -9,7 +9,7 @@ import java.awt.geom.AffineTransform;
 import java.util.ArrayList;
 import javax.swing.*;
 
-//TODO Fix platform extension
+//TODO Should just delete
 public class TestingLevel extends JPanel implements ActionListener, IBoundary {
 
     // controls the delay between each tick in ms
