@@ -1,5 +1,5 @@
 import Controller.PlayerController;
-import Model.LevelTEST;
+//import Model.LevelTEST;
 
 import javax.swing.*;
 
@@ -15,11 +15,11 @@ class App {
 
         // create the jpanel to draw on.
         // this also initializes the game loop
-        LevelTEST levelTEST = new LevelTEST();
+        //LevelTEST levelTEST = new LevelTEST();
         // add the jpanel to the window
-        window.add(levelTEST);
+        //window.add(levelTEST);
         // pass keyboard inputs to the jpanel
-        window.addKeyListener(new PlayerController(levelTEST.player));
+        //window.addKeyListener(new PlayerController(levelTEST.player));
 
         // don't allow the user to resize the window
         window.setResizable(false);

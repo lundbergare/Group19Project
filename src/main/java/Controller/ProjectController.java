@@ -2,9 +2,9 @@ package Controller;
 
 
 import Model.LevelOne;
-import Model.LevelTEST;
+//import Model.LevelTEST;
 import View.LevelOneView;
-import View.LevelTESTView;
+//import View.LevelTESTView;
 import View.ProjectView;
 import View.HowToPlayView;
 
@@ -45,7 +45,7 @@ public class ProjectController {
 
  */
 
-            LevelOne newLevel = new LevelOne();
+            LevelOne newLevel = new LevelOne(view);
             LevelOneView levelView = new LevelOneView(newLevel);
             LevelController controller = new LevelController(newLevel, levelView);
             view.showNewScreen(levelView);

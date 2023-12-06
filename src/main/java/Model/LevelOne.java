@@ -1,5 +1,7 @@
 package Model;
 
+import View.ProjectView;
+
 import java.awt.*;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -9,8 +11,8 @@ public class LevelOne extends Level {
     private final Enemy enemy;
     private final Enemy enemy2;
 
-    public LevelOne() {
-        super();
+    public LevelOne(ProjectView projectView) {
+        super(projectView);
 
         //This is quite ugly, but I think it is really easy to understand how we are creating platforms, keys and coins etc.
         Platform platform1 = PlatformFactory.createPlatform(0,500,300,50);

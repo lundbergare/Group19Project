@@ -46,7 +46,11 @@ public class GameOverPanel extends JPanel {
     }
 
     public void addReturnToMenuButtonListener(ActionListener listener) {
-        returnToMenuButton.addActionListener(listener);
+        for (Component comp : getComponents()) {
+            if (comp instanceof JButton) {
+                ((JButton) comp).addActionListener(listener);
+            }
+        }
     }
 }
 

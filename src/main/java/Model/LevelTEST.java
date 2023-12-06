@@ -1,5 +1,7 @@
-package Model;
+/*package Model;
 
+
+import View.ProjectView;
 
 import java.util.ArrayList;
 
@@ -11,6 +13,7 @@ public class LevelTEST extends Level {
     private PowerUpModel powerUpModel;
     private SpeedPowerUpModel speedPowerUpModel;
     private ShieldPowerUpModel shieldPowerUpModel;
+
 
 
 
@@ -68,3 +71,5 @@ public class LevelTEST extends Level {
     }
 
 }
+
+ */

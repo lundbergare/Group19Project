@@ -1,4 +1,4 @@
-package View;
+/*package View;
 
 import Model.*;
 
@@ -66,13 +66,12 @@ public class LevelTESTView extends LevelView {
 
         shieldPowerUpView.draw(g2d, shieldPowerUpModel);
         */
-        drawCoins(g);
+        //drawCoins(g);
 
-        g2d.setTransform(originalTransform);
-        g2d.dispose(); // dispose the graphics copy
-    }
+        //g2d.setTransform(originalTransform);
+        //g2d.dispose(); // dispose the graphics copy
+    //}
 
 
-    }
-
+    //}
 

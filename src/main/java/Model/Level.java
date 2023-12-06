@@ -1,10 +1,7 @@
 package Model;
 
 import Controller.PlayerController;
-import View.PlayerView;
-import View.PowerUpView;
-import View.ShieldPowerUpView;
-import View.SpeedPowerUpView;
+import View.*;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -28,6 +25,8 @@ public abstract class Level extends JPanel implements ActionListener, IBoundary 
     protected SpeedPowerUpModel speedPowerUpModel;
     protected ShieldPowerUpModel shieldPowerUpModel;
 
+    protected ProjectView projectView;
+
     protected ArrayList<Key> keys;
 
     private long lastTime = System.nanoTime();
@@ -37,12 +36,14 @@ public abstract class Level extends JPanel implements ActionListener, IBoundary 
 
 
 
-    public Level() {
+    public Level(ProjectView projectView) {
         setPreferredSize(new Dimension(YAXIS, XAXIS));
         setBackground(new Color(68, 138, 184));
 
         platforms = new ArrayList<Platform>();
         keys = new ArrayList<Key>();
+
+        this.projectView = projectView;
 
         player = new Player(this);
         playerController = new PlayerController(player);
@@ -96,6 +97,10 @@ public abstract class Level extends JPanel implements ActionListener, IBoundary 
         if (checkCollision3(player, shieldPowerUpModel)) {
             shieldPowerUpModel.activate();
             player.applyShieldPowerUp(shieldPowerUpModel);
+        }
+
+        if (player.getLives() <= 0) {
+            projectView.showGameOverScreen();
         }
     }
 
