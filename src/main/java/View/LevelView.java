@@ -23,6 +23,9 @@ public abstract class LevelView extends JPanel {
     protected ArrayList<Key> keys;
     protected KeyView keyView;
 
+    protected PowerUpView powerUpView;
+    protected SpeedPowerUpView speedPowerUpView;
+    protected ShieldPowerUpView shieldPowerUpView;
 
     protected Graphics g;
     protected Graphics2D g2d;
@@ -44,6 +47,8 @@ public abstract class LevelView extends JPanel {
         coinView = new CoinView();
         g2d = (Graphics2D) g;
         camera = new LevelCamera(1000, 750);
+
+
 
     }
 

@@ -1,7 +1,6 @@
 package View;
 
-import Model.LevelOne;
-import Model.Platform;
+import Model.*;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
@@ -21,6 +20,10 @@ public class LevelOneView extends LevelView{
         enemyView2 = new EnemyView(level.getEnemy2());
 
         keyView = new KeyView();
+
+        powerUpView = new PowerUpView(level.getPowerUpModel());
+        speedPowerUpView = new SpeedPowerUpView(level.getSpeedPowerUpModel());
+        shieldPowerUpView = new ShieldPowerUpView(level.getShieldPowerUpModel());
     }
 
     @Override
@@ -50,13 +53,13 @@ public class LevelOneView extends LevelView{
         enemyView.draw(g);
         enemyView2.draw(g);
         drawKeys(g);
-        /*
-        powerUpView.draw(g2d, powerUpModel);
 
-        speedPowerUpView.draw(g2d, speedPowerUpModel);
+        powerUpView.draw(g2d);
 
-        shieldPowerUpView.draw(g2d, shieldPowerUpModel);
-        */
+        speedPowerUpView.draw(g2d);
+
+        shieldPowerUpView.draw(g2d);
+
         drawCoins(g);
 
         g2d.setTransform(originalTransform);

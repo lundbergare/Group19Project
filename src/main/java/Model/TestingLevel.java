@@ -69,13 +69,13 @@ public class TestingLevel extends JPanel implements ActionListener, IBoundary {
         camera = new LevelCamera(1000, 750);
 
         powerUpModel = new PowerUpModel(200, 420);
-        powerUpView = new PowerUpView();
+        powerUpView = new PowerUpView(powerUpModel);
 
         speedPowerUpModel = new SpeedPowerUpModel(150, 420);
-        speedPowerUpView = new SpeedPowerUpView();
+        speedPowerUpView = new SpeedPowerUpView(speedPowerUpModel);
 
         shieldPowerUpModel = new ShieldPowerUpModel(450, 250);
-        shieldPowerUpView = new ShieldPowerUpView();
+        shieldPowerUpView = new ShieldPowerUpView(shieldPowerUpModel);
 
         addKeyListener(playerController);
         setFocusable(true);
@@ -135,11 +135,11 @@ public class TestingLevel extends JPanel implements ActionListener, IBoundary {
 
         enView.draw(g2d);
 
-        powerUpView.draw(g2d, powerUpModel);
+        powerUpView.draw(g2d);
 
-        speedPowerUpView.draw(g2d, speedPowerUpModel);
+        speedPowerUpView.draw(g2d);
 
-        shieldPowerUpView.draw(g2d, shieldPowerUpModel);
+        shieldPowerUpView.draw(g2d);
 
         PlatformView platformView = new PlatformView(platforms);
         for (Platform platform : platforms) {
