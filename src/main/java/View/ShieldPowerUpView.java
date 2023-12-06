@@ -11,10 +11,12 @@ import java.io.IOException;
 
 public class ShieldPowerUpView {
     private BufferedImage shieldImage;
+    private ShieldPowerUpModel shieldPowerUpModel;
     private int scaledWidth = 30;
     private int scaledHeight = 30;
 
-    public ShieldPowerUpView() {
+    public ShieldPowerUpView(ShieldPowerUpModel shieldPowerUpModel) {
+        this.shieldPowerUpModel = shieldPowerUpModel;
         try {
             shieldImage = ImageIO.read(new File("src/main/java/View/ImagesForView/shield2.png"));
         } catch (IOException e) {
@@ -23,9 +25,9 @@ public class ShieldPowerUpView {
         }
     }
 
-    public void draw(Graphics g, ShieldPowerUpModel powerUp) {
-        if (shieldImage != null && powerUp.isActive()) {
-            Point pos = powerUp.getPosition();
+    public void draw(Graphics g) {
+        if (shieldImage != null && shieldPowerUpModel.isActive()) {
+            Point pos = shieldPowerUpModel.getPosition();
             g.drawImage(shieldImage, pos.x, pos.y, scaledWidth, scaledHeight, null);
         }
     }

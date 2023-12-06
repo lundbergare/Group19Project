@@ -2,6 +2,9 @@ package Model;
 
 import Controller.PlayerController;
 import View.PlayerView;
+import View.PowerUpView;
+import View.ShieldPowerUpView;
+import View.SpeedPowerUpView;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -21,11 +24,11 @@ public abstract class Level extends JPanel implements ActionListener, IBoundary 
     protected ArrayList<Platform> platforms; // Declare the ArrayList for platforms
     protected ArrayList<Coin> coins;
 
-
+    protected PowerUpModel powerUpModel;
+    protected SpeedPowerUpModel speedPowerUpModel;
+    protected ShieldPowerUpModel shieldPowerUpModel;
 
     protected ArrayList<Key> keys;
-
-
 
     private long lastTime = System.nanoTime();
     private final double NS_PER_UPDATE = 1000000000.0 / 60.0; // 60 updates per second
@@ -40,7 +43,6 @@ public abstract class Level extends JPanel implements ActionListener, IBoundary 
 
         platforms = new ArrayList<Platform>();
         keys = new ArrayList<Key>();
-
 
         player = new Player(this);
         playerController = new PlayerController(player);
@@ -80,6 +82,21 @@ public abstract class Level extends JPanel implements ActionListener, IBoundary 
             // Other game logic updates here...
             accumulatedTime -= 1;
         }
+
+        if (checkCollision(player, powerUpModel)) {
+            powerUpModel.activate();
+            player.applyPowerUp(powerUpModel);
+        }
+
+        if (checkCollision2(player, speedPowerUpModel)) {
+            speedPowerUpModel.activate();
+            player.applySpeedPowerUp(speedPowerUpModel);
+        }
+
+        if (checkCollision3(player, shieldPowerUpModel)) {
+            shieldPowerUpModel.activate();
+            player.applyShieldPowerUp(shieldPowerUpModel);
+        }
     }
 
     protected abstract void updateLevel();
@@ -101,6 +118,39 @@ public abstract class Level extends JPanel implements ActionListener, IBoundary 
         return coins;
     }
 
+    public boolean checkCollision(Player player, PowerUpModel powerUp) {
+        if (!powerUp.isActive()) {
+            return false; // No collision if the power-up is not active
+        }
 
+        Rectangle playerRect = new Rectangle(player.getPos().x, player.getPos().y, player.getWidth(), player.getHeight());
+        Point powerUpPos = powerUp.getPosition();
+        Rectangle powerUpRect = new Rectangle(powerUpPos.x, powerUpPos.y, 30, 30);
+
+        return playerRect.intersects(powerUpRect);
+    }
+
+    public boolean checkCollision2(Player player, SpeedPowerUpModel powerUp) {
+        if (!powerUp.isActive()) {
+            return false; // No collision if the power-up is not active
+        }
+
+        Rectangle playerRect = new Rectangle(player.getPos().x, player.getPos().y, player.getWidth(), player.getHeight());
+        Point powerUpPos = powerUp.getPosition();
+        Rectangle powerUpRect = new Rectangle(powerUpPos.x, powerUpPos.y, 30, 30);
+
+        return playerRect.intersects(powerUpRect);
+    }
+
+    public boolean checkCollision3(Player player, ShieldPowerUpModel powerUp) {
+        if (!powerUp.isActive()) {
+            return false; // No collision if the power-up is not active
+        }
+
+        Rectangle playerRect = new Rectangle(player.getPos().x, player.getPos().y, player.getWidth(), player.getHeight());
+        Point powerUpPos = powerUp.getPosition();
+        Rectangle powerUpRect = new Rectangle(powerUpPos.x, powerUpPos.y, 30, 30);
+
+        return playerRect.intersects(powerUpRect);
+    }
 }
-

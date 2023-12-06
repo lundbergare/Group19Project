@@ -1,7 +1,6 @@
 package View;
 
-import Model.LevelTEST;
-import Model.Platform;
+import Model.*;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
@@ -9,9 +8,13 @@ import java.awt.geom.AffineTransform;
 public class LevelTESTView extends LevelView {
 
     private PowerUpView powerUpView;
+    private PowerUpModel powerUpModel;
 
     private SpeedPowerUpView speedPowerUpView;
+    private SpeedPowerUpModel speedPowerUpModel;
+
     private ShieldPowerUpView shieldPowerUpView;
+    private ShieldPowerUpModel shieldPowerUpModel;
 
     protected EnemyView enemyView;
 
@@ -25,9 +28,9 @@ public class LevelTESTView extends LevelView {
         enemyView = new EnemyView(levelTEST.getEnemy());
         keyView = new KeyView();
 
-        powerUpView = new PowerUpView();
-        speedPowerUpView = new SpeedPowerUpView();
-        shieldPowerUpView = new ShieldPowerUpView();
+        powerUpView = new PowerUpView(powerUpModel);
+        speedPowerUpView = new SpeedPowerUpView(speedPowerUpModel);
+        shieldPowerUpView = new ShieldPowerUpView(shieldPowerUpModel);
 
     }
 
