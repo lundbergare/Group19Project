@@ -33,9 +33,6 @@ public abstract class Level extends JPanel implements ActionListener, IBoundary 
     private final double NS_PER_UPDATE = 1000000000.0 / 60.0; //Updates per second, 100 now
     private double accumulatedTime = 0.0;
 
-
-
-
     public Level(ProjectView projectView) {
         setPreferredSize(new Dimension(YAXIS, XAXIS));
         setBackground(new Color(68, 138, 184));
@@ -101,6 +98,10 @@ public abstract class Level extends JPanel implements ActionListener, IBoundary 
 
         if (player.getLives() <= 0) {
             projectView.showGameOverScreen();
+        }
+
+        if (player.getKeyScore() == 2) {
+            projectView.showVictoryScreen();
         }
     }
 
