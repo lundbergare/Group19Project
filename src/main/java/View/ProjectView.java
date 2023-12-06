@@ -112,4 +112,10 @@ public class ProjectView {
         gameOverPanel.addReturnToMenuButtonListener(e -> showPreviousScreen());
         showNewScreen(gameOverPanel);
     }
+
+    public void showVictoryScreen() {
+        VictoryPanel victoryPanel = new VictoryPanel();
+        //victoryPanel.addReturnToMenuButtonListener(e -> showPreviousScreen());
+        showNewScreen(victoryPanel);
+    }
 }
