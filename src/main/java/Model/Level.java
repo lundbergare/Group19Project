@@ -59,9 +59,9 @@ public abstract class Level extends JPanel implements ActionListener, IBoundary 
         timer.start();
     }
 
-    public void stopTimer() {
+   /* public void stopTimer() {
         timer.stop();
-    }
+    }*/
 
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -85,12 +85,12 @@ public abstract class Level extends JPanel implements ActionListener, IBoundary 
             player.applyPowerUp(powerUpModel);
         }
 
-        if (checkCollision2(player, speedPowerUpModel)) {
+        if (checkCollision(player, speedPowerUpModel)) {
             speedPowerUpModel.activate();
             player.applySpeedPowerUp(speedPowerUpModel);
         }
 
-        if (checkCollision3(player, shieldPowerUpModel)) {
+        if (checkCollision(player, shieldPowerUpModel)) {
             shieldPowerUpModel.activate();
             player.applyShieldPowerUp(shieldPowerUpModel);
         }
@@ -121,11 +121,10 @@ public abstract class Level extends JPanel implements ActionListener, IBoundary 
         return coins;
     }
 
-    public boolean checkCollision(Player player, PowerUpModel powerUp) {
+    public boolean checkCollision(Player player, IPowerUp powerUp) {
         if (!powerUp.isActive()) {
             return false; // No collision if the power-up is not active
         }
-
         Rectangle playerRect = new Rectangle(player.getPos().x, player.getPos().y, player.getWidth(), player.getHeight());
         Point powerUpPos = powerUp.getPosition();
         Rectangle powerUpRect = new Rectangle(powerUpPos.x, powerUpPos.y, 30, 30);
@@ -133,27 +132,4 @@ public abstract class Level extends JPanel implements ActionListener, IBoundary 
         return playerRect.intersects(powerUpRect);
     }
 
-    public boolean checkCollision2(Player player, SpeedPowerUpModel powerUp) {
-        if (!powerUp.isActive()) {
-            return false; // No collision if the power-up is not active
-        }
-
-        Rectangle playerRect = new Rectangle(player.getPos().x, player.getPos().y, player.getWidth(), player.getHeight());
-        Point powerUpPos = powerUp.getPosition();
-        Rectangle powerUpRect = new Rectangle(powerUpPos.x, powerUpPos.y, 30, 30);
-
-        return playerRect.intersects(powerUpRect);
-    }
-
-    public boolean checkCollision3(Player player, ShieldPowerUpModel powerUp) {
-        if (!powerUp.isActive()) {
-            return false; // No collision if the power-up is not active
-        }
-
-        Rectangle playerRect = new Rectangle(player.getPos().x, player.getPos().y, player.getWidth(), player.getHeight());
-        Point powerUpPos = powerUp.getPosition();
-        Rectangle powerUpRect = new Rectangle(powerUpPos.x, powerUpPos.y, 30, 30);
-
-        return playerRect.intersects(powerUpRect);
-    }
 }

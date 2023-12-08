@@ -22,9 +22,9 @@ public abstract class LevelView extends JPanel {
     protected ArrayList<Key> keys;
     //protected KeyView keyView;
 
-    protected PowerUpView powerUpView;
-    protected SpeedPowerUpView speedPowerUpView;
-    protected ShieldPowerUpView shieldPowerUpView;
+//    protected PowerUpView powerUpView;
+//    protected SpeedPowerUpView speedPowerUpView;
+//    protected ShieldPowerUpView shieldPowerUpView;
 
     protected Graphics g;
     protected Graphics2D g2d;
