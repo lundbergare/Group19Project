@@ -47,7 +47,6 @@ public class ProjectController {
 
             LevelOne newLevel = new LevelOne(view);
             LevelOneView levelView = new LevelOneView(newLevel);
-            LevelController controller = new LevelController(newLevel, levelView);
             view.showNewScreen(levelView);
             levelView.requestFocusInWindow();
 

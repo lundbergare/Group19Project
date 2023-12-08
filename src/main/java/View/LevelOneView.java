@@ -9,9 +9,12 @@ public class LevelOneView extends LevelView{
     protected EnemyView enemyView;
     protected EnemyView enemyView2;
 
+    private LevelOne level;
+
 
     public LevelOneView(LevelOne level){
         super();
+        this.level = level;
         coins = level.getCoins();
         platforms = level.getPlatforms();
         keys = level.getKeys();
@@ -24,8 +27,32 @@ public class LevelOneView extends LevelView{
         powerUpView = new PowerUpView(level.getPowerUpModel());
         speedPowerUpView = new SpeedPowerUpView(level.getSpeedPowerUpModel());
         shieldPowerUpView = new ShieldPowerUpView(level.getShieldPowerUpModel());
+
+        addKeyListener(level.getPlayerController());
+
+
+        // Make sure the view is focusable and has focus for key events to work
+        level.startTimer();
+        setFocusable(true);
+        requestFocusInWindow();
+
+        this.level.setLevelListener(this);
+
     }
 
+    @Override
+    public void onTimerTick(){
+        camera.update(level.player.getPos(), 3000, 1000);
+        uiUpdate();
+
+
+        repaint();
+    }
+
+    public void uiUpdate(){
+        setScore(level.player.getScore());
+        setLives(level.player.getLives());
+    }
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
