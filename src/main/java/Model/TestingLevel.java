@@ -1,4 +1,4 @@
-package Model;
+/*package Model;
 
 import Controller.PlayerController;
 import View.*;
@@ -268,4 +268,4 @@ public class TestingLevel extends JPanel implements ActionListener, IBoundary {
     }
     //Populate the level with the coins and add to list of coins in level, returns list.
     // Currently only adapted for testing level
-}
+}*/

@@ -49,12 +49,11 @@ public abstract class Level extends JPanel implements ActionListener, IBoundary 
         setFocusable(true);
         setFocusTraversalKeysEnabled(false);
 
-        ImageIcon icon = new ImageIcon("src/main/java/Model/images/GameHeart.png");
-        heartImage = icon.getImage().getScaledInstance(25, 25, Image.SCALE_SMOOTH);
+        //ImageIcon icon = new ImageIcon("src/main/java/Model/images/GameHeart.png");
+        //heartImage = icon.getImage().getScaledInstance(25, 25, Image.SCALE_SMOOTH);
 
         timer = new Timer(1, this);
     }
-
 
     public void startTimer() {
         timer.start();
@@ -110,8 +109,6 @@ public abstract class Level extends JPanel implements ActionListener, IBoundary 
     public void setLevelListener(LevelListener listener) {
         this.listener = listener;
     }
-
-
     public ArrayList<Platform> getPlatforms() {
         return platforms;
     }
