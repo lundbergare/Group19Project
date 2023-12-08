@@ -121,6 +121,11 @@ public abstract class Level extends JPanel implements ActionListener, IBoundary 
         return coins;
     }
 
+    public PlayerController getPlayerController() {
+        return playerController;
+    }
+
+
     public boolean checkCollision(Player player, PowerUpModel powerUp) {
         if (!powerUp.isActive()) {
             return false; // No collision if the power-up is not active

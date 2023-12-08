@@ -6,7 +6,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 
-public abstract class LevelView extends JPanel {
+public abstract class LevelView extends JPanel implements LevelListener{
     protected static final int YAXIS = 1000;
     protected static final int XAXIS = 3000;
     protected Image heartImage;
@@ -44,7 +44,10 @@ public abstract class LevelView extends JPanel {
         coinView = new CoinView();
         g2d = (Graphics2D) g;
         camera = new LevelCamera(1000, 750);
+
     }
+
+
 
     protected void paintUserInterface(Graphics g) {
         g.setColor(Color.BLACK); // color for the score text
@@ -101,4 +104,5 @@ public abstract class LevelView extends JPanel {
         public void setLives ( int lives){
             this.lives = lives;
         }
+
     }
