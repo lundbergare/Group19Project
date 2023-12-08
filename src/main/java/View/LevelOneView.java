@@ -19,7 +19,7 @@ public class LevelOneView extends LevelView{
         enemyView = new EnemyView(level.getEnemy());
         enemyView2 = new EnemyView(level.getEnemy2());
 
-        keyView = new KeyView();
+        //keyView = new KeyView();
 
         powerUpView = new PowerUpView(level.getPowerUpModel());
         speedPowerUpView = new SpeedPowerUpView(level.getSpeedPowerUpModel());
@@ -31,6 +31,7 @@ public class LevelOneView extends LevelView{
         super.paintComponent(g);
         drawCoins(g);
         drawKeys(g);
+        paintUserInterface(g);
         drawLevel(g);
         Toolkit.getDefaultToolkit().sync();
 
