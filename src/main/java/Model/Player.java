@@ -243,30 +243,30 @@ public class Player implements interfacekill {
         return false;
     }
 
-    public void applyPowerUp(PowerUpModel powerUp) {
-        if (powerUp.isEffectActive()) {
-        }
-        isPoweredUp = true;
-        powerUpEndTime = System.currentTimeMillis() + 5000; // 5 seconds from now
-        int oldHeight = height;
-        // Double the size
-        width *= 1.8;
-        height *= 1.8;
-    }
+//    public void applyPowerUp(PowerUpModel powerUp) {
+//        if (powerUp.isEffectActive()) {
+//        }
+//        isPoweredUp = true;
+//        powerUpEndTime = System.currentTimeMillis() + 5000; // 5 seconds from now
+//        int oldHeight = height;
+//        // Double the size
+//        width *= 1.8;
+//        height *= 1.8;
+//    }
 
-    public void applySpeedPowerUp(SpeedPowerUpModel powerUp) {
-        if (powerUp.isEffectActive()) {
-            speedMultiplier = 2.0;
-            speedPowerUpEndTime = System.currentTimeMillis() + 5000; // 5 seconds
-        }
-    }
-
-    public void applyShieldPowerUp(ShieldPowerUpModel powerUp) {
-        if (powerUp.isEffectActive()) {
-            Enemy.isImmune = true;
-            immunityEndTime = System.currentTimeMillis() + 5000; // 5 seconds
-        }
-    }
+//    public void applySpeedPowerUp(SpeedPowerUpModel powerUp) {
+//        if (powerUp.isEffectActive()) {
+//            speedMultiplier = 2.0;
+//            speedPowerUpEndTime = System.currentTimeMillis() + 5000; // 5 seconds
+//        }
+//    }
+//
+//    public void applyShieldPowerUp(ShieldPowerUpModel powerUp) {
+//        if (powerUp.isEffectActive()) {
+//            Enemy.isImmune = true;
+//            immunityEndTime = System.currentTimeMillis() + 5000; // 5 seconds
+//        }
+//    }
 
     public void addKeys(int i) {
     keyScore += 1;

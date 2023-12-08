@@ -22,9 +22,9 @@ public class LevelOne extends Level {
         Platform platform5 = PlatformFactory.createPlatform(470, 700, 800, 50);
         Platform platform6 = PlatformFactory.createPlatform(380, 400, 800, 50);
 
-        powerUpModel = new PowerUpModel(200, 420);
-        speedPowerUpModel = new SpeedPowerUpModel(150, 420);
-        shieldPowerUpModel = new ShieldPowerUpModel(450, 250);
+//        powerUpModel = new PowerUpModel(200, 420);
+//        speedPowerUpModel = new SpeedPowerUpModel(150, 420);
+//        shieldPowerUpModel = new ShieldPowerUpModel(450, 250);
 
         platforms.add(platform1);
         platforms.add(platform2);
@@ -84,16 +84,16 @@ public class LevelOne extends Level {
         return enemy2;
     }
 
-    public PowerUpModel getPowerUpModel() {
-        return powerUpModel;
-    }
-
-    public SpeedPowerUpModel getSpeedPowerUpModel() {
-        return speedPowerUpModel;
-    }
-
-    public ShieldPowerUpModel getShieldPowerUpModel() {
-        return shieldPowerUpModel;
-    }
+//    public PowerUpModel getPowerUpModel() {
+//        return powerUpModel;
+//    }
+//
+//    public SpeedPowerUpModel getSpeedPowerUpModel() {
+//        return speedPowerUpModel;
+//    }
+//
+//    public ShieldPowerUpModel getShieldPowerUpModel() {
+//        return shieldPowerUpModel;
+//    }
     
 }

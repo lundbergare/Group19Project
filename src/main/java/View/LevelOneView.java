@@ -24,9 +24,9 @@ public class LevelOneView extends LevelView{
 
         //keyView = new KeyView();
 
-        powerUpView = new PowerUpView(level.getPowerUpModel());
-        speedPowerUpView = new SpeedPowerUpView(level.getSpeedPowerUpModel());
-        shieldPowerUpView = new ShieldPowerUpView(level.getShieldPowerUpModel());
+//        powerUpView = new PowerUpView(level.getPowerUpModel());
+//        speedPowerUpView = new SpeedPowerUpView(level.getSpeedPowerUpModel());
+//        shieldPowerUpView = new ShieldPowerUpView(level.getShieldPowerUpModel());
 
         addKeyListener(level.getPlayerController());
 
@@ -82,11 +82,11 @@ public class LevelOneView extends LevelView{
         enemyView2.draw(g);
         drawKeys(g);
 
-        powerUpView.draw(g2d);
-
-        speedPowerUpView.draw(g2d);
-
-        shieldPowerUpView.draw(g2d);
+//        powerUpView.draw(g2d);
+//
+//        speedPowerUpView.draw(g2d);
+//
+//        shieldPowerUpView.draw(g2d);
 
         drawCoins(g);
 
