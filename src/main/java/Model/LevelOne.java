@@ -43,8 +43,8 @@ public class LevelOne extends Level {
         keys = KeyFactory.createKeys(keyPositions);
 
 
-        enemy = new Enemy(500, 450, 1, 850, 10, 10, 2);
-        enemy2 = new Enemy(500, 650, 1, 650, 10, 10, 2);
+        enemy = new Enemy(500, 450, 1, 850, 10, 10, 3);
+        enemy2 = new Enemy(500, 650, 1, 650, 10, 10, 3);
 
     }
 
