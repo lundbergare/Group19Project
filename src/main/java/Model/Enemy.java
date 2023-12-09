@@ -20,14 +20,14 @@ public class Enemy extends Observable implements interfacekill {
     private Player player;
     private boolean isFacingRight;
     //TODO Not something that is supposed to be in the view: Move over to model.
-    public Enemy(int initialX, int initialY, int initialDirection, int maxXPosition, int WIDTH, int HIGHT) {
+    public Enemy(int initialX, int initialY, int initialDirection, int maxXPosition, int width, int height, int speed) {
         this.rectangleX = initialX;
         this.rectangleY = initialY;
         this.direction = initialDirection;
         this.maxXPosition = maxXPosition; // Set the maximum Y position
-        this.speed = 5; // Set the speed
-        this.width= WIDTH;
-        this.height= HIGHT;
+        this.speed = speed; // Set the speed
+        this.width= width;
+        this.height= height;
         this.isFacingRight = isFacingRight;
 
     }
