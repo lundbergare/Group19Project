@@ -22,7 +22,7 @@ public abstract class LevelView extends JPanel implements LevelListener{
     protected ArrayList<Key> keys;
     //protected KeyView keyView;
 
-    protected PowerUpView powerUpView;
+//    protected PowerUpView powerUpView;
     protected SpeedPowerUpView speedPowerUpView;
     protected ShieldPowerUpView shieldPowerUpView;
 

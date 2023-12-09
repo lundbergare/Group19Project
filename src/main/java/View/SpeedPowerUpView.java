@@ -1,6 +1,6 @@
 package View;
 
-import Model.PowerUpModel;
+//import Model.PowerUpModel;
 import Model.SpeedPowerUpModel;
 
 import javax.imageio.ImageIO;
@@ -18,7 +18,7 @@ public class SpeedPowerUpView {
     public SpeedPowerUpView(SpeedPowerUpModel speedPowerUpModel) {
         this.speedPowerUpModel = speedPowerUpModel;
         try {
-            mushroomImage = ImageIO.read(new File("src/main/java/View/ImagesForView/mushroom.png"));
+            mushroomImage = ImageIO.read(new File("src/main/java/View/ImagesForView/raspberry.png"));
         } catch (IOException e) {
             e.printStackTrace();
             // handle the error

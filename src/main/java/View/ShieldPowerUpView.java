@@ -1,6 +1,8 @@
 package View;
 
-import Model.PowerUpModel;
+//import Model.PowerUpModel;
+//import Model.ShieldPowerUpModel;
+
 import Model.ShieldPowerUpModel;
 
 import javax.imageio.ImageIO;

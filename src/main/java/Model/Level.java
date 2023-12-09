@@ -21,7 +21,7 @@ public abstract class Level extends JPanel implements ActionListener, IBoundary 
     protected ArrayList<Platform> platforms; // Declare the ArrayList for platforms
     protected ArrayList<Coin> coins;
 
-    protected PowerUpModel powerUpModel;
+//    protected PowerUpModel powerUpModel;
     protected SpeedPowerUpModel speedPowerUpModel;
     protected ShieldPowerUpModel shieldPowerUpModel;
 
@@ -80,10 +80,10 @@ public abstract class Level extends JPanel implements ActionListener, IBoundary 
             accumulatedTime -= 1;
         }
 
-        if (checkCollision(player, powerUpModel)) {
-            powerUpModel.activate();
-            player.applyPowerUp(powerUpModel);
-        }
+//        if (checkCollision(player, powerUpModel)) {
+//            powerUpModel.activate();
+//            player.applyPowerUp(powerUpModel);
+//        }
 
         if (checkCollision2(player, speedPowerUpModel)) {
             speedPowerUpModel.activate();
@@ -126,17 +126,17 @@ public abstract class Level extends JPanel implements ActionListener, IBoundary 
     }
 
 
-    public boolean checkCollision(Player player, PowerUpModel powerUp) {
-        if (!powerUp.isActive()) {
-            return false; // No collision if the power-up is not active
-        }
-
-        Rectangle playerRect = new Rectangle(player.getPos().x, player.getPos().y, player.getWidth(), player.getHeight());
-        Point powerUpPos = powerUp.getPosition();
-        Rectangle powerUpRect = new Rectangle(powerUpPos.x, powerUpPos.y, 30, 30);
-
-        return playerRect.intersects(powerUpRect);
-    }
+//    public boolean checkCollision(Player player, PowerUpModel powerUp) {
+//        if (!powerUp.isActive()) {
+//            return false; // No collision if the power-up is not active
+//        }
+//
+//        Rectangle playerRect = new Rectangle(player.getPos().x, player.getPos().y, player.getWidth(), player.getHeight());
+//        Point powerUpPos = powerUp.getPosition();
+//        Rectangle powerUpRect = new Rectangle(powerUpPos.x, powerUpPos.y, 30, 30);
+//
+//        return playerRect.intersects(powerUpRect);
+//    }
 
     public boolean checkCollision2(Player player, SpeedPowerUpModel powerUp) {
         if (!powerUp.isActive()) {
