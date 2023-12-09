@@ -125,7 +125,6 @@ public abstract class Level extends JPanel implements ActionListener, IBoundary 
         return playerController;
     }
 
-
 //    public boolean checkCollision(Player player, PowerUpModel powerUp) {
 //        if (!powerUp.isActive()) {
 //            return false; // No collision if the power-up is not active
@@ -138,7 +137,7 @@ public abstract class Level extends JPanel implements ActionListener, IBoundary 
 //        return playerRect.intersects(powerUpRect);
 //    }
 //
-//    public boolean checkCollision2(Player player, SpeedPowerUpModel powerUp) {
+//    public boolean checkCollision2(Player player, SpeedPowerUp powerUp) {
 //        if (!powerUp.isActive()) {
 //            return false; // No collision if the power-up is not active
 //        }

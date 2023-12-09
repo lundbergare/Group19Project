@@ -1,6 +1,8 @@
 package Model;
 
 import View.ProjectView;
+import View.ShieldPowerUp;
+import View.SpeedPowerUp;
 
 import java.awt.*;
 import java.lang.reflect.Array;
@@ -10,6 +12,9 @@ public class LevelOne extends Level {
 
     private final Enemy enemy;
     private final Enemy enemy2;
+
+    private SpeedPowerUp speedPowerUp;
+    private ShieldPowerUp shieldPowerUp;
 
     public LevelOne(ProjectView projectView) {
         super(projectView);
@@ -25,6 +30,8 @@ public class LevelOne extends Level {
 //        powerUpModel = new PowerUpModel(200, 420);
 //        speedPowerUpModel = new SpeedPowerUpModel(150, 420);
 //        shieldPowerUpModel = new ShieldPowerUpModel(450, 250);
+        speedPowerUp = new SpeedPowerUp(150, 420);
+        shieldPowerUp = new ShieldPowerUp(200, 420);
 
         platforms.add(platform1);
         platforms.add(platform2);
@@ -64,6 +71,22 @@ public class LevelOne extends Level {
         return YAXIS;
     }
 
+    public boolean isSpeedPowerUpActive() {
+        return speedPowerUp.isActive();
+    }
+
+    public Point getSpeedPowerUpPosition() {
+        return speedPowerUp.getPosition();
+    }
+
+    public boolean isShieldPowerUpActive() {
+        return shieldPowerUp.isActive();
+    }
+
+    public Point getShieldPowerUpPosition() {
+        return shieldPowerUp.getPosition();
+    }
+
     @Override
     protected void updateLevel() {
         // Level-specific TICK
@@ -75,6 +98,18 @@ public class LevelOne extends Level {
         enemy.kill(player, enemy);
         enemy2.kill(player, enemy2);
         player.kill(player, enemy);
+
+        if (speedPowerUp.isActive() && player.getPos().distance(speedPowerUp.getPosition()) < 25) {
+            speedPowerUp.activate();
+            player.activateSpeedBoost(5000); // 5 seconds
+        }
+
+        if (shieldPowerUp.isActive() && player.getPos().distance(shieldPowerUp.getPosition()) < 25) {
+            shieldPowerUp.activate();
+            player.activateShield(5000); // 5 seconds
+        }
+
+        //checkCollisions();
 
     }
     public Enemy getEnemy() {

@@ -26,7 +26,7 @@ public class Player implements interfacekill {
     private double speedMultiplier = 1.0;
     private long speedPowerUpEndTime;
 
-    private boolean isImmune = false;
+    //private boolean isImmune = false;
     private long immunityEndTime;
 
     //Player will fall down at 2 px/tick gravity by default
@@ -64,6 +64,12 @@ public class Player implements interfacekill {
 
     public int getHeight() {
         return height;
+    }
+
+    public void activateSpeedBoost(long duration) {
+        this.isSpeedPoweredUp = true;
+        this.speedMultiplier = 1.8;
+        this.speedPowerUpEndTime = System.currentTimeMillis() + duration;
     }
 
     //While there is remaining jump height, the player will keep going up.
@@ -151,12 +157,17 @@ public class Player implements interfacekill {
         this.movingLeft = movingLeft;
     }
 
+    public void activateShield(long duration) {
+        Enemy.isImmune = true;
+        this.immunityEndTime = System.currentTimeMillis() + duration;
+    }
+
 
     public void tick() {
         // this gets called once every tick, before the repainting process happens.
         jumpTick();
         levelBordersTick();
-        if (isPoweredUp && System.currentTimeMillis() > powerUpEndTime) {
+        /*if (isPoweredUp && System.currentTimeMillis() > powerUpEndTime) {
             isPoweredUp = false;
 
             width /= 1.8;
@@ -168,6 +179,15 @@ public class Player implements interfacekill {
         }
 
         if (System.currentTimeMillis() > immunityEndTime) {
+            Enemy.isImmune = false;
+        }*/
+
+        if (isSpeedPoweredUp && System.currentTimeMillis() > speedPowerUpEndTime) {
+            isSpeedPoweredUp = false;
+            speedMultiplier = 1.0;
+        }
+
+        if (Enemy.isImmune && System.currentTimeMillis() > immunityEndTime) {
             Enemy.isImmune = false;
         }
 
@@ -223,6 +243,10 @@ public class Player implements interfacekill {
     public int getCenterX() {
         return this.pos.x + (this.width / 2);
     }
+
+    /*public boolean isImmune() {
+        return isImmune; // 'isImmune' is a boolean field in the Player class
+    }*/
 
     @Override
     public void kill(Player player, Enemy enemy) {

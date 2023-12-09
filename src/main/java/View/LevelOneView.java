@@ -2,12 +2,15 @@ package View;
 
 import Model.*;
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 
 public class LevelOneView extends LevelView{
     protected EnemyView enemyView;
     protected EnemyView enemyView2;
+    private Image speedPowerUpImage;
+    private Image shieldPowerUpImage;
 
     private LevelOne level;
 
@@ -21,6 +24,11 @@ public class LevelOneView extends LevelView{
         super.playerView = new PlayerView(level.player);
         enemyView = new EnemyView(level.getEnemy());
         enemyView2 = new EnemyView(level.getEnemy2());
+
+        ImageIcon icon = new ImageIcon("src/main/java/View/ImagesForView/raspberry.png");
+        speedPowerUpImage = icon.getImage().getScaledInstance(25, 25, Image.SCALE_SMOOTH);
+        ImageIcon icon2 = new ImageIcon("src/main/java/View/ImagesForView/shield2.png");
+        shieldPowerUpImage = icon2.getImage().getScaledInstance(25, 25, Image.SCALE_SMOOTH);
 
         //keyView = new KeyView();
 
@@ -81,6 +89,21 @@ public class LevelOneView extends LevelView{
         enemyView.draw(g);
         enemyView2.draw(g);
         drawKeys(g);
+
+        /*if (level.speedPowerUp.isActive()) {
+            Point pos = level.speedPowerUp.getPosition();
+            g.drawImage(speedPowerUpImage, pos.x, pos.y, null);
+        }*/
+
+        if (level.isSpeedPowerUpActive()) {
+            Point pos = level.getSpeedPowerUpPosition();
+            g.drawImage(speedPowerUpImage, pos.x, pos.y, null);
+        }
+
+        if (level.isShieldPowerUpActive()) { // Implement isShieldPowerUpActive similarly as done for speed power-up
+            Point pos = level.getShieldPowerUpPosition(); // Implement getShieldPowerUpPosition similarly
+            g.drawImage(shieldPowerUpImage, pos.x, pos.y, null);
+        }
 
 //        powerUpView.draw(g2d);
 //
