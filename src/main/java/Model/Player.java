@@ -6,18 +6,13 @@ import java.awt.Point;
 public class Player implements interfacekill {
 
     public Point pos;
-    //TODO not properly implemented score, needs reworking
     private int score;
     private int numLives;
     private int keyScore;
-    public void setNumLives(int numLives) {
-        this.numLives = numLives;
-    }
     private int width = 50;
     private int height = 50;
 
     private boolean movingRight = false;
-    private boolean isSpeedPoweredUp = false;
     private boolean movingLeft = false;
 
     private boolean isPoweredUp = false;
@@ -26,7 +21,6 @@ public class Player implements interfacekill {
     private double speedMultiplier = 1.0;
     private long speedPowerUpEndTime;
 
-    private boolean isImmune = false;
     private long immunityEndTime;
 
     //Player will fall down at 2 px/tick gravity by default
@@ -39,10 +33,6 @@ public class Player implements interfacekill {
     private boolean facingRight = true;
     private IBoundary boundary;
 
-
-    private boolean hasDoubleJumped = false;
-
-    // The maximum jump height when initially jumping, decreases while in air.
     private int jumpHeightRemaining;
 
     public Player(IBoundary boundary) {
@@ -66,9 +56,6 @@ public class Player implements interfacekill {
         return height;
     }
 
-    //While there is remaining jump height, the player will keep going up.
-    // Jump height decreases by adding vertical (downwards) velocity for each tick.
-
     private void levelBordersTick() {
         // prevent the player from moving off the edge of the board sideways
         if (pos.x < 0) {
@@ -84,35 +71,10 @@ public class Player implements interfacekill {
         }
     }
 
-    //TODO: Must also fix the moving right and left: seem to "pixellike"
-    //Moves the player right ways while right direction true
-    //Moves the player right ways while right direction true
-    public void moveRightTick() {
-        if (movingRight) {
-            pos.translate(1, 0);
-            facingRight = true; // Player is moving right
-        }
-        /*if (movingRight && isSpeedPoweredUp) {
-            pos.translate((int)(6 * speedMultiplier), 0);
-            facingRight = true;
-        }*/
-    }
-
-    //Moves the player left ways while left direction true
-    //Moves the player left ways while left direction true
-    public void moveLeftTick() {
-        if (movingLeft) {
-            pos.translate(-5, 0);
-            facingRight = false; // Player is moving left
-        }
-    }
-
     public boolean isStandingStill() {
         return !movingLeft && !movingRight;
     }
 
-
-    //TODO: fix the Jump function: jumps in a very weird way.
     public void jump() {
         if (canJump) {
             //Velocity when initially jumping
@@ -190,26 +152,11 @@ public class Player implements interfacekill {
     public void die () {
         numLives -= 1;
     }
-        public void addScorekey(int amount) {
-        score += amount;
-    }
 
     public boolean isFacingRight() {
         return facingRight;
     }
 
-    public void setFacingRight(boolean facingRight) {
-        this.facingRight = facingRight;
-    }
-
-    // TODO implement properly
-    public void addLives() {
-
-    }
-
-    public void removeLives() {
-
-    }
 
     public int getLives() {
         return numLives;
@@ -236,23 +183,9 @@ public class Player implements interfacekill {
         int yEnemyTop = enemy.getRectangleY() - 50;  // Top of the enemy
         int yEnemyBottom = enemy.getRectangleY();     // Bottom of the enemy
         int playerBottom = smurf.getPos().y;          // Bottom of the player
-        if (playerBottom >= yEnemyTop && playerBottom <= yEnemyBottom
-                && smurf.getPos().x >= enemy.getRectangleX() && smurf.getPos().x <= enemy.getRectangleX() + enemy.getWidth()) {
-            return true;
-        }
-        return false;
+        return playerBottom >= yEnemyTop && playerBottom <= yEnemyBottom
+                && smurf.getPos().x >= enemy.getRectangleX() && smurf.getPos().x <= enemy.getRectangleX() + enemy.getWidth();
     }
-
-//    public void applyPowerUp(PowerUpModel powerUp) {
-//        if (powerUp.isEffectActive()) {
-//        }
-//        isPoweredUp = true;
-//        powerUpEndTime = System.currentTimeMillis() + 5000; // 5 seconds from now
-//        int oldHeight = height;
-//        // Double the size
-//        width *= 1.8;
-//        height *= 1.8;
-//    }
 
     public void applySpeedPowerUp(SpeedPowerUpModel powerUp) {
         if (powerUp.isEffectActive()) {
@@ -260,7 +193,6 @@ public class Player implements interfacekill {
             speedPowerUpEndTime = System.currentTimeMillis() + 5000; // 5 seconds
         }
     }
-
     public void applyShieldPowerUp(ShieldPowerUpModel powerUp) {
         if (powerUp.isEffectActive()) {
             Enemy.isImmune = true;

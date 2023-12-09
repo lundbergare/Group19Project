@@ -48,8 +48,8 @@ public class LevelOne extends Level {
         keys = KeyFactory.createKeys(keyPositions);
 
 
-        enemy = new Enemy(500, 450, 1, 850, 10, 10);
-        enemy2 = new Enemy(500, 650, 1, 650, 10, 10);
+        enemy = new Enemy(500, 450, 1, 850, 10, 10, 3);
+        enemy2 = new Enemy(500, 650, 1, 650, 10, 10, 2);
 
     }
 
@@ -66,7 +66,6 @@ public class LevelOne extends Level {
 
     @Override
     protected void updateLevel() {
-        // Level-specific TICK
         ProjectModel.platformCollision(player, platforms);
         Coin.collectCoins(player, coins);
         Key.collectKeys(player, keys);
@@ -74,7 +73,7 @@ public class LevelOne extends Level {
         enemy2.move();
         enemy.kill(player, enemy);
         enemy2.kill(player, enemy2);
-        player.kill(player, enemy);
+        player.kill(player, enemy2);
 
     }
     public Enemy getEnemy() {
