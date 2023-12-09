@@ -11,7 +11,7 @@ import javax.swing.*;
 public abstract class Level extends JPanel implements ActionListener, IBoundary {
 
     protected static final int YAXIS = 800;
-    protected static final int XAXIS = 1600;
+    protected static final int XAXIS = 3500;
 
     protected Timer timer;
     public Player player;

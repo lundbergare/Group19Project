@@ -82,7 +82,7 @@ public class Player implements interfacekill {
         if (canJump) {
             //Velocity when initially jumping
             verticalVelocity = -10;
-            jumpHeightRemaining = 180;
+            jumpHeightRemaining = 160;
             canJump = false;// Set the maximum jump height
         }
     }
