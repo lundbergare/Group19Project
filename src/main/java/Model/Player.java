@@ -2,17 +2,18 @@ package Model;
 
 import java.awt.Point;
 
-
 public class Player implements interfacekill {
 
     public Point pos;
-    //TODO not properly implemented score, needs reworking
+    // TODO not properly implemented score, needs reworking
     private int score;
     private int numLives;
     private int keyScore;
+
     public void setNumLives(int numLives) {
         this.numLives = numLives;
     }
+
     private int width = 50;
     private int height = 50;
 
@@ -29,16 +30,15 @@ public class Player implements interfacekill {
     private boolean isImmune = false;
     private long immunityEndTime;
 
-    //Player will fall down at 2 px/tick gravity by default
+    // Player will fall down at 2 px/tick gravity by default
     public int GRAVITY = 2;
 
-    //Velocity used when calculating falling/jumping
+    // Velocity used when calculating falling/jumping
     private int verticalVelocity;
     private boolean canJump = true;
 
     private boolean facingRight = true;
     private IBoundary boundary;
-
 
     private boolean hasDoubleJumped = false;
 
@@ -57,7 +57,7 @@ public class Player implements interfacekill {
 
     }
 
-    //Draw the Smurf
+    // Draw the Smurf
     public int getWidth() {
         return width;
     }
@@ -66,7 +66,7 @@ public class Player implements interfacekill {
         return height;
     }
 
-    //While there is remaining jump height, the player will keep going up.
+    // While there is remaining jump height, the player will keep going up.
     // Jump height decreases by adding vertical (downwards) velocity for each tick.
 
     private void levelBordersTick() {
@@ -84,22 +84,24 @@ public class Player implements interfacekill {
         }
     }
 
-    //TODO: Must also fix the moving right and left: seem to "pixellike"
-    //Moves the player right ways while right direction true
-    //Moves the player right ways while right direction true
+    // TODO: Must also fix the moving right and left: seem to "pixellike"
+    // Moves the player right ways while right direction true
+    // Moves the player right ways while right direction true
     public void moveRightTick() {
         if (movingRight) {
             pos.translate(1, 0);
             facingRight = true; // Player is moving right
         }
-        /*if (movingRight && isSpeedPoweredUp) {
-            pos.translate((int)(6 * speedMultiplier), 0);
-            facingRight = true;
-        }*/
+        /*
+         * if (movingRight && isSpeedPoweredUp) {
+         * pos.translate((int)(6 * speedMultiplier), 0);
+         * facingRight = true;
+         * }
+         */
     }
 
-    //Moves the player left ways while left direction true
-    //Moves the player left ways while left direction true
+    // Moves the player left ways while left direction true
+    // Moves the player left ways while left direction true
     public void moveLeftTick() {
         if (movingLeft) {
             pos.translate(-5, 0);
@@ -111,18 +113,17 @@ public class Player implements interfacekill {
         return !movingLeft && !movingRight;
     }
 
-
-    //TODO: fix the Jump function: jumps in a very weird way.
+    // TODO: fix the Jump function: jumps in a very weird way.
     public void jump() {
         if (canJump) {
-            //Velocity when initially jumping
+            // Velocity when initially jumping
             verticalVelocity = -10;
             jumpHeightRemaining = 180;
             canJump = false;// Set the maximum jump height
         }
     }
 
-    //While there is remaining jump height, the player will keep going up.
+    // While there is remaining jump height, the player will keep going up.
     // Jump height decreases by adding vertical (downwards) velocity for each tick.
     public void jumpTick() {
         if (jumpHeightRemaining > 0) {
@@ -151,7 +152,6 @@ public class Player implements interfacekill {
         this.movingLeft = movingLeft;
     }
 
-
     public void tick() {
         // this gets called once every tick, before the repainting process happens.
         jumpTick();
@@ -172,14 +172,14 @@ public class Player implements interfacekill {
         }
 
         if (movingRight) {
-            pos.translate((int)(6 * speedMultiplier), 0);
+            pos.translate((int) (6 * speedMultiplier), 0);
         }
         if (movingLeft) {
-            pos.translate((int)(-6 * speedMultiplier), 0);
+            pos.translate((int) (-6 * speedMultiplier), 0);
         }
     }
 
-    //TODO score not working
+    // TODO score not working
     public String getScore() {
         return String.valueOf(score);
     }
@@ -187,10 +187,12 @@ public class Player implements interfacekill {
     public void addScore(int amount) {
         score += amount;
     }
-    public void die () {
+
+    public void die() {
         numLives -= 1;
     }
-        public void addScorekey(int amount) {
+
+    public void addScorekey(int amount) {
         score += amount;
     }
 
@@ -219,28 +221,38 @@ public class Player implements interfacekill {
         return pos;
     }
 
-    //Used for collisions
+    // Used for collisions
     public int getCenterX() {
         return this.pos.x + (this.width / 2);
     }
 
     @Override
     public void kill(Player player, Enemy enemy) {
+        int smurfY = player.getPos().y;
+        int platform5Y = 700;
         if (!Enemy.isImmune && collision(player, enemy)) {
             enemy.setRectangleY(-100);
             enemy.setRectangleX(-100);
         }
+        if (smurfY > platform5Y) {
+            player.setPos(new Point(50, 50)); // Reset player position
+            player.die(); // Decrease player's life or handle death logic
+        }
     }
+
     @Override
     public boolean collision(Player smurf, Enemy enemy) {
-        int yEnemyTop = enemy.getRectangleY() - 50;  // Top of the enemy
-        int yEnemyBottom = enemy.getRectangleY();     // Bottom of the enemy
-        int playerBottom = smurf.getPos().y;          // Bottom of the player
+        int yEnemyTop = enemy.getRectangleY() - 50; // Top of the enemy
+        int yEnemyBottom = enemy.getRectangleY(); // Bottom of the enemy
+        int playerBottom = smurf.getPos().y;
+        // Bottom of the player
         if (playerBottom >= yEnemyTop && playerBottom <= yEnemyBottom
-                && smurf.getPos().x >= enemy.getRectangleX() && smurf.getPos().x <= enemy.getRectangleX() + enemy.getWidth()) {
+                && smurf.getPos().x >= enemy.getRectangleX()
+                && smurf.getPos().x <= enemy.getRectangleX() + enemy.getWidth()) {
             return true;
         }
         return false;
+
     }
 
     public void applyPowerUp(PowerUpModel powerUp) {
@@ -269,7 +281,7 @@ public class Player implements interfacekill {
     }
 
     public void addKeys(int i) {
-    keyScore += 1;
+        keyScore += 1;
 
     }
 
