@@ -21,17 +21,17 @@ public class Player implements interfacekill {
 
     private long immunityEndTime;
 
-    private boolean isSizePoweredUp = false;
+    boolean isSizePoweredUp = false;
     private long sizePowerUpEndTime;
 
     public int GRAVITY = 2;
 
-    private int verticalVelocity;
-    private boolean canJump = true;
+    int verticalVelocity;
+    boolean canJump = true;
 
     private boolean facingRight = true;
     private IBoundary boundary;
-    private int jumpHeightRemaining;
+    int jumpHeightRemaining;
 
     public Player(IBoundary boundary) {
         // initialize the state
@@ -72,7 +72,7 @@ public class Player implements interfacekill {
         this.isSizePoweredUp = false;
     }
 
-    private void levelBordersTick() {
+    void levelBordersTick() {
         // prevent the player from moving off the edge of the board sideways
         if (pos.x < 0) {
             pos.x = 0;
@@ -92,7 +92,6 @@ public class Player implements interfacekill {
     }
 
 
-    //TODO: fix the Jump function: jumps in a very weird way.
     public void jump() {
         if (canJump) {
             //Velocity when initially jumping
