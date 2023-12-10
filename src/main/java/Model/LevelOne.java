@@ -2,6 +2,7 @@ package Model;
 
 import View.ProjectView;
 import View.ShieldPowerUp;
+import View.SizePowerUp;
 import View.SpeedPowerUp;
 
 import java.awt.*;
@@ -14,11 +15,13 @@ public class LevelOne extends Level {
 
     private final SpeedPowerUp speedPowerUp;
     private final ShieldPowerUp shieldPowerUp;
+    private SizePowerUp sizePowerUp;
 
     public LevelOne(ProjectView projectView) {
         super(projectView);
         speedPowerUp = new SpeedPowerUp(150, 420);
         shieldPowerUp = new ShieldPowerUp(200, 420);
+        sizePowerUp = new SizePowerUp(500, 250);
 
         //This is quite ugly, but I think it is really easy to understand how we are creating platforms, keys and coins etc.
         PlatformFactory.createPlatform(0,500,300,50);
@@ -75,6 +78,14 @@ public class LevelOne extends Level {
         return shieldPowerUp.getPosition();
     }
 
+    public boolean isSizePowerUpActive() {
+        return sizePowerUp.isActive();
+    }
+
+    public Point getSizePowerUpPosition() {
+        return sizePowerUp.getPosition();
+    }
+
     @Override
     protected void updateLevel() {
         // Level-specific TICK
@@ -96,6 +107,11 @@ public class LevelOne extends Level {
         if (shieldPowerUp.isActive() && player.getPos().distance(shieldPowerUp.getPosition()) < 25) {
             shieldPowerUp.activate();
             player.activateShield(5000); // 5 seconds
+        }
+
+        if (sizePowerUp.isActive() && player.getPos().distance(sizePowerUp.getPosition()) < 25) {
+            sizePowerUp.activate();
+            player.activateSizeBoost(5000); // 5 seconds
         }
 
     }

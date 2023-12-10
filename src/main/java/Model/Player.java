@@ -9,7 +9,7 @@ public class Player implements interfacekill {
     private int score;
     private int numLives;
     private int keyScore;
-    private final int width = 50;
+    private int width = 50;
     private int height = 50;
 
     private boolean movingRight = false;
@@ -20,6 +20,9 @@ public class Player implements interfacekill {
     private long speedPowerUpEndTime;
 
     private long immunityEndTime;
+
+    private boolean isSizePoweredUp = false;
+    private long sizePowerUpEndTime;
 
     public int GRAVITY = 2;
 
@@ -54,6 +57,19 @@ public class Player implements interfacekill {
         this.isSpeedPoweredUp = true;
         this.speedMultiplier = 1.8;
         this.speedPowerUpEndTime = System.currentTimeMillis() + duration;
+    }
+
+    public void activateSizeBoost(long duration) {
+        this.isSizePoweredUp = true;
+        this.sizePowerUpEndTime = System.currentTimeMillis() + duration;
+        this.width *= 2; // Double the width
+        this.height *= 2; // Double the height
+    }
+
+    public void deactivateSizeBoost() {
+        this.width /= 2; // Revert to original width
+        this.height /= 2; // Revert to original height
+        this.isSizePoweredUp = false;
     }
 
     private void levelBordersTick() {
@@ -130,6 +146,10 @@ public class Player implements interfacekill {
 
         if (Enemy.isImmune && System.currentTimeMillis() > immunityEndTime) {
             Enemy.isImmune = false;
+        }
+
+        if (isSizePoweredUp && System.currentTimeMillis() > sizePowerUpEndTime) {
+            deactivateSizeBoost();
         }
 
         if (movingRight) {

@@ -11,6 +11,7 @@ public class LevelOneView extends LevelView{
     protected EnemyView enemyView2;
     private Image speedPowerUpImage;
     private Image shieldPowerUpImage;
+    private Image sizePowerUpImage;
 
     private LevelOne level;
 
@@ -29,6 +30,8 @@ public class LevelOneView extends LevelView{
         speedPowerUpImage = icon.getImage().getScaledInstance(25, 25, Image.SCALE_SMOOTH);
         ImageIcon icon2 = new ImageIcon("src/main/java/View/ImagesForView/shield2.png");
         shieldPowerUpImage = icon2.getImage().getScaledInstance(25, 25, Image.SCALE_SMOOTH);
+        ImageIcon icon3 = new ImageIcon("src/main/java/View/ImagesForView/mushroom.png");
+        sizePowerUpImage = icon3.getImage().getScaledInstance(25, 25, Image.SCALE_SMOOTH);
 
         //keyView = new KeyView();
 
@@ -100,9 +103,14 @@ public class LevelOneView extends LevelView{
             g.drawImage(speedPowerUpImage, pos.x, pos.y, null);
         }
 
-        if (level.isShieldPowerUpActive()) { // Implement isShieldPowerUpActive similarly as done for speed power-up
-            Point pos = level.getShieldPowerUpPosition(); // Implement getShieldPowerUpPosition similarly
+        if (level.isShieldPowerUpActive()) {
+            Point pos = level.getShieldPowerUpPosition();
             g.drawImage(shieldPowerUpImage, pos.x, pos.y, null);
+        }
+
+        if (level.isSizePowerUpActive()) {
+            Point pos = level.getSizePowerUpPosition();
+            g.drawImage(sizePowerUpImage, pos.x, pos.y, null);
         }
 
 //        powerUpView.draw(g2d);
