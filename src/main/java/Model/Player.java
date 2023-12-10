@@ -6,7 +6,6 @@ import java.awt.Point;
 public class Player implements interfacekill {
 
     public Point pos;
-    //TODO not properly implemented score, needs reworking
     private int score;
     private int numLives;
     private int keyScore;

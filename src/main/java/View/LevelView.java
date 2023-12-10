@@ -10,7 +10,7 @@ public abstract class LevelView extends JPanel implements LevelListener{
     protected static final int YAXIS = 1000;
     protected static final int XAXIS = 3000;
     protected Image heartImage;
-    private Image keyImage;
+    private final Image keyImage;
 
     protected CoinView coinView;
     protected PlayerView playerView;
