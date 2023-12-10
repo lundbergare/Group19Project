@@ -10,11 +10,11 @@ public class LevelOneView extends LevelView{
     protected EnemyView enemyView;
     private final EnemyView enemyView2;
     private final EnemyView enemyView3;
-    private Image speedPowerUpImage;
-    private Image shieldPowerUpImage;
-    private Image sizePowerUpImage;
+    private final Image speedPowerUpImage;
+    private final Image shieldPowerUpImage;
+    private final Image sizePowerUpImage;
 
-    private LevelOne level;
+    private final LevelOne level;
 
 
     public LevelOneView(LevelOne level){
@@ -36,11 +36,6 @@ public class LevelOneView extends LevelView{
         ImageIcon icon3 = new ImageIcon("src/main/java/View/ImagesForView/mushroom.png");
         sizePowerUpImage = icon3.getImage().getScaledInstance(25, 25, Image.SCALE_SMOOTH);
 
-        //keyView = new KeyView();
-
-//        powerUpView = new PowerUpView(level.getPowerUpModel());
-//        speedPowerUpView = new SpeedPowerUpView(level.getSpeedPowerUpModel());
-//        shieldPowerUpView = new ShieldPowerUpView(level.getShieldPowerUpModel());
 
         addKeyListener(level.getPlayerController());
 
@@ -97,10 +92,6 @@ public class LevelOneView extends LevelView{
         enemyView3.draw(g);
         drawKeys(g);
 
-        /*if (level.speedPowerUp.isActive()) {
-            Point pos = level.speedPowerUp.getPosition();
-            g.drawImage(speedPowerUpImage, pos.x, pos.y, null);
-        }*/
 
         if (level.isSpeedPowerUpActive()) {
             Point pos = level.getSpeedPowerUpPosition();
@@ -116,12 +107,6 @@ public class LevelOneView extends LevelView{
             Point pos = level.getSizePowerUpPosition();
             g.drawImage(sizePowerUpImage, pos.x, pos.y, null);
         }
-
-//        powerUpView.draw(g2d);
-//
-//        speedPowerUpView.draw(g2d);
-//
-//        shieldPowerUpView.draw(g2d);
 
         drawCoins(g);
 

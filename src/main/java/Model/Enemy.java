@@ -17,7 +17,7 @@ public class Enemy extends Observable implements interfacekill {
     private int width;
     private int height;
     private double speed;
-    private boolean isFacingRight;
+
 
     private final int startXPosition; // Store the initial X position
 
@@ -30,7 +30,6 @@ public class Enemy extends Observable implements interfacekill {
         this.speed = speed; // Set the speed
         this.width= width;
         this.height= height;
-        this.isFacingRight = isFacingRight;
 
     }
     //TODO: Try and fix the speed of the Enemy, currently too fast I think
