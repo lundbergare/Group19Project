@@ -6,8 +6,6 @@ import java.util.ArrayList;
 public class Coin implements ICollectable {
 
     private final Point pos;
-
-    //TODO REMOVE GLOBAL VARIABLE ARGHHH
     public static final int NUM_COINS = 4;
 
     //Only xy-coordinates necessary when initalizing

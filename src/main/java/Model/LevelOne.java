@@ -1,37 +1,48 @@
 package Model;
 
 import View.ProjectView;
+import View.ShieldPowerUp;
+import View.SizePowerUp;
+import View.SpeedPowerUp;
 
 import java.awt.*;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class LevelOne extends Level {
 
     private final Enemy enemy;
     private final Enemy enemy2;
+    private final Enemy enemy3;
+
+    private final SpeedPowerUp speedPowerUp;
+    private final ShieldPowerUp shieldPowerUp;
+    private SizePowerUp sizePowerUp;
 
     public LevelOne(ProjectView projectView) {
         super(projectView);
+        speedPowerUp = new SpeedPowerUp(150, 420);
+        shieldPowerUp = new ShieldPowerUp(200, 420);
+        sizePowerUp = new SizePowerUp(500, 250);
 
         //This is quite ugly, but I think it is really easy to understand how we are creating platforms, keys and coins etc.
-        Platform platform1 = PlatformFactory.createPlatform(0,500,300,50);
-        Platform platform2 = PlatformFactory.createPlatform(370, 500, 200, 50);
-        Platform platform3 = PlatformFactory.createPlatform(400, 300, 200, 50);
-        Platform platform4 = PlatformFactory.createPlatform(670, 300, 200, 50);
-        Platform platform5 = PlatformFactory.createPlatform(470, 700, 800, 50);
-        Platform platform6 = PlatformFactory.createPlatform(380, 400, 800, 50);
+        PlatformFactory.createPlatform(0,500,300);
 
-        powerUpModel = new PowerUpModel(200, 420);
-        speedPowerUpModel = new SpeedPowerUpModel(150, 420);
-        shieldPowerUpModel = new ShieldPowerUpModel(450, 250);
 
-        platforms.add(platform1);
-        platforms.add(platform2);
-        platforms.add(platform3);
-        platforms.add(platform4);
-        platforms.add(platform5);
-        platforms.add(platform6);
+        PlatformFactory.createPlatform(100, 340,50);
+        PlatformFactory.createPlatform(250, 270,100);
+        PlatformFactory.createPlatform(520, 500,250);
+        PlatformFactory.createPlatform(760, 370,100);
+        PlatformFactory.createPlatform(950,370, 100 );
+        PlatformFactory.createPlatform(1000, 220, 50);
+        PlatformFactory.createPlatform(1100, 500, 250);
+        PlatformFactory.createPlatform(1200, 370, 50);
+        PlatformFactory.createPlatform(1450, 500, 150); //x:1600
+        PlatformFactory.createPlatform(1700, 400, 150);
+        PlatformFactory.createPlatform(1850, 500, 250);
+        PlatformFactory.createPlatform(1900, 300, 50);
+        PlatformFactory.createPlatform(2050, 300, 50);
+
+        platforms = PlatformFactory.getPlatforms();
 
         ArrayList<Point> coinPositions = new ArrayList<>();
         coinPositions.add(new Point(60, 450));
@@ -42,14 +53,16 @@ public class LevelOne extends Level {
 
 
         ArrayList<Point> keyPositions = new ArrayList<>();
-        keyPositions.add(new Point(580, 270));
-        keyPositions.add(new Point(500, 460));
+        keyPositions.add(new Point(300, 230));
+        keyPositions.add(new Point(1010, 180));
+        keyPositions.add(new Point(2000,460));
         keys = KeyFactory.createKeys(keyPositions);
 
 
-
-        enemy = new Enemy(500, 450, 1, 850, 10, 10);
-        enemy2 = new Enemy(500, 650, 1, 650, 10, 10);
+        //enemy = new Enemy(650, 300, 1, 790, 10, 10, 3);
+        enemy = new Enemy(400,300,1,700,10,10,6);
+        enemy2 = new Enemy(520, 450, 1, 700, 10, 10, 3);
+        enemy3 = new Enemy(1850, 450, 1, 2100, 10,10,3);
 
     }
 
@@ -64,6 +77,30 @@ public class LevelOne extends Level {
         return YAXIS;
     }
 
+    public boolean isSpeedPowerUpActive() {
+        return speedPowerUp.isActive();
+    }
+
+    public Point getSpeedPowerUpPosition() {
+        return speedPowerUp.getPosition();
+    }
+
+    public boolean isShieldPowerUpActive() {
+        return shieldPowerUp.isActive();
+    }
+
+    public Point getShieldPowerUpPosition() {
+        return shieldPowerUp.getPosition();
+    }
+
+    public boolean isSizePowerUpActive() {
+        return sizePowerUp.isActive();
+    }
+
+    public Point getSizePowerUpPosition() {
+        return sizePowerUp.getPosition();
+    }
+
     @Override
     protected void updateLevel() {
         // Level-specific TICK
@@ -72,9 +109,26 @@ public class LevelOne extends Level {
         Key.collectKeys(player, keys);
         enemy.move();
         enemy2.move();
+        enemy3.move();
         enemy.kill(player, enemy);
         enemy2.kill(player, enemy2);
         player.kill(player, enemy);
+        player.kill(player, enemy2);
+
+        if (speedPowerUp.isActive() && player.getPos().distance(speedPowerUp.getPosition()) < 25) {
+            speedPowerUp.activate();
+            player.activateSpeedBoost(5000); // 5 seconds
+        }
+
+        if (shieldPowerUp.isActive() && player.getPos().distance(shieldPowerUp.getPosition()) < 25) {
+            shieldPowerUp.activate();
+            player.activateShield(5000); // 5 seconds
+        }
+
+        if (sizePowerUp.isActive() && player.getPos().distance(sizePowerUp.getPosition()) < 25) {
+            sizePowerUp.activate();
+            player.activateSizeBoost(5000); // 5 seconds
+        }
 
     }
     public Enemy getEnemy() {
@@ -84,16 +138,9 @@ public class LevelOne extends Level {
         return enemy2;
     }
 
-    public PowerUpModel getPowerUpModel() {
-        return powerUpModel;
+    public Enemy getEnemy3(){
+        return enemy3;
     }
 
-    public SpeedPowerUpModel getSpeedPowerUpModel() {
-        return speedPowerUpModel;
-    }
-
-    public ShieldPowerUpModel getShieldPowerUpModel() {
-        return shieldPowerUpModel;
-    }
     
 }

@@ -2,14 +2,19 @@ package View;
 
 import Model.*;
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 
 public class LevelOneView extends LevelView{
     protected EnemyView enemyView;
-    protected EnemyView enemyView2;
+    private final EnemyView enemyView2;
+    private final EnemyView enemyView3;
+    private final Image speedPowerUpImage;
+    private final Image shieldPowerUpImage;
+    private final Image sizePowerUpImage;
 
-    private LevelOne level;
+    private final LevelOne level;
 
 
     public LevelOneView(LevelOne level){
@@ -21,12 +26,16 @@ public class LevelOneView extends LevelView{
         super.playerView = new PlayerView(level.player);
         enemyView = new EnemyView(level.getEnemy());
         enemyView2 = new EnemyView(level.getEnemy2());
+        enemyView3 = new EnemyView(level.getEnemy3());
 
-        //keyView = new KeyView();
 
-        powerUpView = new PowerUpView(level.getPowerUpModel());
-        speedPowerUpView = new SpeedPowerUpView(level.getSpeedPowerUpModel());
-        shieldPowerUpView = new ShieldPowerUpView(level.getShieldPowerUpModel());
+        ImageIcon icon = new ImageIcon("src/main/java/View/ImagesForView/raspberry.png");
+        speedPowerUpImage = icon.getImage().getScaledInstance(25, 25, Image.SCALE_SMOOTH);
+        ImageIcon icon2 = new ImageIcon("src/main/java/View/ImagesForView/shield2.png");
+        shieldPowerUpImage = icon2.getImage().getScaledInstance(25, 25, Image.SCALE_SMOOTH);
+        ImageIcon icon3 = new ImageIcon("src/main/java/View/ImagesForView/mushroom.png");
+        sizePowerUpImage = icon3.getImage().getScaledInstance(25, 25, Image.SCALE_SMOOTH);
+
 
         addKeyListener(level.getPlayerController());
 
@@ -80,13 +89,24 @@ public class LevelOneView extends LevelView{
         playerView.draw(g);
         enemyView.draw(g);
         enemyView2.draw(g);
+        enemyView3.draw(g);
         drawKeys(g);
 
-        powerUpView.draw(g2d);
 
-        speedPowerUpView.draw(g2d);
+        if (level.isSpeedPowerUpActive()) {
+            Point pos = level.getSpeedPowerUpPosition();
+            g.drawImage(speedPowerUpImage, pos.x, pos.y, null);
+        }
 
-        shieldPowerUpView.draw(g2d);
+        if (level.isShieldPowerUpActive()) {
+            Point pos = level.getShieldPowerUpPosition();
+            g.drawImage(shieldPowerUpImage, pos.x, pos.y, null);
+        }
+
+        if (level.isSizePowerUpActive()) {
+            Point pos = level.getSizePowerUpPosition();
+            g.drawImage(sizePowerUpImage, pos.x, pos.y, null);
+        }
 
         drawCoins(g);
 

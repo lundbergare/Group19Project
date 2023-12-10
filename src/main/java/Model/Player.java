@@ -2,18 +2,13 @@ package Model;
 
 import java.awt.Point;
 
+
 public class Player implements interfacekill {
 
     public Point pos;
-    // TODO not properly implemented score, needs reworking
     private int score;
     private int numLives;
     private int keyScore;
-
-    public void setNumLives(int numLives) {
-        this.numLives = numLives;
-    }
-
     private int width = 50;
     private int height = 50;
 
@@ -21,29 +16,22 @@ public class Player implements interfacekill {
     private boolean isSpeedPoweredUp = false;
     private boolean movingLeft = false;
 
-    private boolean isPoweredUp = false;
-    private long powerUpEndTime;
-
     private double speedMultiplier = 1.0;
     private long speedPowerUpEndTime;
 
-    private boolean isImmune = false;
     private long immunityEndTime;
 
-    // Player will fall down at 2 px/tick gravity by default
+    boolean isSizePoweredUp = false;
+    private long sizePowerUpEndTime;
+
     public int GRAVITY = 2;
 
-    // Velocity used when calculating falling/jumping
-    private int verticalVelocity;
-    private boolean canJump = true;
+    int verticalVelocity;
+    boolean canJump = true;
 
     private boolean facingRight = true;
     private IBoundary boundary;
-
-    private boolean hasDoubleJumped = false;
-
-    // The maximum jump height when initially jumping, decreases while in air.
-    private int jumpHeightRemaining;
+    int jumpHeightRemaining;
 
     public Player(IBoundary boundary) {
         // initialize the state
@@ -57,7 +45,6 @@ public class Player implements interfacekill {
 
     }
 
-    // Draw the Smurf
     public int getWidth() {
         return width;
     }
@@ -66,10 +53,26 @@ public class Player implements interfacekill {
         return height;
     }
 
-    // While there is remaining jump height, the player will keep going up.
-    // Jump height decreases by adding vertical (downwards) velocity for each tick.
+    public void activateSpeedBoost(long duration) {
+        this.isSpeedPoweredUp = true;
+        this.speedMultiplier = 1.8;
+        this.speedPowerUpEndTime = System.currentTimeMillis() + duration;
+    }
 
-    private void levelBordersTick() {
+    public void activateSizeBoost(long duration) {
+        this.isSizePoweredUp = true;
+        this.sizePowerUpEndTime = System.currentTimeMillis() + duration;
+        this.width *= 2; // Double the width
+        this.height *= 2; // Double the height
+    }
+
+    public void deactivateSizeBoost() {
+        this.width /= 2; // Revert to original width
+        this.height /= 2; // Revert to original height
+        this.isSizePoweredUp = false;
+    }
+
+    void levelBordersTick() {
         // prevent the player from moving off the edge of the board sideways
         if (pos.x < 0) {
             pos.x = 0;
@@ -84,47 +87,20 @@ public class Player implements interfacekill {
         }
     }
 
-    // TODO: Must also fix the moving right and left: seem to "pixellike"
-    // Moves the player right ways while right direction true
-    // Moves the player right ways while right direction true
-    public void moveRightTick() {
-        if (movingRight) {
-            pos.translate(1, 0);
-            facingRight = true; // Player is moving right
-        }
-        /*
-         * if (movingRight && isSpeedPoweredUp) {
-         * pos.translate((int)(6 * speedMultiplier), 0);
-         * facingRight = true;
-         * }
-         */
-    }
-
-    // Moves the player left ways while left direction true
-    // Moves the player left ways while left direction true
-    public void moveLeftTick() {
-        if (movingLeft) {
-            pos.translate(-5, 0);
-            facingRight = false; // Player is moving left
-        }
-    }
-
     public boolean isStandingStill() {
         return !movingLeft && !movingRight;
     }
 
-    // TODO: fix the Jump function: jumps in a very weird way.
+
     public void jump() {
         if (canJump) {
-            // Velocity when initially jumping
+            //Velocity when initially jumping
             verticalVelocity = -10;
             jumpHeightRemaining = 180;
             canJump = false;// Set the maximum jump height
         }
     }
 
-    // While there is remaining jump height, the player will keep going up.
-    // Jump height decreases by adding vertical (downwards) velocity for each tick.
     public void jumpTick() {
         if (jumpHeightRemaining > 0) {
             pos.translate(0, verticalVelocity);
@@ -141,7 +117,7 @@ public class Player implements interfacekill {
     }
 
     public void land() {
-        canJump = true; // Allow jumping when the player lands
+        canJump = true;
     }
 
     public void setMovingRight(boolean movingRight) {
@@ -152,34 +128,37 @@ public class Player implements interfacekill {
         this.movingLeft = movingLeft;
     }
 
+    public void activateShield(long duration) {
+        Enemy.isImmune = true;
+        this.immunityEndTime = System.currentTimeMillis() + duration;
+    }
+
+
     public void tick() {
-        // this gets called once every tick, before the repainting process happens.
         jumpTick();
         levelBordersTick();
-        if (isPoweredUp && System.currentTimeMillis() > powerUpEndTime) {
-            isPoweredUp = false;
 
-            width /= 1.8;
-            height /= 1.8;
-        }
-
-        if (System.currentTimeMillis() > speedPowerUpEndTime) {
+        if (isSpeedPoweredUp && System.currentTimeMillis() > speedPowerUpEndTime) {
+            isSpeedPoweredUp = false;
             speedMultiplier = 1.0;
         }
 
-        if (System.currentTimeMillis() > immunityEndTime) {
+        if (Enemy.isImmune && System.currentTimeMillis() > immunityEndTime) {
             Enemy.isImmune = false;
         }
 
+        if (isSizePoweredUp && System.currentTimeMillis() > sizePowerUpEndTime) {
+            deactivateSizeBoost();
+        }
+
         if (movingRight) {
-            pos.translate((int) (6 * speedMultiplier), 0);
+            pos.translate((int)(6 * speedMultiplier), 0);
         }
         if (movingLeft) {
-            pos.translate((int) (-6 * speedMultiplier), 0);
+            pos.translate((int)(-6 * speedMultiplier), 0);
         }
     }
 
-    // TODO score not working
     public String getScore() {
         return String.valueOf(score);
     }
@@ -187,32 +166,12 @@ public class Player implements interfacekill {
     public void addScore(int amount) {
         score += amount;
     }
-
-    public void die() {
+    public void die () {
         numLives -= 1;
     }
-
-    public void addScorekey(int amount) {
-        score += amount;
-    }
-
     public boolean isFacingRight() {
         return facingRight;
     }
-
-    public void setFacingRight(boolean facingRight) {
-        this.facingRight = facingRight;
-    }
-
-    // TODO implement properly
-    public void addLives() {
-
-    }
-
-    public void removeLives() {
-
-    }
-
     public int getLives() {
         return numLives;
     }
@@ -221,67 +180,28 @@ public class Player implements interfacekill {
         return pos;
     }
 
-    // Used for collisions
+    //Used for collisions
     public int getCenterX() {
         return this.pos.x + (this.width / 2);
     }
-
     @Override
     public void kill(Player player, Enemy enemy) {
-        int smurfY = player.getPos().y;
-        int platform5Y = 700;
         if (!Enemy.isImmune && collision(player, enemy)) {
             enemy.setRectangleY(-100);
             enemy.setRectangleX(-100);
         }
-        if (smurfY > platform5Y) {
-            player.setPos(new Point(50, 50)); // Reset player position
-            player.die(); // Decrease player's life or handle death logic
-        }
     }
-
     @Override
     public boolean collision(Player smurf, Enemy enemy) {
-        int yEnemyTop = enemy.getRectangleY() - 50; // Top of the enemy
-        int yEnemyBottom = enemy.getRectangleY(); // Bottom of the enemy
-        int playerBottom = smurf.getPos().y;
-        // Bottom of the player
-        if (playerBottom >= yEnemyTop && playerBottom <= yEnemyBottom
-                && smurf.getPos().x >= enemy.getRectangleX()
-                && smurf.getPos().x <= enemy.getRectangleX() + enemy.getWidth()) {
-            return true;
-        }
-        return false;
-
-    }
-
-    public void applyPowerUp(PowerUpModel powerUp) {
-        if (powerUp.isEffectActive()) {
-        }
-        isPoweredUp = true;
-        powerUpEndTime = System.currentTimeMillis() + 5000; // 5 seconds from now
-        int oldHeight = height;
-        // Double the size
-        width *= 1.8;
-        height *= 1.8;
-    }
-
-    public void applySpeedPowerUp(SpeedPowerUpModel powerUp) {
-        if (powerUp.isEffectActive()) {
-            speedMultiplier = 2.0;
-            speedPowerUpEndTime = System.currentTimeMillis() + 5000; // 5 seconds
-        }
-    }
-
-    public void applyShieldPowerUp(ShieldPowerUpModel powerUp) {
-        if (powerUp.isEffectActive()) {
-            Enemy.isImmune = true;
-            immunityEndTime = System.currentTimeMillis() + 5000; // 5 seconds
-        }
+        int yEnemyTop = enemy.getRectangleY() - 50;  // Top of the enemy
+        int yEnemyBottom = enemy.getRectangleY();     // Bottom of the enemy
+        int playerBottom = smurf.getPos().y;          // Bottom of the player
+        return playerBottom >= yEnemyTop && playerBottom <= yEnemyBottom
+                && smurf.getPos().x >= enemy.getRectangleX() && smurf.getPos().x <= enemy.getRectangleX() + enemy.getWidth();
     }
 
     public void addKeys(int i) {
-        keyScore += 1;
+    keyScore += 1;
 
     }
 

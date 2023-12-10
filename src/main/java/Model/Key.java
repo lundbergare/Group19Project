@@ -8,8 +8,7 @@ public class Key implements ICollectable {
 
     private final Point pos;
 
-    //TODO REMOVE GLOBAL VARIABLE ARGHHH
-    public static final int NUM_KEYS = 2;
+    public static final int NUM_KEYS = 3;
 
     public Key(int x, int y) {
         pos = new Point(x, y);

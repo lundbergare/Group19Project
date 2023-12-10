@@ -1,7 +1,6 @@
 package View;
 
 import Model.Player;
-import Model.PowerUpModel;
 
 import javax.imageio.ImageIO;
 import java.awt.*;

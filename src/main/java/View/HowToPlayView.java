@@ -13,7 +13,7 @@ public class HowToPlayView extends JPanel {
 
         JLabel instructionsLabel = new JLabel("<html><div style='text-align: center; font-size: 20px;'>" +
                 "The goal is to collect all of the keys, avoid the enemies, and reach the end of the level to be victorious!<br><br>" + // Added an extra <br>
-                "Use A, D, and W on your keyboard to steer your character!.</div></html>", SwingConstants.CENTER);
+                "Either use 'A, D, and W' or the arrows on your keyboard to steer your character!.</div></html>", SwingConstants.CENTER);
         add(instructionsLabel, BorderLayout.CENTER);
 
         // Back button at the bottom left
