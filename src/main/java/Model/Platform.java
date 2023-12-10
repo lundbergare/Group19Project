@@ -14,12 +14,12 @@ public class Platform {
 
 
     //Only xy-coordinates necessary when initalizing
-    public Platform(int xPos, int yPos, int width, int height) {
+    public Platform(int xPos, int yPos, int width) {
 
         this.xPos = xPos;
         this.yPos = yPos;
         this.width = width;
-        this.height = height;
+        this.height = 50;
 
     }
     //TODO: Should have no drawing in the model!

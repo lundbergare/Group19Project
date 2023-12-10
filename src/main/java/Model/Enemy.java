@@ -17,11 +17,13 @@ public class Enemy extends Observable implements interfacekill {
     private int width;
     private int height;
     private double speed;
-    private Player player;
     private boolean isFacingRight;
-    //TODO Not something that is supposed to be in the view: Move over to model.
+
+    private final int startXPosition; // Store the initial X position
+
     public Enemy(int initialX, int initialY, int initialDirection, int maxXPosition, int width, int height, int speed) {
         this.rectangleX = initialX;
+        this.startXPosition = initialX;
         this.rectangleY = initialY;
         this.direction = initialDirection;
         this.maxXPosition = maxXPosition; // Set the maximum Y position
@@ -34,11 +36,20 @@ public class Enemy extends Observable implements interfacekill {
     //TODO: Try and fix the speed of the Enemy, currently too fast I think
     public void move() {
         rectangleX += direction * speed;
-        if (rectangleX >= maxXPosition || rectangleX <= 340) {
-            reverseDirection(); // Invert the direction
-        }
-        notifyObservers();
 
+        // Check if the enemy reaches the maxXPosition
+        if (rectangleX >= maxXPosition || rectangleX <= startXPosition) {
+            reverseDirection(); // Invert the direction
+
+            // Update the direction to move towards the initial position
+            if (rectangleX >= maxXPosition) {
+                direction = -1; // Move left towards initial position
+            } else {
+                direction = 1; // Move right towards maxXPosition
+            }
+        }
+
+        notifyObservers();
     }
     public void reverseDirection() {
         direction *= -1;

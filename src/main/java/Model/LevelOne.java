@@ -12,6 +12,7 @@ public class LevelOne extends Level {
 
     private final Enemy enemy;
     private final Enemy enemy2;
+    private final Enemy enemy3;
 
     private final SpeedPowerUp speedPowerUp;
     private final ShieldPowerUp shieldPowerUp;
@@ -24,12 +25,23 @@ public class LevelOne extends Level {
         sizePowerUp = new SizePowerUp(500, 250);
 
         //This is quite ugly, but I think it is really easy to understand how we are creating platforms, keys and coins etc.
-        PlatformFactory.createPlatform(0,500,300,50);
-        PlatformFactory.createPlatform(370, 500, 200, 50);
-        PlatformFactory.createPlatform(400, 300, 200, 50);
-        PlatformFactory.createPlatform(670, 300, 200, 50);
-        PlatformFactory.createPlatform(470, 700, 800, 50);
-        PlatformFactory.createPlatform(380, 400, 800, 50);
+        PlatformFactory.createPlatform(0,500,300);
+
+
+        PlatformFactory.createPlatform(100, 340,50);
+        PlatformFactory.createPlatform(250, 270,100);
+        PlatformFactory.createPlatform(520, 500,250);
+        PlatformFactory.createPlatform(760, 370,100);
+        PlatformFactory.createPlatform(950,370, 100 );
+        PlatformFactory.createPlatform(1000, 220, 50);
+        PlatformFactory.createPlatform(1100, 500, 250);
+        PlatformFactory.createPlatform(1200, 370, 50);
+        PlatformFactory.createPlatform(1450, 500, 150); //x:1600
+        PlatformFactory.createPlatform(1700, 400, 150);
+        PlatformFactory.createPlatform(1850, 500, 250);
+        PlatformFactory.createPlatform(1900, 300, 50);
+        PlatformFactory.createPlatform(2050, 300, 50);
+
         platforms = PlatformFactory.getPlatforms();
 
         ArrayList<Point> coinPositions = new ArrayList<>();
@@ -41,13 +53,16 @@ public class LevelOne extends Level {
 
 
         ArrayList<Point> keyPositions = new ArrayList<>();
-        keyPositions.add(new Point(580, 270));
-        keyPositions.add(new Point(500, 460));
+        keyPositions.add(new Point(300, 230));
+        keyPositions.add(new Point(1010, 180));
+        keyPositions.add(new Point(2000,460));
         keys = KeyFactory.createKeys(keyPositions);
 
 
-        enemy = new Enemy(500, 450, 1, 850, 10, 10, 3);
-        enemy2 = new Enemy(500, 650, 1, 650, 10, 10, 3);
+        //enemy = new Enemy(650, 300, 1, 790, 10, 10, 3);
+        enemy = new Enemy(400,300,1,700,10,10,6);
+        enemy2 = new Enemy(520, 450, 1, 700, 10, 10, 3);
+        enemy3 = new Enemy(1850, 450, 1, 2100, 10,10,3);
 
     }
 
@@ -94,6 +109,7 @@ public class LevelOne extends Level {
         Key.collectKeys(player, keys);
         enemy.move();
         enemy2.move();
+        enemy3.move();
         enemy.kill(player, enemy);
         enemy2.kill(player, enemy2);
         player.kill(player, enemy);
@@ -120,6 +136,10 @@ public class LevelOne extends Level {
     }
     public Enemy getEnemy2() {
         return enemy2;
+    }
+
+    public Enemy getEnemy3(){
+        return enemy3;
     }
 
     

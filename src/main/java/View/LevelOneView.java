@@ -8,7 +8,8 @@ import java.awt.geom.AffineTransform;
 
 public class LevelOneView extends LevelView{
     protected EnemyView enemyView;
-    protected EnemyView enemyView2;
+    private final EnemyView enemyView2;
+    private final EnemyView enemyView3;
     private Image speedPowerUpImage;
     private Image shieldPowerUpImage;
     private Image sizePowerUpImage;
@@ -25,6 +26,8 @@ public class LevelOneView extends LevelView{
         super.playerView = new PlayerView(level.player);
         enemyView = new EnemyView(level.getEnemy());
         enemyView2 = new EnemyView(level.getEnemy2());
+        enemyView3 = new EnemyView(level.getEnemy3());
+
 
         ImageIcon icon = new ImageIcon("src/main/java/View/ImagesForView/raspberry.png");
         speedPowerUpImage = icon.getImage().getScaledInstance(25, 25, Image.SCALE_SMOOTH);
@@ -91,6 +94,7 @@ public class LevelOneView extends LevelView{
         playerView.draw(g);
         enemyView.draw(g);
         enemyView2.draw(g);
+        enemyView3.draw(g);
         drawKeys(g);
 
         /*if (level.speedPowerUp.isActive()) {

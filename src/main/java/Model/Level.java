@@ -99,7 +99,7 @@ public abstract class Level extends JPanel implements ActionListener, IBoundary 
             projectView.showGameOverScreen();
         }
 
-        if (player.getKeyScore() == 2 && player.getCenterX() > 2800) {
+        if (player.getKeyScore() == Key.NUM_KEYS && player.getCenterX() > 2800) {
             projectView.showVictoryScreen();
         }
     }
