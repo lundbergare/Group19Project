@@ -186,9 +186,15 @@ public class Player implements interfacekill {
     }
     @Override
     public void kill(Player player, Enemy enemy) {
+        int smurfY = player.getPos().y;
+        int platform5Y = 700;
         if (!Enemy.isImmune && collision(player, enemy)) {
             enemy.setRectangleY(-100);
             enemy.setRectangleX(-100);
+        }
+        if (smurfY > platform5Y) {
+            player.setPos(new Point(50, 50)); // Reset player position
+            player.die(); // Decrease player's life or handle death logic
         }
     }
     @Override
