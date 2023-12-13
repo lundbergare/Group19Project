@@ -3,8 +3,8 @@ package Controller;
 
 import Model.LevelOne;
 
-import View.LevelOneView;
 
+import View.LevelView;
 import View.ProjectView;
 import View.HowToPlayView;
 
@@ -29,24 +29,9 @@ public class ProjectController {
     class LevelButtonListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-/*
-            TestingLevel newLevel = new TestingLevel(view);
-            view.showNewScreen(newLevel);
-            newLevel.requestFocusInWindow();
 
- */
-/*
-            LevelTEST newLevelTEST = new LevelTEST();
-            LevelTESTView newView1 = new LevelTESTView(newLevelTEST);
-            LevelController controller1 = new LevelController(newLevelTEST, newView1);
-            view.showNewScreen(newView1);
-            newView1.requestFocusInWindow();
-
-
- */
-
-            LevelOne newLevel = new LevelOne(view);
-            LevelOneView levelView = new LevelOneView(newLevel);
+            LevelOne newLevel = new LevelOne();
+            LevelView levelView = new LevelView(newLevel, view);
             view.showNewScreen(levelView);
             levelView.requestFocusInWindow();
 

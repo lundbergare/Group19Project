@@ -18,8 +18,8 @@ public class LevelOne extends Level {
     private final ShieldPowerUp shieldPowerUp;
     private SizePowerUp sizePowerUp;
 
-    public LevelOne(ProjectView projectView) {
-        super(projectView);
+    public LevelOne() {
+        super();
         speedPowerUp = new SpeedPowerUp(150, 420);
         shieldPowerUp = new ShieldPowerUp(200, 420);
         sizePowerUp = new SizePowerUp(500, 250);
@@ -61,8 +61,11 @@ public class LevelOne extends Level {
 
         //enemy = new Enemy(650, 300, 1, 790, 10, 10, 3);
         enemy = new Enemy(400,300,1,700,10,10,6);
+        enemies.add(enemy);
         enemy2 = new Enemy(520, 450, 1, 700, 10, 10, 3);
+        enemies.add(enemy2);
         enemy3 = new Enemy(1850, 450, 1, 2100, 10,10,3);
+        enemies.add(enemy3);
 
     }
 
@@ -141,6 +144,8 @@ public class LevelOne extends Level {
     public Enemy getEnemy3(){
         return enemy3;
     }
+
+
 
     
 }
