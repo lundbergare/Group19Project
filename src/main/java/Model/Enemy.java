@@ -1,12 +1,7 @@
 package Model;
 import java.awt.Point;
 import java.util.Observable;
-import View.EnemyView;
-import javax.imageio.ImageIO;
-import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
+
 public class Enemy extends Observable implements interfacekill {
     public static boolean isImmune;
     //public boolean isImmune;

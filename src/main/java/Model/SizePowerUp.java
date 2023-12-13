@@ -1,32 +1,26 @@
-package View;
+package Model;
 
 import java.awt.*;
 
-public class SizePowerUp {
-    private Point position;
+public class SizePowerUp implements IPowerUp {
+    private final Point position;
     private boolean active;
-    private long activationTime;
 
     public SizePowerUp(int x, int y) {
         this.position = new Point(x, y);
         this.active = true;
     }
-
+    @Override
     public Point getPosition() {
         return position;
     }
-
+    @Override
     public boolean isActive() {
         return active;
     }
-
+    @Override
     public void activate() {
         this.active = false;
-        this.activationTime = System.currentTimeMillis();
     }
 
-    public long getActivationTime() {
-        return activationTime;
-    }
 }
-

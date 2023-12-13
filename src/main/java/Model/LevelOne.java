@@ -1,9 +1,5 @@
 package Model;
 
-import View.ProjectView;
-import View.ShieldPowerUp;
-import View.SizePowerUp;
-import View.SpeedPowerUp;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -13,16 +9,15 @@ public class LevelOne extends Level {
     private final Enemy enemy;
     private final Enemy enemy2;
     private final Enemy enemy3;
-
     private final SpeedPowerUp speedPowerUp;
     private final ShieldPowerUp shieldPowerUp;
-    private SizePowerUp sizePowerUp;
+    private final SizePowerUp sizePowerUp;
 
     public LevelOne() {
         super();
-        speedPowerUp = new SpeedPowerUp(150, 420);
-        shieldPowerUp = new ShieldPowerUp(200, 420);
-        sizePowerUp = new SizePowerUp(500, 250);
+        speedPowerUp = PowerUpFactory.createSpeedPowerUp(150, 420);
+        shieldPowerUp = PowerUpFactory.createShieldPowerUp(200, 420);
+        sizePowerUp = PowerUpFactory.createSizePowerUp(500, 250);
 
         //This is quite ugly, but I think it is really easy to understand how we are creating platforms, keys and coins etc.
         PlatformFactory.createPlatform(0,500,300);
@@ -36,7 +31,7 @@ public class LevelOne extends Level {
         PlatformFactory.createPlatform(1000, 220, 50);
         PlatformFactory.createPlatform(1100, 500, 250);
         PlatformFactory.createPlatform(1200, 370, 50);
-        PlatformFactory.createPlatform(1450, 500, 150); //x:1600
+        PlatformFactory.createPlatform(1450, 500, 150);
         PlatformFactory.createPlatform(1700, 400, 150);
         PlatformFactory.createPlatform(1850, 500, 250);
         PlatformFactory.createPlatform(1900, 300, 50);
@@ -58,8 +53,6 @@ public class LevelOne extends Level {
         keyPositions.add(new Point(2000,460));
         keys = KeyFactory.createKeys(keyPositions);
 
-
-        //enemy = new Enemy(650, 300, 1, 790, 10, 10, 3);
         enemy = new Enemy(400,300,1,700,10,10,6);
         enemies.add(enemy);
         enemy2 = new Enemy(520, 450, 1, 700, 10, 10, 3);

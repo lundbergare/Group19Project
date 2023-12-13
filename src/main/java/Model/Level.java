@@ -1,7 +1,7 @@
 package Model;
 
 import Controller.PlayerController;
-import View.*;
+
 
 import java.awt.*;
 import java.awt.event.*;
@@ -33,10 +33,9 @@ public abstract class Level extends JPanel implements ActionListener, IBoundary 
         setPreferredSize(new Dimension(YAXIS, XAXIS));
         setBackground(new Color(68, 138, 184));
 
-        platforms = new ArrayList<Platform>();
-        keys = new ArrayList<Key>();
-        enemies = new ArrayList<Enemy>();
-
+        platforms = new ArrayList<>();
+        keys = new ArrayList<>();
+        enemies = new ArrayList<>();
 
         player = new Player(this);
         playerController = new PlayerController(player);
@@ -45,18 +44,11 @@ public abstract class Level extends JPanel implements ActionListener, IBoundary 
         setFocusable(true);
         setFocusTraversalKeysEnabled(false);
 
-        //ImageIcon icon = new ImageIcon("src/main/java/Model/images/GameHeart.png");
-        //heartImage = icon.getImage().getScaledInstance(25, 25, Image.SCALE_SMOOTH);
-
         timer = new Timer(1, this);
     }
 
     public void startTimer() {
         timer.start();
-    }
-
-    public void stopTimer() {
-        timer.stop();
     }
 
     @Override
@@ -72,10 +64,8 @@ public abstract class Level extends JPanel implements ActionListener, IBoundary 
             if (listener != null) {
                 listener.onTimerTick();
             }
-            // Other game logic updates here...
             accumulatedTime -= 1;
         }
-
     }
 
     public boolean winGameCheck(){

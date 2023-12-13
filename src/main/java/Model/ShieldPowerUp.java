@@ -1,32 +1,26 @@
-package View;
+package Model;
 
 import java.awt.*;
 
-public class ShieldPowerUp {
-    private Point position;
+public class ShieldPowerUp implements IPowerUp {
+    private final Point position;
     private boolean active;
-    private long activationTime;
 
     public ShieldPowerUp(int x, int y) {
         this.position = new Point(x, y);
         this.active = true;
     }
-
+    @Override
     public Point getPosition() {
         return position;
     }
-
+    @Override
     public boolean isActive() {
         return active;
     }
-
+    @Override
     public void activate() {
         this.active = false;
-        this.activationTime = System.currentTimeMillis();
     }
 
-    public long getActivationTime() {
-        return activationTime;
-    }
 }
-

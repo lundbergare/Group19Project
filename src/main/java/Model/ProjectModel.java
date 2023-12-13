@@ -4,9 +4,6 @@ import java.util.ArrayList;
 
 public class ProjectModel {
 
-    //TODO Could argue that the name of the file is not fitting?
-    //TODO why is this here even? Should it not be in like the platform class?!
-
     public static void platformCollision(Player smurf, ArrayList<Platform> platforms) {
         boolean onPlatform = false;
         for (Platform platform : platforms) {

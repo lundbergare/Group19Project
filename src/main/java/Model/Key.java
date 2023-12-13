@@ -45,7 +45,6 @@ public class Key implements ICollectable {
         keys.removeAll(collectedKeys);
     }
 
-
     public int[] getArea() {
         int WIDTH = 50;
         int HEIGHT = 50;
