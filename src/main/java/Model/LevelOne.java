@@ -36,6 +36,8 @@ public class LevelOne extends Level {
         PlatformFactory.createPlatform(1850, 500, 250);
         PlatformFactory.createPlatform(1900, 300, 50);
         PlatformFactory.createPlatform(2050, 300, 50);
+        PlatformFactory.createPlatform(2100,400, 100);
+        PlatformFactory.createPlatform(2350, 400, 500);
 
         platforms = PlatformFactory.getPlatforms();
 
@@ -130,15 +132,6 @@ public class LevelOne extends Level {
     public Enemy getEnemy() {
         return enemy;
     }
-    public Enemy getEnemy2() {
-        return enemy2;
-    }
-
-    public Enemy getEnemy3(){
-        return enemy3;
-    }
-
-
 
     
 }

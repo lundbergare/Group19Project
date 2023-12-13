@@ -1,11 +1,9 @@
 package View;
 
-import Controller.PlayerController;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
-import javax.swing.ImageIcon;
 import java.awt.Font;
 import java.awt.Color;
 import javax.swing.JLabel;
@@ -16,8 +14,11 @@ public class ProjectView {
     private final JButton levelSelectButton;
     private final JButton howToPlayButton;
     private final JButton quitButton;
-    private JPanel currentScreen; // The current screen
-    private final JLabel titleLabel;
+    private JPanel currentScreen;
+
+    private final Timer returnToMenuTimer; // Add a Timer object
+    private boolean gameOverOrVictory; // Track if game over or victory screen is displayed
+
 
     public ProjectView() {
         frame = new JFrame("Super Smurf Game");
@@ -27,21 +28,20 @@ public class ProjectView {
         int width = 1000;
         frame.setSize(width, height);
         frame.setLocationRelativeTo(null);
-        frame.setResizable(false); // Set frame to be non-resizable
+        frame.setResizable(false);
 
         mainPanel = new BackgroundPanel("src/main/java/View/ImagesForView/TheSmurfs.png");
         frame.add(mainPanel);
         mainPanel.setLayout(new GridBagLayout());
 
-        titleLabel = new JLabel("Super Smurf Bros");
-        titleLabel.setFont(new Font("Arial", Font.BOLD, 60)); // Set the font, style, and size
+        JLabel titleLabel = new JLabel("Super Smurf Bros");
+        titleLabel.setFont(new Font("Arial", Font.BOLD, 60));
         titleLabel.setForeground(Color.BLACK); // Set the text color
 
-        // Add the title label to your panel
         GridBagConstraints titleConstraints = new GridBagConstraints();
         titleConstraints.gridx = 0;
-        titleConstraints.gridy = 0; // Adjust grid position as needed
-        titleConstraints.insets = new Insets(0, 10, 50, 10); // Optional: Adjust spacing
+        titleConstraints.gridy = 0;
+        titleConstraints.insets = new Insets(0, 10, 50, 10);
         titleConstraints.anchor = GridBagConstraints.CENTER;
         mainPanel.add(titleLabel, titleConstraints);
 
@@ -49,13 +49,12 @@ public class ProjectView {
         howToPlayButton = new JButton("How to Play");
         quitButton = new JButton("Quit");
 
-        // Set the preferred size for each button
         levelSelectButton.setPreferredSize(new Dimension(150, 50));
         howToPlayButton.setPreferredSize(new Dimension(150, 50));
         quitButton.setPreferredSize(new Dimension(150, 50));
 
         GridBagConstraints constraints = new GridBagConstraints();
-        constraints.insets = new Insets(25, 10, 10, 10); // Equal spacing for all buttons
+        constraints.insets = new Insets(25, 10, 10, 10);
         constraints.gridx = 0;
         constraints.gridy = 1;
         constraints.anchor = GridBagConstraints.CENTER;
@@ -66,9 +65,15 @@ public class ProjectView {
         constraints.gridy = 3;
         mainPanel.add(quitButton, constraints);
 
-        // Initialize the currentScreen with the main content
         currentScreen = mainPanel;
         frame.setVisible(true);
+        returnToMenuTimer = new Timer(5000, e -> {
+            if (gameOverOrVictory) {
+                showPreviousScreen();
+                gameOverOrVictory = false;
+            }
+        });
+
     }
 
 
@@ -90,11 +95,6 @@ public class ProjectView {
         currentScreen = newScreen;
     }
 
-
-    // Needed for in game keyboard inputs
-
-    // Change the screen back to the main panel
-    //Should this be in model?! I don't think so, but quite a lot of job for the view?
     public void showPreviousScreen() {
 
         frame.getContentPane().remove(currentScreen);
@@ -104,18 +104,20 @@ public class ProjectView {
         currentScreen = mainPanel;
     }
 
-    public void addKeyListener(PlayerController playerController) {
-    }
-
     public void showGameOverScreen() {
         GameOverPanel gameOverPanel = new GameOverPanel();
-        gameOverPanel.addReturnToMenuButtonListener(e -> showPreviousScreen());
         showNewScreen(gameOverPanel);
+        returnToMenuTimer.start();
+        gameOverOrVictory = true;
+
     }
 
     public void showVictoryScreen() {
         VictoryPanel victoryPanel = new VictoryPanel();
-        //victoryPanel.addReturnToMenuButtonListener(e -> showPreviousScreen());
         showNewScreen(victoryPanel);
+        returnToMenuTimer.start();
+
+        gameOverOrVictory = true;
+
     }
 }

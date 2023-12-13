@@ -145,10 +145,12 @@ public class LevelView extends JPanel implements LevelListener{
         private void gameStatusCheck(){
             if (level.loseGameCheck()) {
                 view.showGameOverScreen();
+                level.stopTimer();
             }
 
             if (level.winGameCheck()) {
                 view.showVictoryScreen();
+                level.stopTimer();
         }
     }
 

@@ -51,6 +51,10 @@ public abstract class Level extends JPanel implements ActionListener, IBoundary 
         timer.start();
     }
 
+    public void stopTimer(){
+        timer.stop();
+    }
+
     @Override
     public void actionPerformed(ActionEvent e) {
         long now = System.nanoTime();

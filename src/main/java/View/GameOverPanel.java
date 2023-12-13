@@ -28,13 +28,13 @@ public class GameOverPanel extends JPanel {
         gameOverLabel.setFont(new Font("Arial", Font.BOLD, 80));
         gameOverLabel.setForeground(Color.WHITE);
         add(gameOverLabel, BorderLayout.CENTER);
-
-        returnToMenuButton = new JButton("Return to Main Menu");
-        returnToMenuButton.setPreferredSize(new Dimension(200, 30)); // Set the preferred size of the button
-        JPanel buttonPanel = new JPanel();
-        buttonPanel.setOpaque(false); // Make the panel holding the button non-opaque
-        buttonPanel.add(returnToMenuButton);
-        add(buttonPanel, BorderLayout.SOUTH);
+//
+//        returnToMenuButton = new JButton("Return to Main Menu");
+//        returnToMenuButton.setPreferredSize(new Dimension(200, 30)); // Set the preferred size of the button
+//        JPanel buttonPanel = new JPanel();
+//        buttonPanel.setOpaque(false); // Make the panel holding the button non-opaque
+//        buttonPanel.add(returnToMenuButton);
+//        add(buttonPanel, BorderLayout.SOUTH);
     }
 
     @Override
