@@ -2,10 +2,8 @@ package View;
 
 import Model.Coin;
 import java.awt.*;
-import Model.Player;
-import javax.swing.ImageIcon;
 
-public class CoinView {
+public class coinSprite {
     // This coin type should only have one final size
     private final int WIDTH = 50;
     private final int HEIGHT = 50;

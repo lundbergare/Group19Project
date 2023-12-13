@@ -17,26 +17,26 @@ public abstract class Level extends JPanel implements ActionListener, IBoundary 
     public Player player;
     protected PlayerController playerController;
     private LevelListener listener;
+
     protected ArrayList<Platform> platforms; // Declare the ArrayList for platforms
     protected ArrayList<Coin> coins;
 
-
-    protected ProjectView projectView;
-
     protected ArrayList<Key> keys;
+
+    protected ArrayList<Enemy> enemies;
 
     private long lastTime = System.nanoTime();
     private final double NS_PER_UPDATE = 1000000000.0 / 60.0; //Updates per second, 100 now
     private double accumulatedTime = 0.0;
 
-    public Level(ProjectView projectView) {
+    public Level() {
         setPreferredSize(new Dimension(YAXIS, XAXIS));
         setBackground(new Color(68, 138, 184));
 
         platforms = new ArrayList<Platform>();
         keys = new ArrayList<Key>();
+        enemies = new ArrayList<Enemy>();
 
-        this.projectView = projectView;
 
         player = new Player(this);
         playerController = new PlayerController(player);
@@ -76,13 +76,14 @@ public abstract class Level extends JPanel implements ActionListener, IBoundary 
             accumulatedTime -= 1;
         }
 
-        if (player.getLives() <= 0) {
-            projectView.showGameOverScreen();
-        }
+    }
 
-        if (player.getKeyScore() == Key.NUM_KEYS && player.getCenterX() > 2800) {
-            projectView.showVictoryScreen();
-        }
+    public boolean winGameCheck(){
+        return player.getKeyScore() == Key.NUM_KEYS && player.getCenterX() > 2800;
+    }
+
+    public boolean loseGameCheck(){
+        return player.getLives() <= 0;
     }
 
     protected abstract void updateLevel();
@@ -90,6 +91,19 @@ public abstract class Level extends JPanel implements ActionListener, IBoundary 
     public void setLevelListener(LevelListener listener) {
         this.listener = listener;
     }
+
+    public abstract boolean isSpeedPowerUpActive();
+
+    public abstract Point getSpeedPowerUpPosition();
+
+    public abstract boolean isShieldPowerUpActive();
+
+    public abstract Point getShieldPowerUpPosition();
+
+    public abstract boolean isSizePowerUpActive();
+
+    public abstract Point getSizePowerUpPosition();
+
     public ArrayList<Platform> getPlatforms() {
         return platforms;
     }
@@ -105,5 +119,10 @@ public abstract class Level extends JPanel implements ActionListener, IBoundary 
     public PlayerController getPlayerController() {
         return playerController;
     }
+
+    public ArrayList<Enemy> getEnemies() {
+        return enemies;
+    }
+
 
 }
