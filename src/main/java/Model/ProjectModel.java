@@ -12,7 +12,7 @@ public class ProjectModel {
             int centerXOfPlayer = smurf.getPos().x + (smurf.getWidth() / 2);
             int platformSurface = platform.getYPos();
             int platformLeftEdge = platformArea[0];
-            int platformRightEdge = platformArea[2];
+            int platformRightEdge = platformArea[2];  
 
             // Check if the bottom of the player is just above the platform surface
             if (bottomOfPlayer >= platformSurface && bottomOfPlayer <= platformSurface + 10 &&
