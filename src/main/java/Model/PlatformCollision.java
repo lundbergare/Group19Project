@@ -12,7 +12,7 @@ public class PlatformCollision {
             int centerXOfPlayer = smurf.getPos().x + (smurf.getWidth() / 2);
             int platformSurface = platform.getYPos();
             int platformLeftEdge = platformArea[0];
-            int platformRightEdge = platformArea[2];
+            int platformRightEdge = platformArea[2];  
 
             if (bottomOfPlayer >= platformSurface && bottomOfPlayer <= platformSurface + 10 &&
                     centerXOfPlayer >= platformLeftEdge && centerXOfPlayer <= platformRightEdge) {
