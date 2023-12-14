@@ -15,9 +15,9 @@ public class LevelOne extends Level {
 
     public LevelOne() {
         super();
-        speedPowerUp = PowerUpFactory.createSpeedPowerUp(150, 420);
-        shieldPowerUp = PowerUpFactory.createShieldPowerUp(200, 420);
-        sizePowerUp = PowerUpFactory.createSizePowerUp(500, 250);
+        speedPowerUp = PowerUpFactory.createSpeedPowerUp(975, 330);
+        shieldPowerUp = PowerUpFactory.createShieldPowerUp(200, 450);
+        sizePowerUp = PowerUpFactory.createSizePowerUp(2450, 320);
 
         //This is quite ugly, but I think it is really easy to understand how we are creating platforms, keys and coins etc.
         PlatformFactory.createPlatform(0,500,300);
@@ -37,14 +37,14 @@ public class LevelOne extends Level {
         PlatformFactory.createPlatform(1900, 300, 50);
         PlatformFactory.createPlatform(2050, 300, 50);
         PlatformFactory.createPlatform(2100,400, 100);
-        PlatformFactory.createPlatform(2350, 400, 500);
+        PlatformFactory.createPlatform(2350, 400, 600);
 
         platforms = PlatformFactory.getPlatforms();
 
         ArrayList<Point> coinPositions = new ArrayList<>();
         coinPositions.add(new Point(60, 450));
-        coinPositions.add(new Point(120, 450));
-        coinPositions.add(new Point(180, 450));
+        coinPositions.add(new Point(250, 200));
+        coinPositions.add(new Point(470, 450));
         coinPositions.add(new Point(240, 450));
         coins = CoinFactory.createCoins(coinPositions);
 
@@ -112,6 +112,8 @@ public class LevelOne extends Level {
         enemy2.kill(player, enemy2);
         player.kill(player, enemy);
         player.kill(player, enemy2);
+        enemy3.kill(player,enemy3);
+        player.kill(player,enemy3);
 
         if (speedPowerUp.isActive() && player.getPos().distance(speedPowerUp.getPosition()) < 25) {
             speedPowerUp.activate();
