@@ -151,5 +151,25 @@ class PlayerTest {
         assertEquals(50, player.getHeight());
     }
 
+    @Test
+    void jumpTickLogic() {
+        player.jump();
+        int initialY = player.getPos().y;
+        player.jumpTick();
+        assertTrue(player.getPos().y < initialY);
+
+        // Simulate the end of the jump
+        /*player.jumpHeightRemaining = 0;
+        player.jumpTick();
+        assertTrue(player.getPos().y > initialY); // Player should fall down due to gravity
+    */}
+
+    @Test
+    void gravityEffect() {
+        int initialY = player.getPos().y;
+        player.verticalVelocity = player.GRAVITY;
+        player.jumpTick();
+        assertEquals(initialY + player.GRAVITY, player.getPos().y);
+    }
 
 }
