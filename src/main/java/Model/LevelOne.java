@@ -1,9 +1,5 @@
 package Model;
 
-import View.ProjectView;
-import View.ShieldPowerUp;
-import View.SizePowerUp;
-import View.SpeedPowerUp;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -13,16 +9,15 @@ public class LevelOne extends Level {
     private final Enemy enemy;
     private final Enemy enemy2;
     private final Enemy enemy3;
-
     private final SpeedPowerUp speedPowerUp;
     private final ShieldPowerUp shieldPowerUp;
-    private SizePowerUp sizePowerUp;
+    private final SizePowerUp sizePowerUp;
 
     public LevelOne() {
         super();
-        speedPowerUp = new SpeedPowerUp(150, 420);
-        shieldPowerUp = new ShieldPowerUp(200, 420);
-        sizePowerUp = new SizePowerUp(500, 250);
+        speedPowerUp = PowerUpFactory.createSpeedPowerUp(975, 330);
+        shieldPowerUp = PowerUpFactory.createShieldPowerUp(200, 450);
+        sizePowerUp = PowerUpFactory.createSizePowerUp(2450, 320);
 
         //This is quite ugly, but I think it is really easy to understand how we are creating platforms, keys and coins etc.
         PlatformFactory.createPlatform(0,500,300);
@@ -36,18 +31,20 @@ public class LevelOne extends Level {
         PlatformFactory.createPlatform(1000, 220, 50);
         PlatformFactory.createPlatform(1100, 500, 250);
         PlatformFactory.createPlatform(1200, 370, 50);
-        PlatformFactory.createPlatform(1450, 500, 150); //x:1600
+        PlatformFactory.createPlatform(1450, 500, 150);
         PlatformFactory.createPlatform(1700, 400, 150);
         PlatformFactory.createPlatform(1850, 500, 250);
         PlatformFactory.createPlatform(1900, 300, 50);
         PlatformFactory.createPlatform(2050, 300, 50);
+        PlatformFactory.createPlatform(2100,400, 100);
+        PlatformFactory.createPlatform(2350, 400, 600);
 
         platforms = PlatformFactory.getPlatforms();
 
         ArrayList<Point> coinPositions = new ArrayList<>();
         coinPositions.add(new Point(60, 450));
-        coinPositions.add(new Point(120, 450));
-        coinPositions.add(new Point(180, 450));
+        coinPositions.add(new Point(250, 200));
+        coinPositions.add(new Point(470, 450));
         coinPositions.add(new Point(240, 450));
         coins = CoinFactory.createCoins(coinPositions);
 
@@ -58,8 +55,6 @@ public class LevelOne extends Level {
         keyPositions.add(new Point(2000,460));
         keys = KeyFactory.createKeys(keyPositions);
 
-
-        //enemy = new Enemy(650, 300, 1, 790, 10, 10, 3);
         enemy = new Enemy(400,300,1,700,10,10,6);
         enemies.add(enemy);
         enemy2 = new Enemy(520, 450, 1, 700, 10, 10, 3);
@@ -117,6 +112,8 @@ public class LevelOne extends Level {
         enemy2.kill(player, enemy2);
         player.kill(player, enemy);
         player.kill(player, enemy2);
+        enemy3.kill(player,enemy3);
+        player.kill(player,enemy3);
 
         if (speedPowerUp.isActive() && player.getPos().distance(speedPowerUp.getPosition()) < 25) {
             speedPowerUp.activate();
@@ -137,15 +134,6 @@ public class LevelOne extends Level {
     public Enemy getEnemy() {
         return enemy;
     }
-    public Enemy getEnemy2() {
-        return enemy2;
-    }
-
-    public Enemy getEnemy3(){
-        return enemy3;
-    }
-
-
 
     
 }
