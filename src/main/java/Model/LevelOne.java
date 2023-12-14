@@ -5,23 +5,19 @@ import java.awt.*;
 import java.util.ArrayList;
 
 public class LevelOne extends Level {
-
     private final Enemy enemy;
     private final Enemy enemy2;
     private final Enemy enemy3;
     private final SpeedPowerUp speedPowerUp;
     private final ShieldPowerUp shieldPowerUp;
     private final SizePowerUp sizePowerUp;
-
     public LevelOne() {
         super();
         speedPowerUp = PowerUpFactory.createSpeedPowerUp(975, 330);
         shieldPowerUp = PowerUpFactory.createShieldPowerUp(200, 450);
-        sizePowerUp = PowerUpFactory.createSizePowerUp(2450, 320);
+        sizePowerUp = PowerUpFactory.createSizePowerUp(2450, 300);
 
-        //This is quite ugly, but I think it is really easy to understand how we are creating platforms, keys and coins etc.
         PlatformFactory.createPlatform(0,500,300);
-
 
         PlatformFactory.createPlatform(100, 340,50);
         PlatformFactory.createPlatform(250, 270,100);
@@ -44,8 +40,8 @@ public class LevelOne extends Level {
         ArrayList<Point> coinPositions = new ArrayList<>();
         coinPositions.add(new Point(60, 450));
         coinPositions.add(new Point(250, 200));
-        coinPositions.add(new Point(470, 450));
-        coinPositions.add(new Point(240, 450));
+        coinPositions.add(new Point(550, 450));
+        coinPositions.add(new Point(250, 450));
         coins = CoinFactory.createCoins(coinPositions);
 
 
@@ -102,34 +98,33 @@ public class LevelOne extends Level {
     @Override
     protected void updateLevel() {
         // Level-specific TICK
-        ProjectModel.platformCollision(player, platforms);
-        Coin.collectCoins(player, coins);
-        Key.collectKeys(player, keys);
+        PlatformCollision.platformCollision(getPlayer(), platforms);
+        Coin.collectCoins(getPlayer(), coins);
+        Key.collectKeys(getPlayer(), keys);
         enemy.move();
         enemy2.move();
         enemy3.move();
-        enemy.kill(player, enemy);
-        enemy2.kill(player, enemy2);
-        player.kill(player, enemy);
-        player.kill(player, enemy2);
-        enemy3.kill(player,enemy3);
-        player.kill(player,enemy3);
+        enemy.kill(getPlayer(), enemy);
+        enemy2.kill(getPlayer(), enemy2);
+        getPlayer().kill(getPlayer(), enemy);
+        getPlayer().kill(getPlayer(), enemy2);
+        enemy3.kill(getPlayer(),enemy3);
+        getPlayer().kill(getPlayer(),enemy3);
 
-        if (speedPowerUp.isActive() && player.getPos().distance(speedPowerUp.getPosition()) < 25) {
+        if (speedPowerUp.isActive() && getPlayer().getPos().distance(speedPowerUp.getPosition()) < 25) {
             speedPowerUp.activate();
-            player.activateSpeedBoost(5000); // 5 seconds
+            getPlayer().activateSpeedBoost();
         }
 
-        if (shieldPowerUp.isActive() && player.getPos().distance(shieldPowerUp.getPosition()) < 25) {
+        if (shieldPowerUp.isActive() && getPlayer().getPos().distance(shieldPowerUp.getPosition()) < 25) {
             shieldPowerUp.activate();
-            player.activateShield(5000); // 5 seconds
+            getPlayer().activateShield(5000);
         }
 
-        if (sizePowerUp.isActive() && player.getPos().distance(sizePowerUp.getPosition()) < 25) {
+        if (sizePowerUp.isActive() && getPlayer().getPos().distance(sizePowerUp.getPosition()) < 25) {
             sizePowerUp.activate();
-            player.activateSizeBoost(5000); // 5 seconds
+            getPlayer().activateSizeBoost(5000);
         }
-
     }
     public Enemy getEnemy() {
         return enemy;

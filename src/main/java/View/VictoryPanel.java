@@ -2,22 +2,18 @@ package View;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
 
 public class VictoryPanel extends JPanel {
-    private JButton returnToMenuButton;
     private BufferedImage backgroundImage;
-
-    public VictoryPanel() {
+    protected VictoryPanel() {
         try {
             backgroundImage = ImageIO.read(new File("src/main/java/View/ImagesForView/victoryScreen.png"));
         } catch (IOException e) {
             e.printStackTrace();
-            // Handle exception or provide a fallback image
         }
 
         setPreferredSize(new Dimension(300, 200));
@@ -28,13 +24,6 @@ public class VictoryPanel extends JPanel {
         gameOverLabel.setFont(new Font("Arial", Font.BOLD, 180));
         gameOverLabel.setForeground(Color.WHITE);
         add(gameOverLabel, BorderLayout.CENTER);
-
-        /*returnToMenuButton = new JButton("Return to Main Menu");
-        returnToMenuButton.setPreferredSize(new Dimension(200, 30)); // Set the preferred size of the button
-        JPanel buttonPanel = new JPanel();
-        buttonPanel.setOpaque(false); // Make the panel holding the button non-opaque
-        buttonPanel.add(returnToMenuButton);
-        add(buttonPanel, BorderLayout.SOUTH);*/
     }
 
     @Override
@@ -45,11 +34,4 @@ public class VictoryPanel extends JPanel {
         }
     }
 
-    /*public void addReturnToMenuButtonListener(ActionListener listener) {
-        for (Component comp : getComponents()) {
-            if (comp instanceof JButton) {
-                ((JButton) comp).addActionListener(listener);
-            }
-        }
-    }*/
 }

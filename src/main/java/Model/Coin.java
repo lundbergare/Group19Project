@@ -8,8 +8,7 @@ public class Coin implements ICollectable {
     private final Point pos;
     public static final int NUM_COINS = 4;
 
-    //Only xy-coordinates necessary when initalizing
-    public Coin(int x, int y) {
+    protected Coin(int x, int y) {
         pos = new Point(x, y);
     }
 
@@ -35,7 +34,7 @@ public class Coin implements ICollectable {
         player.addScore(1);
     }
 
-    public static void collectCoins(Player player, ArrayList<Coin> coins){
+    protected static void collectCoins(Player player, ArrayList<Coin> coins){
         ArrayList<Coin> collectedCoins = new ArrayList<>();
 
         for (Coin coin: coins) {
@@ -48,7 +47,7 @@ public class Coin implements ICollectable {
         coins.removeAll(collectedCoins);
     }
 
-    public int[] getArea(){
+    protected int[] getArea(){
         // This coin type should only have one final size
         int WIDTH = 50;
         int HEIGHT = 50;

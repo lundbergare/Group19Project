@@ -9,7 +9,7 @@ import java.io.IOException;
 public class BackgroundPanel extends JPanel{
     private BufferedImage image;
 
-    public BackgroundPanel(String imagePath) {
+    protected BackgroundPanel(String imagePath) {
         try {
             image = ImageIO.read(new File(imagePath)); // Load the background image
         } catch (IOException ex) {

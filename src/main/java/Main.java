@@ -1,14 +1,8 @@
-
 import Controller.ProjectController;
-
-
 import View.ProjectView;
-
 import javax.swing.*;
 
 public class Main {
-
-    //TODO: This is not correct according to MVC, but oh well
 
     private static void initWindow() {
         ProjectView view = new ProjectView();

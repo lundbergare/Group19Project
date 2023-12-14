@@ -6,8 +6,6 @@ import java.awt.event.ActionListener;
 
 public class HowToPlayView extends JPanel {
 
-    private JButton backButton;
-
     public HowToPlayView(ActionListener backButtonListener) {
         setLayout(new BorderLayout());
 
@@ -18,7 +16,7 @@ public class HowToPlayView extends JPanel {
 
         // Back button at the bottom left
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        backButton = new JButton("<- Back");
+        JButton backButton = new JButton("<- Back");
         backButton.addActionListener(backButtonListener);
         buttonPanel.add(backButton);
         add(buttonPanel, BorderLayout.SOUTH);

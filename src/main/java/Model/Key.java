@@ -14,6 +14,23 @@ public class Key implements ICollectable {
         pos = new Point(x, y);
     }
 
+    protected static void collectKeys(Player player, ArrayList<Key> keys) {
+        ArrayList<Key> collectedKeys = new ArrayList<>();
+        for (Key key : keys) {
+            if (key.checkCollision(player)) {
+                key.collect(player);
+                collectedKeys.add(key);
+            }
+        }
+        keys.removeAll(collectedKeys);
+    }
+
+    protected int[] getArea() {
+        int WIDTH = 50;
+        int HEIGHT = 50;
+        return new int[]{pos.x, pos.y, pos.x + WIDTH, pos.y + HEIGHT};
+    }
+
     public Point getPos() {
         return pos;
     }
@@ -31,23 +48,8 @@ public class Key implements ICollectable {
     }
     @Override
     public void collect(Player player) {
-        player.addKeys(1);
+        player.addKeys();
     }
 
-    public static void collectKeys(Player player, ArrayList<Key> keys) {
-        ArrayList<Key> collectedKeys = new ArrayList<>();
-        for (Key key : keys) {
-            if (key.checkCollision(player)) {
-                key.collect(player);
-                collectedKeys.add(key);
-            }
-        }
-        keys.removeAll(collectedKeys);
-    }
 
-    public int[] getArea() {
-        int WIDTH = 50;
-        int HEIGHT = 50;
-        return new int[]{pos.x, pos.y, pos.x + WIDTH, pos.y + HEIGHT};
-    }
 }

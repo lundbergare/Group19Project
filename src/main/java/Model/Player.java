@@ -3,35 +3,27 @@ package Model;
 import java.awt.Point;
 
 
-public class Player implements interfacekill {
+public class Player implements IKillable {
 
-    public Point pos;
+    private Point pos;
     private int score;
     private int numLives;
     private int keyScore;
     private int width = 50;
     private int height = 50;
-
     private boolean movingRight = false;
     private boolean isSpeedPoweredUp = false;
     private boolean movingLeft = false;
-
     private double speedMultiplier = 1.0;
     private long speedPowerUpEndTime;
-
     private long immunityEndTime;
-
-    boolean isSizePoweredUp = false;
+    protected boolean isSizePoweredUp = false;
     private long sizePowerUpEndTime;
-
-    public int GRAVITY = 2;
-
-    int verticalVelocity;
-    boolean canJump = true;
-
-    private boolean facingRight = true;
-    private IBoundary boundary;
-    int jumpHeightRemaining;
+    protected int GRAVITY = 2;
+    protected int verticalVelocity;
+    protected boolean canJump = true;
+    private final IBoundary boundary;
+    protected int jumpHeightRemaining;
 
     public Player(IBoundary boundary) {
         // initialize the state
@@ -45,34 +37,28 @@ public class Player implements interfacekill {
 
     }
 
-    public int getWidth() {
-        return width;
-    }
 
-    public int getHeight() {
-        return height;
-    }
 
-    public void activateSpeedBoost(long duration) {
+    protected void activateSpeedBoost() {
         this.isSpeedPoweredUp = true;
         this.speedMultiplier = 1.8;
-        this.speedPowerUpEndTime = System.currentTimeMillis() + duration;
+        this.speedPowerUpEndTime = System.currentTimeMillis() + (long) 5000;
     }
 
-    public void activateSizeBoost(long duration) {
+    protected void activateSizeBoost(long duration) {
         this.isSizePoweredUp = true;
         this.sizePowerUpEndTime = System.currentTimeMillis() + duration;
         this.width *= 2; // Double the width
         this.height *= 2; // Double the height
     }
 
-    public void deactivateSizeBoost() {
+    protected void deactivateSizeBoost() {
         this.width /= 2; // Revert to original width
         this.height /= 2; // Revert to original height
         this.isSizePoweredUp = false;
     }
 
-    void levelBordersTick() {
+    protected void levelBordersTick() {
         // prevent the player from moving off the edge of the board sideways
         if (pos.x < 0) {
             pos.x = 0;
@@ -86,11 +72,10 @@ public class Player implements interfacekill {
             pos.y = boundary.getYAxisLimit() - 50;
         }
     }
-
+    //TODO change access
     public boolean isStandingStill() {
         return !movingLeft && !movingRight;
     }
-
 
     public void jump() {
         if (canJump) {
@@ -101,7 +86,7 @@ public class Player implements interfacekill {
         }
     }
 
-    public void jumpTick() {
+    protected void jumpTick() {
         if (jumpHeightRemaining > 0) {
             pos.translate(0, verticalVelocity);
             jumpHeightRemaining += verticalVelocity;
@@ -112,29 +97,15 @@ public class Player implements interfacekill {
         }
     }
 
-    public void setPos(Point pos) {
-        this.pos = pos;
-    }
 
-    public void land() {
+
+    protected void land() {
         canJump = true;
     }
 
-    public void setMovingRight(boolean movingRight) {
-        this.movingRight = movingRight;
-    }
-
-    public void setMovingLeft(boolean movingLeft) {
-        this.movingLeft = movingLeft;
-    }
-
-    public void activateShield(long duration) {
-        Enemy.isImmune = true;
-        this.immunityEndTime = System.currentTimeMillis() + duration;
-    }
 
 
-    public void tick() {
+    protected void tick() {
         jumpTick();
         levelBordersTick();
 
@@ -158,32 +129,13 @@ public class Player implements interfacekill {
             pos.translate((int)(-6 * speedMultiplier), 0);
         }
     }
-
-    public String getScore() {
-        return String.valueOf(score);
-    }
-
-    public void addScore(int amount) {
+    protected void addScore(int amount) {
         score += amount;
     }
-    public void die () {
+    protected void die () {
         numLives -= 1;
     }
-    public boolean isFacingRight() {
-        return facingRight;
-    }
-    public int getLives() {
-        return numLives;
-    }
 
-    public Point getPos() {
-        return pos;
-    }
-
-    //Used for collisions
-    public int getCenterX() {
-        return this.pos.x + (this.width / 2);
-    }
     @Override
     public void kill(Player player, Enemy enemy) {
         int smurfY = player.getPos().y;
@@ -206,9 +158,37 @@ public class Player implements interfacekill {
                 && smurf.getPos().x >= enemy.getRectangleX() && smurf.getPos().x <= enemy.getRectangleX() + enemy.getWidth();
     }
 
-    public void addKeys(int i) {
+    protected int getCenterX() {
+        return this.pos.x + (this.width / 2);
+    }
+
+    protected void addKeys() {
     keyScore += 1;
 
+    }
+    public int getWidth() {
+        return width;
+    }
+
+    public int getHeight() {
+        return height;
+    }
+
+    public void setMovingRight(boolean movingRight) {
+        this.movingRight = movingRight;
+    }
+
+    public void setMovingLeft(boolean movingLeft) {
+        this.movingLeft = movingLeft;
+    }
+
+    public void setPos(Point pos) {
+        this.pos = pos;
+    }
+
+    public void activateShield(long duration) {
+        Enemy.isImmune = true;
+        this.immunityEndTime = System.currentTimeMillis() + duration;
     }
 
     public int getKeyScore() {
@@ -218,5 +198,19 @@ public class Player implements interfacekill {
     public int getKeys() {
         return 0;
     }
+    public boolean isFacingRight() {
+        return true;
+    }
+    public int getLives() {
+        return numLives;
+    }
 
+    public Point getPos() {
+        return pos;
+    }
+
+
+    public String getScore() {
+        return String.valueOf(score);
+    }
 }

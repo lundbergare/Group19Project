@@ -6,7 +6,7 @@ public class SizePowerUp implements IPowerUp {
     private final Point position;
     private boolean active;
 
-    public SizePowerUp(int x, int y) {
+    protected SizePowerUp(int x, int y) {
         this.position = new Point(x, y);
         this.active = true;
     }

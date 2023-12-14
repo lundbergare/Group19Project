@@ -76,7 +76,6 @@ public class ProjectView {
 
     }
 
-
     public void addLevelButtonListener(ActionListener listener) {
         levelSelectButton.addActionListener(listener);
     }
@@ -86,7 +85,7 @@ public class ProjectView {
     public void addQuitButtonListener(ActionListener listener) {
         quitButton.addActionListener(listener);
     }
-    // Change the screen
+
     public void showNewScreen(JPanel newScreen) {
         frame.getContentPane().remove(currentScreen);
         frame.getContentPane().add(newScreen);
@@ -96,7 +95,6 @@ public class ProjectView {
     }
 
     public void showPreviousScreen() {
-
         frame.getContentPane().remove(currentScreen);
         frame.getContentPane().add(mainPanel);
         frame.getContentPane().revalidate();
@@ -104,20 +102,17 @@ public class ProjectView {
         currentScreen = mainPanel;
     }
 
-    public void showGameOverScreen() {
+    protected void showGameOverScreen() {
         GameOverPanel gameOverPanel = new GameOverPanel();
         showNewScreen(gameOverPanel);
         returnToMenuTimer.start();
         gameOverOrVictory = true;
-
     }
 
-    public void showVictoryScreen() {
+    protected void showVictoryScreen() {
         VictoryPanel victoryPanel = new VictoryPanel();
         showNewScreen(victoryPanel);
         returnToMenuTimer.start();
-
         gameOverOrVictory = true;
-
     }
 }

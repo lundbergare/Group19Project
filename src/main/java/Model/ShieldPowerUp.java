@@ -6,7 +6,7 @@ public class ShieldPowerUp implements IPowerUp {
     private final Point position;
     private boolean active;
 
-    public ShieldPowerUp(int x, int y) {
+    protected ShieldPowerUp(int x, int y) {
         this.position = new Point(x, y);
         this.active = true;
     }

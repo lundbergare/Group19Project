@@ -6,12 +6,12 @@ import java.awt.*;
 import java.util.ArrayList;
 
 public class PlatformView {
-    private ArrayList<Platform> platforms; // Update to hold multiple platforms
+    private final ArrayList<Platform> platforms;
 
-    public PlatformView(ArrayList<Platform> platforms) {
+    protected PlatformView(ArrayList<Platform> platforms) {
         this.platforms = platforms;
     }
-    public void draw(Graphics g) {
+    protected void draw(Graphics g) {
         for (Platform platform : platforms) {
             int xPos = platform.getXPos();
             int yPos = platform.getYPos();

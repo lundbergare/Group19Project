@@ -1,15 +1,12 @@
 package Model;
 
-
 public class Platform {
-
     private final int width;
     private final int height;
     private final int xPos;
     private final int yPos;
 
-
-    public Platform(int xPos, int yPos, int width) {
+    protected Platform(int xPos, int yPos, int width) {
 
         this.xPos = xPos;
         this.yPos = yPos;
@@ -18,10 +15,9 @@ public class Platform {
 
     }
 
-    public int[] getArea() {
+    protected int[] getArea() {
         return new int[] { xPos, yPos, xPos + width, yPos + height };
     }
-
 
     public int getXPos(){
         return xPos;
@@ -37,5 +33,4 @@ public class Platform {
     public int getHeight(){
         return height;
     }
-
 }
